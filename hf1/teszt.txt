@@ -1,2 +1,2 @@
-karakterlanc; emailek; datumok; időpontok;szamok; regex
+karakterlanc; emailek; datumok; időpontok; szamok; regex
 <S>;<N>;<E>;<D>;<T>
