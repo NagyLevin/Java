@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Main {
@@ -11,6 +12,10 @@ public class Main {
    private Vector<String> filenevek = new Vector<String>();
    private Vector<String> adattipusok = new Vector<String>();
    private Character elvjel = ';';
+
+   //regex
+   private static Pattern DATUM = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+
 
     void readfile(String nev){
        try {
@@ -34,8 +39,10 @@ public class Main {
    }
 
 
+
+
    void feldolgoz(){
-       int index = 0; //mutatja hogy hanyadik sornal tartunk a beolvasasban
+        //mutatja hogy hanyadik sornal tartunk a beolvasasban
        String egysor = "";
        for (int i = 0; i < vs.size(); i++) {
            egysor = vs.get(i);
@@ -44,11 +51,56 @@ public class Main {
                elsosorok(egysor,i);
 
            }
+           else{
+                sortwords(egysor);
+
+           }
 
 
        }
 
+       for (int i = 0; i < filenevek.size(); i++) {
+           System.out.println(filenevek.get(i));
+           //System.out.println(adattipusok.get(i));
+
+       }
+
+
    }
+
+
+   void sortwords(String word){
+
+        //esetleg switchcase-vel
+       if(0 > adattipusok.size()){
+           System.out.println("nincsenek megadva adattipusok regex meg lehet");
+       }
+        if(adattipusok.contains("<S>")){
+            System.out.println("<S>: karakterlánc megkötés nélkül");
+        }
+       if(adattipusok.contains("<N>")){
+           System.out.println("<N>: szám (egész, vagy lebegőpontos)");
+
+       }
+       if(adattipusok.contains("<E>")){
+           System.out.println("<E>: email cím");
+
+       }
+       if(adattipusok.contains("<D>")){
+           System.out.println("<D>: dátum ÉÉÉÉ-HH-MM formátumban");
+
+       }
+       if(adattipusok.contains("<T>")){
+           System.out.println("<T>: időpont ÓÓ:PP:MM formátumban");
+
+       }
+
+
+       System.out.printf(String.valueOf(DATUM.matcher(word).matches()));
+
+
+   }
+
 
    void elsosorok(String sor,int index){
         String egyszo = "";
@@ -57,12 +109,17 @@ public class Main {
 
            if(sor.charAt(i) == elvjel){
                if(index == 0){
+
                    filenevek.add(egyszo);
 
                }
                if(index == 1){
+
                    adattipusok.add(egyszo);
 
+               }
+               if(index > 1){
+                   sortwords(egyszo);
                }
                //System.out.printf(egyszo+ ",");
                egyszo = "";
@@ -73,11 +130,17 @@ public class Main {
            }
 
        }
-       filenevek.add(egyszo);
+       if(index == 0){
 
-       for (int i = 0; i < filenevek.size(); i++) {
-           System.out.println(filenevek.get(i));
+           filenevek.add(egyszo);
+
        }
+       if(index == 1){
+
+           adattipusok.add(egyszo);
+
+       }
+
 
 
    }
@@ -105,11 +168,11 @@ public class Main {
 
                                             /*
 
-                                                        <S>: karakterlánc megkötés nélkül
-                                                        <N>: szám (egész, vagy lebegőpontos)
-                                                        <E>: email cím
-                                                        <D>: dátum ÉÉÉÉ-HH-MM formátumban
-                                                        <T>: időpont ÓÓ:PP:MM formátumban
+
+
+
+
+
 
 
                                              */
