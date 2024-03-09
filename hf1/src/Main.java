@@ -15,6 +15,11 @@ public class Main {
 
    //regex
    private static Pattern DATUM = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+   private static Pattern IDO = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
+    private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+    private static Pattern NUM = Pattern.compile("[0-9]+");
+    private static Pattern STR = Pattern.compile("[A-Za-z]+");
+
 
 
     void readfile(String nev){
@@ -47,20 +52,16 @@ public class Main {
        for (int i = 0; i < vs.size(); i++) {
            egysor = vs.get(i);
 
-           if(i == 0 || i == 1){  //fajlneveket elmentem amelyek majd kesobb megnyilnak
-               elsosorok(egysor,i);
 
-           }
-           else{
-                sortwords(egysor);
+           elsosorok(egysor,i);
 
-           }
+
 
 
        }
 
        for (int i = 0; i < filenevek.size(); i++) {
-           System.out.println(filenevek.get(i));
+          // System.out.println(filenevek.get(i));
            //System.out.println(adattipusok.get(i));
 
        }
@@ -68,35 +69,53 @@ public class Main {
 
    }
 
+   void Irjfajlba(String melyikbe, String mit){
+
+
+   }
 
    void sortwords(String word){
 
         //esetleg switchcase-vel
+       //System.out.println(word+ "+");
+
+
        if(0 > adattipusok.size()){
-           System.out.println("nincsenek megadva adattipusok regex meg lehet");
+          // System.out.println("nincsenek megadva adattipusok regex meg lehet");
        }
         if(adattipusok.contains("<S>")){
-            System.out.println("<S>: karakterlánc megkötés nélkül");
+           // System.out.println("<S>: karakterlánc megkötés nélkül");
+            //System.out.printf(String.valueOf(STR.matcher(word).matches()));
+            //System.out.println(word);
+
         }
        if(adattipusok.contains("<N>")){
-           System.out.println("<N>: szám (egész, vagy lebegőpontos)");
+          // System.out.println("<N>: szám (egész, vagy lebegőpontos)");
+          // System.out.printf(String.valueOf(NUM.matcher(word).matches()));
+          // System.out.println(word);
 
        }
        if(adattipusok.contains("<E>")){
-           System.out.println("<E>: email cím");
+         //  System.out.println("<E>: email cím");
+           // System.out.printf(String.valueOf(MAIL.matcher(word).matches()));
+          //  System.out.println(word);
 
        }
        if(adattipusok.contains("<D>")){
-           System.out.println("<D>: dátum ÉÉÉÉ-HH-MM formátumban");
+          // System.out.println("<D>: dátum ÉÉÉÉ-HH-MM formátumban");
 
+          // System.out.printf(String.valueOf(DATUM.matcher(word).matches()));
+          // System.out.println(word);
        }
        if(adattipusok.contains("<T>")){
-           System.out.println("<T>: időpont ÓÓ:PP:MM formátumban");
+         //  System.out.println("<T>: időpont ÓÓ:PP:MM formátumban"); //baj hogy a 60+ mspt is elfogadja?
+           //System.out.printf(String.valueOf(IDO.matcher(word).matches()));
+           //System.out.println(word);
 
        }
 
 
-       System.out.printf(String.valueOf(DATUM.matcher(word).matches()));
+
 
 
    }
@@ -108,6 +127,7 @@ public class Main {
            //System.out.println(sor.charAt(i));
 
            if(sor.charAt(i) == elvjel){
+
                if(index == 0){
 
                    filenevek.add(egyszo);
@@ -118,9 +138,13 @@ public class Main {
                    adattipusok.add(egyszo);
 
                }
+
                if(index > 1){
+                   //System.out.println(egyszo);
                    sortwords(egyszo);
+
                }
+
                //System.out.printf(egyszo+ ",");
                egyszo = "";
            }
@@ -133,12 +157,16 @@ public class Main {
        if(index == 0){
 
            filenevek.add(egyszo);
-
+           egyszo = "";
        }
        if(index == 1){
 
            adattipusok.add(egyszo);
-
+           egyszo = "";
+       }
+       else{
+           sortwords(egyszo);
+           egyszo = "";
        }
 
 
