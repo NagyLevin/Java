@@ -6,11 +6,10 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-   private Vector<Integer> vi = new Vector<Integer>();
 
-   private Vector<String> vs = new Vector<String>();
-   private Vector<String> filenevek = new Vector<String>();
-   private Vector<String> adattipusok = new Vector<String>();
+   private Vector<String> vs = new Vector<>();
+   private Vector<String> filenevek = new Vector<>();
+   private Vector<String> adattipusok = new Vector<>();
    private Character elvjel = ';';
 
    //regex
@@ -112,6 +111,9 @@ public class Main {
            //System.out.printf(String.valueOf(IDO.matcher(word).matches()));
            //System.out.println(word);
 
+       }
+       else{
+           //akkor regex?
        }
 
 
