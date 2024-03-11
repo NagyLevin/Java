@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
+
 
 
 public class Main {
@@ -23,18 +23,18 @@ public class Main {
 
     void readfile(String nev){
        try {
-           File myfile = new File("teszt.txt");
+           File myfile = new File(nev);
 
-           Scanner myReader = new Scanner(myfile);
-           while (myReader.hasNextLine()) {
-               String adat = myReader.nextLine();
+           Scanner olvas = new Scanner(myfile);
+           while (olvas.hasNextLine()) {
+               String adat = olvas.nextLine();
                vs.add(adat);
                //System.out.println(adat);
 
 
            }
 
-           myReader.close();
+           olvas    .close();
 
        } catch (FileNotFoundException e) {
            System.out.println("Nincs ilyen nevü fajl");
@@ -180,10 +180,13 @@ public class Main {
     public static void main(String[] args) {
 
 
-        //Scanner input = new Scanner( System.in );         // Bemeneti csatorna objektum
+        Scanner input = new Scanner( System.in );         // Bemeneti csatorna objektum
 
         Main m = new Main();
-        m.readfile("teszt.txt");
+
+        System.out.println("Add meg a fajl nevet: ");
+        String fajlnev = "teszt.txt";//input.nextLine();
+        m.readfile(fajlnev);
         m.feldolgoz();
 
 
@@ -195,21 +198,8 @@ public class Main {
         //int meret = input.nextInt();
 
 
-
-                                            /*
-
-
-
-
-
-
-
-
-                                             */
-
-
         System.out.println("");
-        System.out.println("futas vege");
+        System.out.println("feldolgozas kesz :)");
     }
 
 
