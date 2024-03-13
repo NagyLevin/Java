@@ -12,15 +12,24 @@ public class Main {
    private Vector<String> adattipusok = new Vector<>();
    private Character elvjel = ';';
 
-   //regex
+   //erdemes lenne azt hasznalni?
+   //StringBuffer sb = new StringBuffer("Szia!");
+
+
+
+    //regex
    private static Pattern DATUM = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
    private static Pattern IDO = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
     private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
     private static Pattern NUM = Pattern.compile("[0-9]+");
     private static Pattern STR = Pattern.compile("[A-Za-z]+");
 
-
-
+    /*
+    public static String readFromFile(String source) throws IOException {
+        return "";
+    }
+    */
+     */
     void readfile(String nev){
        try {
            File myfile = new File(nev);
@@ -62,6 +71,11 @@ public class Main {
        for (int i = 0; i < filenevek.size(); i++) {
           // System.out.println(filenevek.get(i));
            //System.out.println(adattipusok.get(i));
+           /*
+           kiiras
+           FileWriter fw = new FileWriter("a.txt");
+           PrintWriter pw = new PrintWriter(fw);
+           */
 
        }
 
@@ -82,7 +96,10 @@ public class Main {
        if(0 > adattipusok.size()){
           // System.out.println("nincsenek megadva adattipusok regex meg lehet");
        }
-        if(adattipusok.contains("<S>")){
+
+       //new String("A").equals(new String("A")) esetleg majd igy ha kell
+
+       if(adattipusok.contains("<S>")){
            // System.out.println("<S>: karakterlánc megkötés nélkül");
             //System.out.printf(String.valueOf(STR.matcher(word).matches()));
             //System.out.println(word);
@@ -128,6 +145,7 @@ public class Main {
        for (int i = 0; i < sor.length(); i++) {
            //System.out.println(sor.charAt(i));
 
+           //vagy splitteld el a jel menten
            if(sor.charAt(i) == elvjel){
 
                if(index == 0){
