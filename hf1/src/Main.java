@@ -7,10 +7,10 @@ import java.util.regex.*;
 public class Main {
 
 
-   private Vector<String> vs = new Vector<>();
-   private Vector<String> filenevek = new Vector<>();
-   private Vector<String> adattipusok = new Vector<>();
-   private String elvjel = ";";
+   private Vector<String> vs = new Vector<>(); //fajl beolvasasa ebbe a vektorba
+   private Vector<String> filenevek = new Vector<>(); //egy vektor a fileneveknek, amelyekbe kesobb beleirjuk majd az adatokat
+   private Vector<String> adattipusok = new Vector<>();//egy vektor az adattipusoknak
+   private String elvjel = ";"; //elvalasztojel ide kihozva, hogy konnyebben meg lehessen valtozatni
 
    //erdemes lenne azt hasznalni?
    //StringBuffer sb = new StringBuffer("Szia!");
@@ -24,15 +24,17 @@ public class Main {
     private static Pattern NUM = Pattern.compile("[0-9]+");
     //private static Pattern STR = Pattern.compile("[A-Za-z]+");
 
-    private static String customregex = "";
+    private static String customregex = ""; //ezt kulon a fajlbol olvassuk be felteszem azt hogy csak 1 custom regex lehet
+
+    //regex
 
 
-
-    /*
-    public static String readFromFile(String source) throws IOException {
-        return "";
-    }
-    */
+    /**
+     *
+     * @param nev a fajlnevet megkapva kiolvassuk a fajlban levo adatokat sorrol sorra, es egy vektorban taroljuk eloket
+     *
+     *
+     */
 
     void readfile(String nev){
        try {
@@ -56,10 +58,14 @@ public class Main {
    }
 
 
-
+    /**
+     *
+     * sorrol sorra feldolgozza a vektorban tarolt fajlt elkuldi az elsosorok függvénynek, a fajl sorszamat, es magat a sort
+     *
+     */
 
    void feldolgoz() throws IOException {
-        //mutatja hogy hanyadik sornal tartunk a beolvasasban
+
        String egysor = "";
        for (int i = 0; i < vs.size(); i++) {
            egysor = vs.get(i);
@@ -78,11 +84,17 @@ public class Main {
    }
 
 
+    /**
+     *
+     * @param szavak a szavak arrayben levo szavakon vegigmegy egy for ciklussal
+     *               megnezi, hogy teljesulnek a szavakra a feltetelek, es csak az elso matchet iratja ki fajlba
+     *                 a kiiratas a @kiirat fv vel tortenik
+     *
+     *
+     */
 
-   void sortwords(String[] words) throws IOException {
+   void sortwords(String[] szavak) throws IOException {
 
-       Vector<String> szavak = new Vector();
-       szavak.addAll(Arrays.asList(words)); //vektorra konvertalas
 
         //esetleg switchcase-vel
        //System.outs.println(word+ "+");
@@ -95,45 +107,45 @@ public class Main {
 
 
 
-       for (int i = 0; i < szavak.size(); i++) {
+       for (int i = 0; i < szavak.length; i++) {
 
             //most csak 1 szer adja hozza a sorban levo adattipust, akkor is, ha tobbszor szerepel a sorban
            if (adattipusok.contains("<S>") && !BSTR) {
-               if (!NUM.matcher(szavak.get(i)).matches() && !MAIL.matcher(szavak.get(i)).matches() && !DATE.matcher(szavak.get(i)).matches() && !TIME.matcher(szavak.get(i)).matches() && !szavak.get(i).matches(customregex)) {
-                   kiirat(szavak.get(i), filenevek.get(0));
+               if (!NUM.matcher(szavak[i]).matches() && !MAIL.matcher(szavak[i]).matches() && !DATE.matcher(szavak[i]).matches() && !TIME.matcher(szavak[i]).matches() && !szavak[i].matches(customregex)) {
+                   kiirat(szavak[i], filenevek.get(0));
                    BSTR = true;
                }
            }
            if (adattipusok.contains("<N>") && !BNUM) {
-               if (NUM.matcher(szavak.get(i)).matches()) {
-                   kiirat(szavak.get(i), filenevek.get(1));
+               if (NUM.matcher(szavak[i]).matches()) {
+                   kiirat(szavak[i], filenevek.get(1));
                    BNUM = true;
                }
            }
            if (adattipusok.contains("<E>") && !BMAIL) {
-               if (MAIL.matcher(szavak.get(i)).matches()) {
-                   kiirat(szavak.get(i), filenevek.get(2));
+               if (MAIL.matcher(szavak[i]).matches()) {
+                   kiirat(szavak[i], filenevek.get(2));
                    BMAIL = true;
                }
            }
            if (adattipusok.contains("<D>") && !BDATE) {
-               if (DATE.matcher(szavak.get(i)).matches()) {
-                   kiirat(szavak.get(i), filenevek.get(3));
+               if (DATE.matcher(szavak[i]).matches()) {
+                   kiirat(szavak[i], filenevek.get(3));
                    BDATE = true;
                }
            }
            if (adattipusok.contains("<T>") && !BNUM) {
-               if (TIME.matcher(szavak.get(i)).matches()) {
-                   kiirat(szavak.get(i), filenevek.get(4));
+               if (TIME.matcher(szavak[i]).matches()) {
+                   kiirat(szavak[i], filenevek.get(4));
                    BTIME = true;
                }
            }
            if (adattipusok.size() > 5 ) {
 
                //System.out.println(customregex);
-               if (szavak.get(i).matches(customregex)) {
+               if (szavak[i].matches(customregex)) {
 
-                   kiirat(szavak.get(i), filenevek.get(5));
+                   kiirat(szavak[i], filenevek.get(5));
 
                }
            }
@@ -183,7 +195,16 @@ public class Main {
 
    }
 
-
+    /**
+     *
+     * @param sor a megkapott sort elsplitteli az elvalasztojel menten
+     *
+     *
+     * @param index az egysor tombon vegigmegy egy for ciklus, es az elso ket sornal beija az elsplittelt tomb mezoit a fajlnevek es az adattipusok adattarolokba
+     *
+     *
+     *
+     */
 
 
    void elsosorok(String sor,int index) throws IOException {
@@ -227,6 +248,12 @@ public class Main {
 
    }
 
+
+    /**
+     *
+     * @return visszaadja a beolvasott fajlnevet
+     *
+     */
     public static String befajlnev() throws IOException {
 
 
@@ -239,6 +266,13 @@ public class Main {
 
         return userinput;
     }
+
+    /**
+     *
+     * torli a fajlokat, azert hogy ne appendelodjenek vegtelensegig uj adatok a fajlokba
+     *
+     *
+     */
 
     public void torolfajl() throws IOException {
 
@@ -255,6 +289,17 @@ public class Main {
 
 
     }
+
+    /**
+     *
+     *
+     * @param data az adatot kiirja egy fajlba
+     * @param destination ebbe a fajlba írja ki a kapott adatot
+     * @throws IOException akkor ha valameylik mezo ures
+     *
+     *
+     *
+     */
 
     public static void kiirat(String data, String destination) throws IOException {
 
@@ -276,6 +321,7 @@ public class Main {
     }
 
 
+
     public static void main(String[] args) throws IOException {
 
 
@@ -285,9 +331,9 @@ public class Main {
 
 
 
-        String fajlnev = m.befajlnev();
-        m.readfile(fajlnev);
-        m.feldolgoz();
+        String fajlnev = m.befajlnev();//fajlnev beolvasas
+        m.readfile(fajlnev);//fajlnevvel azonositott fajl beolvasasa
+        m.feldolgoz();  //beolvasott fajl feldolgozasa
 
         System.out.println("");
         System.out.println("feldolgozas kesz :)");
