@@ -72,16 +72,7 @@ public class Main {
 
        }
 
-       for (int i = 0; i < filenevek.size(); i++) {
-          // System.out.println(filenevek.get(i));
-           //System.out.println(adattipusok.get(i));
-           /*
-           kiiras
-           FileWriter fw = new FileWriter("a.txt");
-           PrintWriter pw = new PrintWriter(fw);
-           */
 
-       }
 
 
    }
