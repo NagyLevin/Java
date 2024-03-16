@@ -19,8 +19,8 @@ public class Main {
 
 
     //regex
-   private static Pattern DATUM = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-   private static Pattern IDO = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
+   private static Pattern DATE = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+   private static Pattern TIME = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
     private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
     private static Pattern NUM = Pattern.compile("[0-9]+");
     private static Pattern STR = Pattern.compile("[A-Za-z]+");
@@ -87,117 +87,103 @@ public class Main {
 
    }
 
-   void Irjfajlba(String melyikbe, String mit){
 
 
-   }
+   void sortwords(String[] words) throws IOException {
 
-   void sortwords(String word, int szoszam) throws IOException {
+       Vector<String> szavak = new Vector();
+       szavak.addAll(Arrays.asList(words)); //vektorra konvertalas
 
         //esetleg switchcase-vel
-       //System.out.println(word+ "+");
+       //System.outs.println(word+ "+");
+       Boolean BSTR = false;
+       Boolean BNUM = false;
+       Boolean BMAIL = false;
+       Boolean BDATE = false;
+       Boolean BTIME = false;
+       Boolean BREGEX = false;
 
 
-       if(6 > adattipusok.size()){ //most abbol indultam ki, hogy minden adattipusnak kell lennie a fajlban
-            //System.out.println("Nincs megadva eleg adattag");
+
+       for (int i = 0; i < szavak.size(); i++) {
+
+
+           if (adattipusok.contains("<S>") ) {
+               if (!NUM.matcher(szavak.get(i)).matches() && !MAIL.matcher(szavak.get(i)).matches() && !DATE.matcher(szavak.get(i)).matches() && !TIME.matcher(szavak.get(i)).matches() && CUSTOM.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(0));
+                   BSTR = true;
+               }
+           }
+           if (adattipusok.contains("<N>") ) {
+               if (NUM.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(1));
+                   BNUM = true;
+               }
+           }
+           if (adattipusok.contains("<E>") ) {
+               if (MAIL.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(2));
+                   BMAIL = true;
+               }
+           }
+           if (adattipusok.contains("<D>") ) {
+               if (DATE.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(3));
+                   BDATE = true;
+               }
+           }
+           if (adattipusok.contains("<T>") ) {
+               if (TIME.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(4));
+                   BTIME = true;
+               }
+           }
+           if (adattipusok.size() > 5 ) {
+               if (CUSTOM.matcher(szavak.get(i)).matches()) {
+                   kiirat(szavak.get(i), filenevek.get(5));
+                   BREGEX = true;
+               }
+           }
+
+
+
        }
 
-       if(5 == adattipusok.size()) {
-           //new String("A").equals(new String("A")) esetleg majd igy ha kell
-
-
-           if (adattipusok.contains("<S>")) {
-
-               // System.out.println("<S>: karakterlánc megkötés nélkül");
-               //System.out.printf(String.valueOf(STR.matcher(word).matches()));
-               if(STR.matcher(word).matches()){
-                   kiirat(word,filenevek.get(0));
-                   System.out.println("lefut");
-               }
-               else{
-                   kiirat("",filenevek.get(0));
-
-
-               }
-               //System.out.println(word);
-
+       if (adattipusok.contains("<S>") ) {
+           if (BSTR == false) {
+               kiirat("", filenevek.get(0));
 
            }
-
-           if (adattipusok.contains("<N>") && szoszam == 1) {
-               // System.out.println("<N>: szám (egész, vagy lebegőpontos)");
-               // System.out.printf(String.valueOf(NUM.matcher(word).matches()));
-               if(NUM.matcher(word).matches()){
-                   kiirat(word,filenevek.get(1));
-
-               }
-               else{
-                   kiirat("0",filenevek.get(1));
-                   szoszam = szoszam + 1;
-               }
-
-               // System.out.println(word);
-
-
-           }
-           adatindex = adatindex +1;
-           if (adattipusok.contains("<E>")  && szoszam == 2 ) {
-               //  System.out.println("<E>: email cím");
-               // System.out.printf(String.valueOf(MAIL.matcher(word).matches()));
-               if(MAIL.matcher(word).matches()){
-                   kiirat(word,filenevek.get(2));
-
-               }
-               else{
-                   kiirat("nobody@example.com",filenevek.get(2));
-                   szoszam = szoszam + 1;
-               }
-
-               //  System.out.println(word);
-
-
-           }
-           adatindex = adatindex +1;
-           if (adattipusok.contains("<D>")  && szoszam == 3) {
-               // System.out.println("<D>: dátum ÉÉÉÉ-HH-MM formátumban");
-               // System.out.printf(String.valueOf(DATUM.matcher(word).matches()));
-               if(DATUM.matcher(word).matches()){
-                   kiirat(word,filenevek.get(3));
-
-               }
-               else{
-                   kiirat("2000-01-01",filenevek.get(3));
-                   szoszam = szoszam + 1;
-               }
-
-               //  System.out.println(word);
-
-               // System.out.println(word);
-           }
-           adatindex = adatindex +1;
-           if (adattipusok.contains("<T>") && szoszam == 4) {
-               //  System.out.println("<T>: időpont ÓÓ:PP:MM formátumban"); //baj hogy a 60+ mspt is elfogadja?
-               //System.out.printf(String.valueOf(IDO.matcher(word).matches()));
-               if(IDO.matcher(word).matches()){
-                   kiirat(word,filenevek.get(4));
-
-               }
-               else{
-                   kiirat("00:00:00",filenevek.get(4));
-                   szoszam = szoszam + 1;
-               }
-
-               //  System.out.println(word);
-               //adatindex = adatindex +1;
-               // System.out.println(word);
-
-           }
-           else {
-               System.out.println("regex: " + word);
-               //akkor regex?
-           }
-           adatindex = 0;
        }
+       if (adattipusok.contains("<N>") ) {
+           if (BNUM== false) {
+               kiirat("0", filenevek.get(1));
+
+           }
+       }
+       if (adattipusok.contains("<E>") ) {
+           if (BMAIL == false) {
+               kiirat("nobody@example.com", filenevek.get(2));
+
+           }
+       }
+       if (adattipusok.contains("<D>") ) {
+           if (BDATE == false) {
+               kiirat("2000-01-01", filenevek.get(3));
+
+           }
+       }
+       if (adattipusok.contains("<T>") ) {
+           if (BTIME == false) {
+               kiirat("00:00:00", filenevek.get(4));
+           }
+       }
+
+
+
+
+
+
 
 
 
@@ -226,35 +212,21 @@ public class Main {
                if(index == 1){
 
                    adattipusok.add(egySor[i]);
-
-               }
-
-               if(index > 1){
-                  // System.out.println(egySor[i]);
-                  // System.out.println(i);
-                   sortwords(egySor[i],i);
-
+                   torolfajl();
                }
 
 
 
-       }
-       /*
-       if(index == 0){
 
-           filenevek.add(egySor[egySor.length-1]);
 
        }
-       if(index == 1){
-
-           adattipusok.add((egySor[egySor.length-1]));
-
-       }
-       else{
-           sortwords(egySor[egySor.length-1],egySor.length-1);
+       if(index > 1){
+           // System.out.println(egySor[i]);
+           // System.out.println(i);
+           sortwords(egySor);
 
        }
-        */
+
 
 
    }
@@ -266,10 +238,26 @@ public class Main {
 
         Scanner input = new Scanner( System.in );
         System.out.println("Add meg a fajl nevet: ");
-        String userinput = "teszt.txt";//input.nextLine();
+        String userinput = "test1.txt";//input.nextLine();
 
 
         return userinput;
+    }
+
+    public void torolfajl() throws IOException {
+
+        for (int i = 0; i < this.filenevek.size(); i++) {
+
+            String fajlnev =  this.filenevek.get(i);
+            PrintWriter  file = new PrintWriter(new BufferedWriter((new FileWriter(fajlnev))));
+
+            file.close();
+
+
+
+        }
+
+
     }
 
     public static void kiirat(String data, String destination) throws IOException {
@@ -277,9 +265,13 @@ public class Main {
         //FileWriter fw = new FileWriter(destination);
         //PrintWriter pw = new PrintWriter(fw);
 
-        PrintWriter  file = new PrintWriter(new BufferedWriter((new FileWriter(destination))),true ); //true mert append //esetleg toroljuk a fajlok tartalmap minden uj futtataskor
-        file.println(data);
-        file.close();
+        FileWriter  pw = new FileWriter( destination , true);
+        //System.out.println(data);
+        //pw.append(data);
+        pw.write(data);
+        pw.write('\n'); //newline
+        pw.close();
+
         //pw.println(data);
         //pw.close();
 

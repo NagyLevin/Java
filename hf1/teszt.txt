@@ -1,3 +1,3 @@
 karakterlanc; szamok; email; datum; idöpont; regex
 <S>;<N>;<E>;<D>;<T>
-tesztkarakterlanc;levin@gmail.com;1200;2001-01-04;14:20:69; karakterlanc100; 100vegyes
+tesztkarakterlanc;1200;levin@gmail.com;2001-01-04;14:20:69;karakterlanc100;100vegyes

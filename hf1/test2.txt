@@ -1,0 +1,9 @@
+Email;Születésnap;Név;Kor;RegisztrációIdőpont;NeptunKód
+<E>;<D>;<S>;<N>;<T>;[a-zA-z\d]{6}
+michael.black@email.com;1976-04-05;Michael Black;45;07:55:00;aabbCC
+eva.green@email.com;1990-09-17;Eva Green;32;15:10:30;AaB1c9
+alice.brown@email.com;1994-02-10;Alice Brown;28;12:00:00;012345
+bob.johnson@email.com;1979-08-22;Bob Johnson;40;18:15:45;aa
+john.doe@email.com;1992-05-15;John Doe;30;14:30:00;Never0
+david.white@email.com;1985-11-28;David White;35;21:20:15;Gonna1
+jane.smith@email.com;1987-12-03;Jane Smith;25;09:45:30;GiveYouUp

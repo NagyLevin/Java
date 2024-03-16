@@ -1,0 +1,9 @@
+Név;RegisztrációIdőpont;Születésnap
+<S>;<a>;<D>;<b>
+David White;21:20:15;1985-11-28
+Eva Green;15:10:30;1990-09-17
+Jane Smith;09:45:30;1987-12-03
+Alice Brown;12:00:00;1994-02-10
+Bob Johnson;18:15:45;1979-08-22
+John Doe;14:30:00;1992-05-15
+Michael Black;07:55:00;1976-04-05
