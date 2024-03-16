@@ -9,7 +9,6 @@ public class Main {
 
    private Vector<String> vs = new Vector<>();
    private Vector<String> filenevek = new Vector<>();
-    int adatindex = 0;//hol tartunk
    private Vector<String> adattipusok = new Vector<>();
    private String elvjel = ";";
 
@@ -23,10 +22,10 @@ public class Main {
    private static Pattern TIME = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
     private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
     private static Pattern NUM = Pattern.compile("[0-9]+");
-    private static Pattern STR = Pattern.compile("[A-Za-z]+");
+    //private static Pattern STR = Pattern.compile("[A-Za-z]+");
 
-    private static String customregex = "^[0-9]+[A-Za-z]$";
-    private static Pattern CUSTOM = Pattern.compile(customregex); //custom regex
+    private static String customregex = "";
+
 
 
     /*
@@ -101,47 +100,50 @@ public class Main {
        Boolean BMAIL = false;
        Boolean BDATE = false;
        Boolean BTIME = false;
-       Boolean BREGEX = false;
+
 
 
 
        for (int i = 0; i < szavak.size(); i++) {
 
-
-           if (adattipusok.contains("<S>") ) {
-               if (!NUM.matcher(szavak.get(i)).matches() && !MAIL.matcher(szavak.get(i)).matches() && !DATE.matcher(szavak.get(i)).matches() && !TIME.matcher(szavak.get(i)).matches() && CUSTOM.matcher(szavak.get(i)).matches()) {
+            //most csak 1 szer adja hozza a sorban levo adattipust, akkor is, ha tobbszor szerepel a sorban
+           if (adattipusok.contains("<S>") && !BSTR) {
+               if (!NUM.matcher(szavak.get(i)).matches() && !MAIL.matcher(szavak.get(i)).matches() && !DATE.matcher(szavak.get(i)).matches() && !TIME.matcher(szavak.get(i)).matches() && !szavak.get(i).matches(customregex)) {
                    kiirat(szavak.get(i), filenevek.get(0));
                    BSTR = true;
                }
            }
-           if (adattipusok.contains("<N>") ) {
+           if (adattipusok.contains("<N>") && !BNUM) {
                if (NUM.matcher(szavak.get(i)).matches()) {
                    kiirat(szavak.get(i), filenevek.get(1));
                    BNUM = true;
                }
            }
-           if (adattipusok.contains("<E>") ) {
+           if (adattipusok.contains("<E>") && !BMAIL) {
                if (MAIL.matcher(szavak.get(i)).matches()) {
                    kiirat(szavak.get(i), filenevek.get(2));
                    BMAIL = true;
                }
            }
-           if (adattipusok.contains("<D>") ) {
+           if (adattipusok.contains("<D>") && !BDATE) {
                if (DATE.matcher(szavak.get(i)).matches()) {
                    kiirat(szavak.get(i), filenevek.get(3));
                    BDATE = true;
                }
            }
-           if (adattipusok.contains("<T>") ) {
+           if (adattipusok.contains("<T>") && !BNUM) {
                if (TIME.matcher(szavak.get(i)).matches()) {
                    kiirat(szavak.get(i), filenevek.get(4));
                    BTIME = true;
                }
            }
            if (adattipusok.size() > 5 ) {
-               if (CUSTOM.matcher(szavak.get(i)).matches()) {
+
+               //System.out.println(customregex);
+               if (szavak.get(i).matches(customregex)) {
+
                    kiirat(szavak.get(i), filenevek.get(5));
-                   BREGEX = true;
+
                }
            }
 
@@ -212,6 +214,9 @@ public class Main {
                if(index == 1){
 
                    adattipusok.add(egySor[i]);
+                   if(adattipusok.size() > 5){
+                       customregex = egySor[i];
+                   }
                    torolfajl();
                }
 
