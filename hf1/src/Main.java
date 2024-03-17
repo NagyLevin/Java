@@ -20,10 +20,9 @@ public class Main {
     //regex
    private static Pattern DATE = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
    private static Pattern TIME = Pattern.compile("^\\d{2}:\\d{2}:\\d{2}$");
-    private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    private static Pattern NUM = Pattern.compile("[0-9]+");
+   private static Pattern MAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+   private static Pattern NUM = Pattern.compile("[0-9]+");
     //private static Pattern STR = Pattern.compile("[A-Za-z]+");
-
     private static String customregex = ""; //ezt kulon a fajlbol olvassuk be felteszem azt hogy csak 1 custom regex lehet
     private static String Regxname = "";
     //regex
@@ -34,7 +33,7 @@ public class Main {
      * Az adattipusokat es a fajlneveket belerakom egy szotarba hogy ne szamítson a poziciójuk
      *
      */
-    void DictFeltolt(){
+    void DictFeltolt()throws Exception{
 
         if(adattipusok.size() == filenevek.size()){
             for (int i = 0; i < adattipusok.size(); i++) {
@@ -49,7 +48,7 @@ public class Main {
 
         }
         else{
-            throw new RuntimeException();//hibas bemenet
+            throw new Exception("Hibas bemenet");//hibas bemenet
         }
         //System.out.println(Datafajl.get("<D>"));
 
@@ -99,7 +98,7 @@ public class Main {
      *
      */
 
-   void feldolgoz() throws IOException {
+   void feldolgoz() throws Exception {
 
        String egysor = "";
        for (int i = 0; i < vs.size(); i++) {
@@ -247,7 +246,7 @@ public class Main {
      */
 
 
-   void elsosorok(String sor,int index) throws IOException {
+   void elsosorok(String sor,int index) throws Exception {
 
 
 
@@ -351,7 +350,7 @@ public class Main {
         //FileWriter fw = new FileWriter(destination);
         //PrintWriter pw = new PrintWriter(fw);
 
-        FileWriter  pw = new FileWriter( destination , true);
+        FileWriter  pw = new FileWriter(destination , true);
         //System.out.println(data);
         //pw.append(data);
         pw.write(data);
@@ -367,14 +366,9 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws IOException {
-
-
-
+    public static void main(String[] args) throws Exception {
 
         Main m = new Main();
-
-
 
         String fajlnev = m.befajlnev();//fajlnev beolvasas
         m.readfile(fajlnev);//fajlnevvel azonositott fajl beolvasasa
