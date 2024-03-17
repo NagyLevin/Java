@@ -1,6 +1,6 @@
-Név;Kor;Email;Születésnap;RegisztrációIdőpont;REGEX
+Név;Kor;Email;Születésnap;RegisztrációIdőpont;RegularisKif
 <S>;<N>;<E>;<D>;<T>;^[a-z]+[0-9]$
-John Doe;30 ;john.doe@email.com;1992-05-15;14:30:00;azzzz1
+John Doe;30;john.doe@email.com;1992-05-15;14:30:00;azzzz1
 Jane Smith;25;jane.smith@email.com;1987-12-03;09:45:30
 Bob Johnson;40;bob.johnson@email.com;1979-08-22;18:15:45
 Alice Brown;28;alice.brown@email.com;1994-02-10;12:00:00

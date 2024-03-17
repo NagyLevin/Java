@@ -14,7 +14,7 @@ public class Main {
 
    //erdemes lenne azt hasznalni?
    //StringBuffer sb = new StringBuffer("Szia!");
-
+    private Dictionary<String, String> Datafajl= new Hashtable<>();
 
 
     //regex
@@ -25,8 +25,43 @@ public class Main {
     //private static Pattern STR = Pattern.compile("[A-Za-z]+");
 
     private static String customregex = ""; //ezt kulon a fajlbol olvassuk be felteszem azt hogy csak 1 custom regex lehet
-
+    private static String Regxname = "";
     //regex
+
+
+    /**
+     *
+     * Az adattipusokat es a fajlneveket belerakom egy szotarba hogy ne szamítson a poziciójuk
+     *
+     */
+    void DictFeltolt(){
+
+        if(adattipusok.size() == filenevek.size()){
+            for (int i = 0; i < adattipusok.size(); i++) {
+                Datafajl.put(adattipusok.get(i),filenevek.get(i));
+                if(!adattipusok.get(i).equals("<S>") && !adattipusok.get(i).equals("<N>") && !adattipusok.get(i).equals("<E>") && !adattipusok.get(i).equals("<D>") && !adattipusok.get(i).equals("<T>")){
+
+                    customregex = adattipusok.get(i);
+                    Regxname = filenevek.get(i);
+                }
+
+            }
+
+        }
+        else{
+            throw new RuntimeException();//hibas bemenet
+        }
+        //System.out.println(Datafajl.get("<D>"));
+
+
+
+    }
+
+
+
+
+
+
 
 
     /**
@@ -112,40 +147,45 @@ public class Main {
             //most csak 1 szer adja hozza a sorban levo adattipust, akkor is, ha tobbszor szerepel a sorban
            if (adattipusok.contains("<S>") && !BSTR) {
                if (!NUM.matcher(szavak[i]).matches() && !MAIL.matcher(szavak[i]).matches() && !DATE.matcher(szavak[i]).matches() && !TIME.matcher(szavak[i]).matches() && !szavak[i].matches(customregex)) {
-                   kiirat(szavak[i], filenevek.get(0));
+                   kiirat(szavak[i], Datafajl.get("<S>"));
                    BSTR = true;
                }
            }
            if (adattipusok.contains("<N>") && !BNUM) {
+
+
                if (NUM.matcher(szavak[i]).matches()) {
-                   kiirat(szavak[i], filenevek.get(1));
+
+                   kiirat(szavak[i], Datafajl.get("<N>"));
                    BNUM = true;
                }
            }
            if (adattipusok.contains("<E>") && !BMAIL) {
                if (MAIL.matcher(szavak[i]).matches()) {
-                   kiirat(szavak[i], filenevek.get(2));
+                   kiirat(szavak[i], Datafajl.get("<E>"));
                    BMAIL = true;
                }
            }
            if (adattipusok.contains("<D>") && !BDATE) {
                if (DATE.matcher(szavak[i]).matches()) {
-                   kiirat(szavak[i], filenevek.get(3));
+                   kiirat(szavak[i], Datafajl.get("<D>"));
                    BDATE = true;
                }
            }
-           if (adattipusok.contains("<T>") && !BNUM) {
+           if (adattipusok.contains("<T>") && !BTIME) {
                if (TIME.matcher(szavak[i]).matches()) {
-                   kiirat(szavak[i], filenevek.get(4));
+
+                   kiirat(szavak[i], Datafajl.get("<T>"));
                    BTIME = true;
                }
            }
-           if (adattipusok.size() > 5 ) {
+           if (adattipusok.size() > 5 ) { //regexnel azert nincsen limit, mert felteszem hogy amit ki akar gyujteni az ember, azt itt tobbszor is ki akarja szedni
 
                //System.out.println(customregex);
                if (szavak[i].matches(customregex)) {
+                   kiirat(szavak[i], Regxname);
 
-                   kiirat(szavak[i], filenevek.get(5));
+
 
                }
            }
@@ -156,31 +196,31 @@ public class Main {
 
        if (adattipusok.contains("<S>") ) {
            if (BSTR == false) {
-               kiirat("", filenevek.get(0));
+               kiirat("", Datafajl.get("<S>"));
 
            }
        }
        if (adattipusok.contains("<N>") ) {
            if (BNUM== false) {
-               kiirat("0", filenevek.get(1));
+               kiirat("0", Datafajl.get("<N>"));
 
            }
        }
        if (adattipusok.contains("<E>") ) {
            if (BMAIL == false) {
-               kiirat("nobody@example.com", filenevek.get(2));
+               kiirat("nobody@example.com", Datafajl.get("<E>"));
 
            }
        }
        if (adattipusok.contains("<D>") ) {
            if (BDATE == false) {
-               kiirat("2000-01-01", filenevek.get(3));
+               kiirat("2000-01-01", Datafajl.get("<D>"));
 
            }
        }
        if (adattipusok.contains("<T>") ) {
            if (BTIME == false) {
-               kiirat("00:00:00", filenevek.get(4));
+               kiirat("00:00:00", Datafajl.get("<T>"));
            }
        }
 
@@ -226,14 +266,19 @@ public class Main {
                if(index == 1){
 
                    adattipusok.add(egySor[i]);
-                   if(adattipusok.size() > 5){
-                       customregex = egySor[i];
-                   }
+
                    torolfajl();
                }
 
 
 
+
+
+       }
+
+       if(index == 1){ //ha feldolgoztuk az elso ket sort akkor elmentünk mindent egy szotarba
+
+           DictFeltolt();
 
 
        }
