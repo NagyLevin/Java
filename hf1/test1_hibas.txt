@@ -1,0 +1,9 @@
+Név;Kor;Email;Születésnap;RegisztrációIdőpont
+<S>;<N>;<E>;<D>;<T>
+John Doe;30;john.doe@email.com;1992-05-15;14:30:00
+;25;jane.smith@email.com;1987-12-03;09:45:30
+Bob Johnson;;bob.johnson@email.com;1979-08-22;18:15:45
+Alice Brown;28;;1994-02-10;12:00:00
+David White;35;david.white@email.com;;21:20:15
+Eva Green;32;eva.green@email.com;1990-09-17;
+;;;;;;;;;10
