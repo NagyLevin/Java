@@ -28,13 +28,18 @@ public class Car {
         Amik nem kombinálhatóak:
         Láthatósági szintek, egyszerre csak egy láthatósági szint használható (nyilvánvalóan)
      */
-    static private int fuelPrice = 480; // statikus változó = osztályváltozó
+    //static private int fuelPrice = 480; // statikus változó = osztályváltozó
 
-    private String carType;
+    protected String carType; //protecedre allitva azert hogy a buss class/osztaly is lassa
     private double consumption;
+    protected static int fuelPrice = 480; // statikus változó = osztályváltozó
+    //feluliras miatt protectedre lett allitva
+
+    protected double fuel = 0;
+    //feluliras miatt protectedre lett allitva
     private double odometer = 0;       // példa kezdőértékre
-    private double fuel = 0;
-    private int capacity;
+    //private double fuel = 0;
+    protected int capacity; //proteced azert hogy a taxiban is lehessen rá hivatkozni
     public String licencePlate;
 
 
@@ -124,12 +129,5 @@ public class Car {
 
 
 
-    public static void main(String[] args) {
-        System.out.println("brumm brumm");
 
-
-
-
-
-    }
 }
