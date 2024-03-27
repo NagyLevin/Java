@@ -1,0 +1,66 @@
+public final class Rectangle {
+ private final double length;
+ private final double width;
+
+ public Rectangle(double length, double width) {
+  this.length = length;
+  this.width = width;
+ }
+
+ double length() { return this.length; }
+  double width() { return this.width; }
+
+ // Implementation of equals() and hashCode(), which specify that two record objects are equal if they are of the same type and contain equal field values.
+
+  public boolean equals...
+  public int hashCode...
+
+  public String toString() {...}
+
+}
+
+HELYETT:
+
+record Rectangle(double length, double width) { }
+Alapértelmezetteket lehet feluldeffiniállni:
+record Rectangle(double length, double width) {
+    public Rectangle(double length, double width) {
+        if (length <= 0 || width <= 0) {
+            throw new java.lang.IllegalArgumentException(
+                String.format("Invalid dimensions: %f, %f", length, width));
+        }
+        this.length = length;
+        this.width = width;
+    }
+}
+
+record Rectangle(double length, double width) {
+    public Rectangle {
+        if (length <= 0 || width <= 0) {
+            throw new java.lang.IllegalArgumentException(
+                String.format("Invalid dimensions: %f, %f", length, width));
+        }
+    }
+}
+
+
+SEALED
+Az osztály vagy interfész definiálhatja, hogy milyen osztályok származhatnak belőle vagy valósíthatják meg
+Új kulcsszavak: sealed, non-sealed, permits
+
+Minden engedélyezett osztálynak/interfésznek ugyan abba a modulba (package) kell tartoznia mint a sealed osztály/interfész!
+Minden engedélyezett osztálynak/interfésznek explicit örökölnie kell a sealed osztályt/interfészt!
+Minden engedélyezett osztálynak/interfésznek definiálnia kell egy módosítót az alábbiak közül:
+final: megakadályozza, hogy további öröklődés történjen belőle (megjegyzés: interfésznél ez a módosító nem használható)
+sealed: további, korlátozott öröklődést engedélyez
+non-sealed: ismeretlen alosztályok számára öröklődést biztosít
+
+
+public sealed class Vehicle permits Car, Truck, Bus { ... }
+Ebben az esetben a Car, Truck és a Bus származhat le belőle
+public sealed interface Service permits Truck, Bus { ... }
+Itt a felsoroltak implementálhatják az interfészt
+public final class Car extends Vehicle { ... }
+A Car-ból nem lehet tovább örökölni
+public sealed class Truck extends Vehicle implements Service permits SpecialTruck { ... }
+Minden együtt mosoly
