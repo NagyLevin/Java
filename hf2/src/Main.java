@@ -10,14 +10,30 @@ public class Main {
 
 
 
-        JavaHF jhf = new JavaHF(1,"red");
-        JavaHF jhf2 = new JavaHF(1,"red");
+        JavaHF jhf = new JavaHF();
+
+        jhf.Ex(1,"red");
+        jhf.Ex(2,"red");
+
+        jhf.Ex(3,"green");
+
+        jhf.Ex(4,"blue");
+
+
+        jhf.print();
+
+        //otletek holnapra
+        /*
+        jhf.folyamat(nev,id,szin,
+        jhf.elagazas(nev, krit(ersd es vagy egyedi,ha egyedi akkor hozzaad(ez mondjuk lehet olyan harmadlagos csoportositos kulcs cucc))
+            next, de honnan tudom hogy mi a nextje?
+            elagazas utan nezd hogy mikor volt a legutobbi elagazas max 5
+         */
 
 
 
 
-
-        System.out.println("futas vege");
+        System.out.println("feladatok vege");
     }
 
 
