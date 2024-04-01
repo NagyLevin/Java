@@ -7,7 +7,11 @@ public class process {
     protected Map<Integer, String> _Idents = new HashMap<>();
 
 
-    protected int _next; //rakovetkezo elem azonositoja //utcsonak a rekovetkezoje -1 legyen
+    private int _next; //rakovetkezo elem azonositoja //utcsonak a rekovetkezoje -1 legyen
+
+    protected int _firstid; //elso id
+    private boolean utolsofeladat = false; //lehet e meg feladatot fuzni a lachoz?
+
     public void print(){ //!!!!!!!!!!!!!!!!!!felul kell deffinialni
         //System.out.println("azonositok: " + _Idents + "szin: " + _colors + "next: " + _next);
 
@@ -40,6 +44,9 @@ public class process {
 
     public boolean isUniqeId(int ident){
 
+        if(_Idents.isEmpty()){
+            _firstid = ident; //elso id eltarolasa iegy elekszunk az elso ememre
+        }
 
 
         for (Map.Entry<Integer, String> entry :_Idents.entrySet()) {
@@ -54,9 +61,11 @@ public class process {
         return true;
     }
 
-    public boolean isOk(int ident, String color) throws Exception {
+    public boolean isOk(String name,int ident, String color, int next) throws Exception {
 
-
+        if(utolsofeladat == true){
+            throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
+        }
 
 
         if(isColor(color)){
@@ -66,7 +75,15 @@ public class process {
             throw new Exception("Hibas szin");
         }
 
+        if(isUniqeId(next)){
+           _next = next;
+        } else{
+            throw new Exception("next mar letezo elemre mutat");
+        }
 
+        if(_next == ident){
+            utolsofeladat = true;
+        }
 
         if(isUniqeId(ident)){
             _Idents.put(ident,color);
@@ -77,6 +94,28 @@ public class process {
 
         return true;
     }
+
+
+
+    protected void Pr(String name,int ident, String color,int next) throws Exception {
+
+        if(isOk(name, ident,color,next)){
+
+            System.out.println("folyamat hozzaadva!");
+
+        }
+
+
+
+    }
+
+
+    protected abstract void branch(){
+
+
+    }
+
+
 
 
 //nem kerterk, de esetleg egy valtozo, ami megmondja hogy hol tart a folyamat

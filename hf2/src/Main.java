@@ -12,12 +12,19 @@ public class Main {
 
         JavaHF jhf = new JavaHF();
 
-        jhf.Ex(1,"red");
-        jhf.Ex(2,"red");
+        jhf.Pr("elso",1,"red",2,"ez az elso folyamat"); //rakd at a process osbe ezt es a masikat is
 
-        jhf.Ex(3,"green");
+        //jhf.Pr("elso",1,"red",2);
 
-        jhf.Ex(4,"blue");
+        jhf.Pr("elso",2,"red",3);
+
+        jhf.Pr("elso",3,"green",4);
+
+        jhf.Pr("elso",4,"blue",4); //ha a nextje sajat maga akkor az a lanc vege
+
+        //jhf.Ex(5,"red",6);
+
+
 
 
         jhf.print();

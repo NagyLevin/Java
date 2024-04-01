@@ -9,9 +9,9 @@ public class JavaHF extends process{
     }
 
 
-    public void Ex(int ident, String color) throws Exception {
+    public void Pr(String name,int ident, String color,int next, String description) throws Exception {
 
-        if(isOk(ident,color)){
+        if(isOk(name, ident,color,next)){
 
             System.out.println("folyamat hozzaadva!");
 
@@ -20,6 +20,8 @@ public class JavaHF extends process{
 
 
     }
+
+
 
 
 }
