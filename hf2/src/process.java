@@ -23,8 +23,6 @@ public abstract class process {
 
     protected abstract boolean isOkPr(String name,int ident, String color, int next) throws Exception;
 
-    protected abstract boolean isOkEnd(String name,int ident, String color) throws Exception;
-
 
     protected abstract void Fr(String name,int ident, String color,int next) throws Exception; //kezdoelem
     protected abstract void End(String name,int ident, String color) throws Exception; //utcsoelem

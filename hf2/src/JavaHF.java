@@ -43,10 +43,7 @@ public class JavaHF extends process{
 
     public boolean isUniqeId(int ident) throws Exception {
 
-        if(0 > ident){
 
-            throw new Exception("Az id csak egy poyitiv egesz szam lehet");
-        }
 
         if(_Idents.isEmpty()){
             _firstid = ident; //elso id eltarolasa iegy elekszunk az elso ememre
@@ -70,6 +67,10 @@ public class JavaHF extends process{
         if(utolsofeladat == true){
             throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
         }
+        if(next == -1){
+            utolsofeladat = true;
+        }
+
 
 
         if(isColor(color)){
@@ -77,6 +78,17 @@ public class JavaHF extends process{
 
         } else{
             throw new Exception("Hibas szin");
+        }
+
+        if(!_Idents.isEmpty() && ident != _next){
+            //System.out.println(ident);
+            //System.out.println(_next);
+
+
+            throw new Exception("Nem ez a kovetkezo id");
+        }else {
+            _NextChain.put(ident,_next);//elmentem a lancolast
+
         }
 
         if(isUniqeId(next)){
@@ -91,7 +103,6 @@ public class JavaHF extends process{
 
         if(isUniqeId(ident)){
             _Idents.put(ident,color); //elmentem hogy melyik szinehz tartozik
-            _NextChain.put(ident,_next);//elmentem a lancolast
 
 
         } else{
@@ -102,6 +113,11 @@ public class JavaHF extends process{
     }
 
     public void Fr(String name,int ident, String color,int next) throws Exception{
+        if(0 > ident){
+
+            throw new Exception("Az id csak egy poyitiv egesz szam lehet");
+        }
+
         if(isOkPr(name, ident,color,next)){
 
             System.out.println("folyamat hozzaadva!");
@@ -110,36 +126,10 @@ public class JavaHF extends process{
 
 
     }
-    public boolean isOkEnd(String name,int ident, String color) throws Exception {
-        if(utolsofeladat == true){
-            throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
-        }
-        utolsofeladat = true;
 
-
-        if(isColor(color)){
-            // this._color = color;
-
-        } else{
-            throw new Exception("Hibas szin");
-        }
-
-
-        if(isUniqeId(ident)){
-            _Idents.put(ident,color); //elmentem hogy melyik szinehz tartozik
-            _NextChain.put(ident,_next);//elmentem a lancolast
-            _next = -1;
-
-        } else{
-            throw new Exception("Ident nem egyedi");
-        }
-
-        return true;
-
-    }
 
     public void End(String name,int ident, String color) throws Exception{
-        if(isOkEnd(name, ident,color)){
+        if(isOkPr(name, ident,color,-1)){
 
             System.out.println("folyamat hozzaadva!");
 
@@ -149,6 +139,11 @@ public class JavaHF extends process{
 
 
     public void Pr(String name,int ident, String color,int next) throws Exception {
+
+        if(0 > ident){
+
+            throw new Exception("Az id csak egy poyitiv egesz szam lehet");
+        }
 
         if(isOkPr(name, ident,color,next)){
 
