@@ -42,7 +42,8 @@ public class Main {
 
         //jhf.Ex(5,"red",6);
 
-
+        //vagy esetében kapok pénzt vagy kólát
+        //pénzt minden esetben kapok pénzt és kólát
 
 
         //jhf.print();
