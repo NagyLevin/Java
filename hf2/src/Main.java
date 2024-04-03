@@ -12,7 +12,7 @@ public class Main {
 
         JavaHF jhf = new JavaHF();
 
-        jhf.Pr("elso",1,"red",2);
+        jhf.Fr("elso",1,"red",2);
 
         //jhf.Pr("elso",1,"red",2);
 
@@ -20,14 +20,15 @@ public class Main {
 
         jhf.Pr("elso",3,"green",4);
 
-        jhf.Pr("elso",4,"blue",4); //ha a nextje sajat maga akkor az a lanc vege
+        jhf.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
 
-        jhf.branch("eselag","AND", new int[]{5, 6, 7, 8, 9});
+        jhf.Br("eselag","AND", new int[]{5, 6, 7, 8, 9});
 
-        jhf.branch("vagyag","OR", new int[]{5, 6, 7, 8, 9});
+        jhf.Br("vagyag","OR", new int[]{5, 6, 7, 8, 9});
 
-        jhf.branch("customag","CUSTOM", new int[]{5, 6, 7, 8, 9});
+        jhf.Br("customag","CUSTOM", new int[]{5, 6, 7, 8, 9});
 
+        jhf.End("elso",5,"blue");
 
         //jhf.Ex(5,"red",6);
 
