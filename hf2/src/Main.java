@@ -15,17 +15,20 @@ public class Main {
         BetweenPr Mr = new BetweenPr();
         BranchPr Br = new BranchPr();
         JavaHF jhf = new JavaHF();
+        edit E = new edit();
 
 
 
         Fr.Fr("elso",1,"red",2);
 
         //jhf.Pr("elso",1,"red",2);
-        System.out.println(Mr._Idents.size());
+        //System.out.println(Mr._Idents.size());
 
         Mr.Pr("elso",2,"red",3);
 
         Mr.Pr("elso",3,"green",4);
+
+        E.remove(3);
 
         Mr.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
 
@@ -42,7 +45,7 @@ public class Main {
 
 
 
-        jhf.print();
+        //jhf.print();
 
         //otletek holnapra
         /*

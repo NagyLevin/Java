@@ -81,13 +81,13 @@ public class JavaHF extends process{
         }
 
         if(!_Idents.isEmpty() && ident != _next){
-            System.out.println(ident);
-            System.out.println(_next);
+            //System.out.println(ident);
+            //System.out.println(_next);
 
 
             throw new Exception("Nem ez a kovetkezo id");
         }else {
-            _NextChain.put(ident,_next);//elmentem a lancolast
+            _NextChain.put(ident,next);//elmentem a lancolast
 
         }
 
@@ -109,6 +109,8 @@ public class JavaHF extends process{
         } else{
             throw new Exception("Ident nem egyedi");
         }
+
+        _current = ident;
 
         return true;
     }

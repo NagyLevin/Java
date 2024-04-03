@@ -10,6 +10,8 @@ public abstract class process {
 
 
     protected static int _next; //rakovetkezo elem azonositoja //utcsonak a rekovetkezoje -1 legyen
+    protected static int _current; //mostani elem
+
 
     protected int _firstid; //elso id
     protected boolean utolsofeladat = false; //lehet e meg feladatot fuzni a lachoz?
@@ -22,6 +24,7 @@ public abstract class process {
     public abstract boolean isUniqeId(int ident) throws Exception;
 
     protected abstract boolean isOkPr(String name,int ident, String color, int next) throws Exception;
+
 
 
 

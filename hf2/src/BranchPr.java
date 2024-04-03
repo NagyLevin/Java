@@ -1,4 +1,9 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class BranchPr extends JavaHF {
+
+    protected static Map<Integer, String> _Branches = new HashMap<>();
 
     public void Br(String name, String type, int[] nexts) throws Exception {
 
@@ -26,11 +31,14 @@ public class BranchPr extends JavaHF {
             //System.out.println(nexts[i]);
 
         }
+        //ha minden okes akkor elmentjuk az elagazas nevet es az elotte levo indexet
+        _Branches.put(_current,name);
 
 
 
 
-        System.out.println("elagazas hozzaadva");
+
+       // System.out.println("elagazas hozzaadva");
     }
 
 

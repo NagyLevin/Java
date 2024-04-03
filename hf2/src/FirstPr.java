@@ -8,7 +8,7 @@ public class FirstPr extends JavaHF {
 
         if(isOkPr(name, ident,color,next)){
 
-            System.out.println("folyamat hozzaadva!");
+            //System.out.println("folyamat hozzaadva!");
 
         }
 

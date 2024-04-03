@@ -4,7 +4,7 @@ public class EndPr extends JavaHF{
 
         if(isOkPr(name, ident,color,-1)){
 
-            System.out.println("folyamat hozzaadva!");
+            //System.out.println("folyamat hozzaadva!");
 
         }
 
