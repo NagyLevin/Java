@@ -10,25 +10,32 @@ public class Main {
 
 
 
+        EndPr End = new EndPr();
+        FirstPr Fr = new FirstPr();
+        BetweenPr Mr = new BetweenPr();
+        BranchPr Br = new BranchPr();
         JavaHF jhf = new JavaHF();
 
-        jhf.Fr("elso",1,"red",2);
+
+
+        Fr.Fr("elso",1,"red",2);
 
         //jhf.Pr("elso",1,"red",2);
+        System.out.println(Mr._Idents.size());
 
-        jhf.Pr("elso",2,"red",3);
+        Mr.Pr("elso",2,"red",3);
 
-        jhf.Pr("elso",3,"green",4);
+        Mr.Pr("elso",3,"green",4);
 
-        jhf.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
+        Mr.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
 
-        jhf.Br("eselag","AND", new int[]{5, 6, 7, 8, 9});
+        Br.Br("eselag","AND", new int[]{5, 6, 7, 8, 9});
 
-        jhf.Br("vagyag","OR", new int[]{5, 6, 7, 8, 9});
+        Br.Br("vagyag","OR", new int[]{5, 6, 7, 8, 9});
 
-        jhf.Br("customag","CUSTOM", new int[]{5, 6, 7, 8, 9});
+        Br.Br("customag","CUSTOM", new int[]{5, 6, 7, 8, 9});
 
-        jhf.End("elso",5,"blue");
+        End.End("elso",5,"blue");
 
         //jhf.Ex(5,"red",6);
 

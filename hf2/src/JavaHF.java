@@ -81,8 +81,8 @@ public class JavaHF extends process{
         }
 
         if(!_Idents.isEmpty() && ident != _next){
-            //System.out.println(ident);
-            //System.out.println(_next);
+            System.out.println(ident);
+            System.out.println(_next);
 
 
             throw new Exception("Nem ez a kovetkezo id");
@@ -93,6 +93,7 @@ public class JavaHF extends process{
 
         if(isUniqeId(next)){
             _next = next;
+
         } else{
             throw new Exception("next mar letezo elemre mutat");
         }
@@ -112,81 +113,13 @@ public class JavaHF extends process{
         return true;
     }
 
-    public void Fr(String name,int ident, String color,int next) throws Exception{
-        if(0 > ident){
-
-            throw new Exception("Az id csak egy poyitiv egesz szam lehet");
-        }
-
-        if(isOkPr(name, ident,color,next)){
-
-            System.out.println("folyamat hozzaadva!");
-
-        }
-
-
-    }
-
-
-    public void End(String name,int ident, String color) throws Exception{
-        if(isOkPr(name, ident,color,-1)){
-
-            System.out.println("folyamat hozzaadva!");
-
-        }
-
-    }
-
-
-    public void Pr(String name,int ident, String color,int next) throws Exception {
-
-        if(0 > ident){
-
-            throw new Exception("Az id csak egy poyitiv egesz szam lehet");
-        }
-
-        if(isOkPr(name, ident,color,next)){
-
-            System.out.println("folyamat hozzaadva!");
-
-        }
-
-
-
-    }
-
-    public void Br(String name, String type, int[] nexts) throws Exception {
-
-        if(nexts.length > 5){
-            throw new Exception("Túl sok elem lett megadva rakovetkezonek");
-        }
 
 
 
 
-        for (int i = 0; i < nexts.length; i++) {
-
-            for (int j = 0; j < nexts.length; j++) {
-                if(nexts[j] == nexts[i] && j != i){
-                    throw new Exception("Az egyik Ident nem egyedi a megadottak közt");
-
-                }
-            }
-
-           if( !isUniqeId(nexts[i])){
-               throw new Exception("Az egyik Ident nem egyedi");
-           }
-
-
-            //System.out.println(nexts[i]);
-
-        }
 
 
 
-
-        System.out.println("elagazas hozzaadva");
-    }
 
 
 
