@@ -14,7 +14,7 @@ public class edit extends JavaHF{
             for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
 
                 //kulon gond van az elso az utolso es a kozepso elem eltavolitasanal
-                //volt mar ilyen a pf fanal nazd meg ott hogy csinaljak
+                //volt mar ilyen a lancolt listanal, vagy a binaris fanal
 
                 if (entry.getKey().equals(index)) {
                     System.out.println(entry.getValue());
