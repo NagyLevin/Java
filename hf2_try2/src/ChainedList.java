@@ -22,7 +22,9 @@ public class ChainedList {
 
 
         void addNext(Node nextNode) {
-            this.next.add(nextNode);
+
+            this.next.add(0,nextNode);
+            this.next.add(1,nextNode);
 
 
         }
@@ -70,11 +72,27 @@ public class ChainedList {
 
     private void showNode(Node node) {
         if (node != null) {
-            System.out.print(node._ident + " ");
+
+            System.out.print( node.next.size() + " ");
+            System.out.println( node._ident + " ");
+
             for (Node nextNode : node.next) {
                 showNode(nextNode);
             }
         }
+
+
+        /*
+        while (node.next.get(0) != null) {
+
+            System.out.print(node._ident + " ");
+            System.out.println(node.next.size());
+            node = node.next.get(0);
+
+
+        }
+
+         */
     }
     public void show() {
         showNode(head);
