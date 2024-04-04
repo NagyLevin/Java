@@ -5,12 +5,23 @@ public abstract class process {
 
 
     protected static final List<String> _colors = Arrays.asList("red", "green", "blue"); //final, mert ezt nem akarjuk vlatoztatni
-    protected static Map<Integer, String> _Idents = new HashMap<>();
+
+    protected static Map<Integer, String> _ColorofE = new HashMap<>();
+
+    protected static Map<Integer, String> _NameofE = new HashMap<>();
+    protected static Map<Integer, Integer> _TypeofE = new HashMap<>();
+
+
 
     protected static Map<Integer, Integer> _NextChain = new HashMap<>();
 
 
     protected static int _next; //rakovetkezo elem azonositoja //utcsonak a rekovetkezoje -1 legyen
+
+    protected  static boolean _nextisORAND = false;   //voltelagazas
+
+
+    protected static Vector<Integer> _nexts = new Vector<Integer>();
 
 
     protected static int _current; //mostani elem

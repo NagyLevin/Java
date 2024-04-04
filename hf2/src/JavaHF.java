@@ -16,8 +16,10 @@ public class JavaHF extends process{
 
         for (int i = 0; i < _colors.size(); i++) {
             System.out.println(_colors.get(i) + " szin alatt futo feladatok: ");
-            for (Map.Entry<Integer, String> entry :_Idents.entrySet()) {
+            for (Map.Entry<Integer, String> entry :_ColorofE.entrySet()) {
+
                 if(_colors.get(i).equals(entry.getValue())){
+
                     System.out.println(entry.getKey()); // es feladatneve
 
                 }
@@ -45,12 +47,12 @@ public class JavaHF extends process{
 
 
 
-        if(_Idents.isEmpty()){
+        if(_ColorofE.isEmpty()){
             _firstid = ident; //elso id eltarolasa iegy elekszunk az elso ememre
         }
 
 
-        for (Map.Entry<Integer, String> entry :_Idents.entrySet()) {
+        for (Map.Entry<Integer, String> entry :_ColorofE.entrySet()) {
             //System.out.println(entry.getKey() + " : " + entry.getValue());
             if(entry.getKey().equals(ident)){
                 return false;
@@ -62,7 +64,37 @@ public class JavaHF extends process{
         return true;
     }
 
+    public boolean isInNexts(int ident){
+        for (int i = 0; i < _nexts.size(); i++) {
+            if(_nexts.get(i).equals(ident)){
+                _nexts.remove(i);
+                return true;
+            }
+
+        }
+
+        //System.out.println(_nexts);
+        return false;
+    }
+
     public boolean isOkPr(String name,int ident, String color, int next,int type) throws Exception {
+
+        if(_nextisORAND == true && _nexts.size() == 0){
+            _nextisORAND = false;
+        }
+
+
+
+        if(_nextisORAND == true){
+
+           if(!isInNexts(ident)){
+               throw new Exception("nincs az elore megadott nextek kozott az ident!");
+
+           }
+
+
+        }
+
 
         if(utolsofeladat == true){
             throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
@@ -83,13 +115,16 @@ public class JavaHF extends process{
         }
         }
 
-        //mindenképpen
-        if(!_Idents.isEmpty() && ident != _next){
+
+        if(!_NextChain.isEmpty() && ident != _next ){
             //System.out.println(ident);
             //System.out.println(_next);
 
+            if(_nextisORAND == false){
+                throw new Exception("Nem ez a kovetkezo id");
+            }
 
-            throw new Exception("Nem ez a kovetkezo id");
+
         }else {
             _NextChain.put(ident,next);//elmentem a lancolast
 
@@ -110,7 +145,9 @@ public class JavaHF extends process{
         }
 
         if(isUniqeId(ident)){
-            _Idents.put(ident,color); //elmentem hogy melyik szinehz tartozik
+            _ColorofE.put(ident,color); //elmentem hogy melyik szinehz tartozik
+            _NameofE.put(ident,name);
+            _TypeofE.put(ident,type);
 
 
         } else{

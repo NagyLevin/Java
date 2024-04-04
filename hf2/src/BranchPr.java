@@ -10,8 +10,11 @@ public class BranchPr extends JavaHF {
         if(nexts.length > 5){
             throw new Exception("Túl sok elem lett megadva rakovetkezonek");
         }
+        if(nexts.length == 0){
+            throw new Exception("Nem lett next megadva");
+        }
 
-        isOkPr(name,ident,"",-10,3); //elagazas ellenorzese
+        isOkPr(name,ident,"",nexts[0],3); //elagazas ellenorzese
 
 
         //a branchnek az identjehez kellene eltarolni a potencialis rekovetkezo elemek szamat
@@ -37,8 +40,12 @@ public class BranchPr extends JavaHF {
         }
         //ha minden okes akkor elmentjuk az elagazas nevet es az elotte levo indexet
         _Branches.put(_current,name);
+        _nextisORAND = true;
+        for (int i = 0; i < nexts.length; i++) {
+            _nexts.add(nexts[i]);
 
-
+        }
+        _next = _nexts.get(0);
 
 
 
@@ -76,6 +83,12 @@ public class BranchPr extends JavaHF {
         }
         //ha minden okes akkor elmentjuk az elagazas nevet es az elotte levo indexet
         _Branches.put(_current,name);
+        _nextisORAND = true;
+        for (int i = 0; i < nexts.length; i++) {
+            _nexts.add(nexts[i]);
+
+        }
+        _next = _nexts.get(0);
 
 
     }

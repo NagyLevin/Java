@@ -13,8 +13,6 @@ public class edit extends JavaHF{
             int utana;
             for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
 
-                //kulon gond van az elso az utolso es a kozepso elem eltavolitasanal
-                //volt mar ilyen a lancolt listanal, vagy a binaris fanal
 
                 if (entry.getKey().equals(index)) {
                     System.out.println(entry.getValue());
@@ -30,13 +28,47 @@ public class edit extends JavaHF{
     }
 
 
-    public void modify(int index){  //elem rekov modositas
+    public void swap(String name,int ident, String color,int next){  //elem rekov modositas
+
+        if (_NextChain.containsKey(ident)) {
+            int elozo;
+            int utana;
+            for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
+
+
+
+                if (entry.getKey().equals(ident)) {
+                    System.out.println(entry.getValue());
+
+
+
+                }
+
+
+            }
+
+        }
 
 
     }
 
-    public void add(int index){ //elem rakov beszuras
+    public void add(String name,int ident, String color,int next){ //elem rakov beszuras
 
+        if (_NextChain.containsKey(ident)) {
+            int elozo;
+            int utana;
+            for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
+
+                if (entry.getKey().equals(ident)) {
+                    System.out.println(entry.getValue());
+
+
+                }
+
+
+            }
+
+        }
 
     }
 

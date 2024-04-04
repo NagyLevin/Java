@@ -31,31 +31,17 @@ public class Main {
 
         E.remove(3);
 
-        Mr.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
+        Mr.Pr("elso",4,"blue",50); //ha a nextje sajat maga akkor az a lanc vege
 
-        Br.BrAnd("eselag",5, new int[]{5, 6, 7, 8, 9});
+        Br.BrAnd("eselag",50, new int[]{5, 6});
 
-        Br.BrOr("vagyag",6,">3", new int[]{5, 6, 7, 8, 9});
+        Br.BrOr("vagyag",5,">3", new int[]{7});
 
-        Br.BrAnd("customag",7, new int[]{5, 6, 7, 8, 9});
+        Br.BrAnd("customag",6, new int[]{8});
 
         End.End("elso",8,"blue");
 
-        //jhf.Ex(5,"red",6);
 
-        //vagy esetében kapok pénzt vagy kólát
-        //pénzt minden esetben kapok pénzt és kólát
-
-
-        //jhf.print();
-
-        //otletek holnapra
-        /*
-        jhf.folyamat(nev,id,szin,
-        jhf.elagazas(nev, krit(ersd es vagy egyedi,ha egyedi akkor hozzaad(ez mondjuk lehet olyan harmadlagos csoportositos kulcs cucc))
-            next, de honnan tudom hogy mi a nextje?
-            elagazas utan nezd hogy mikor volt a legutobbi elagazas max 5
-         */
 
 
 
