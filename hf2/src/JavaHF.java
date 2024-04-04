@@ -62,7 +62,7 @@ public class JavaHF extends process{
         return true;
     }
 
-    public boolean isOkPr(String name,int ident, String color, int next) throws Exception {
+    public boolean isOkPr(String name,int ident, String color, int next,int type) throws Exception {
 
         if(utolsofeladat == true){
             throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
@@ -70,6 +70,8 @@ public class JavaHF extends process{
         if(next == -1){
             utolsofeladat = true;
         }
+
+        if(type == 0 ||type == 1 || type == 2){
 
 
 
@@ -79,7 +81,9 @@ public class JavaHF extends process{
         } else{
             throw new Exception("Hibas szin");
         }
+        }
 
+        //mindenképpen
         if(!_Idents.isEmpty() && ident != _next){
             //System.out.println(ident);
             //System.out.println(_next);
@@ -91,6 +95,8 @@ public class JavaHF extends process{
 
         }
 
+
+        //mindenkeppen
         if(isUniqeId(next)){
             _next = next;
 
@@ -98,6 +104,7 @@ public class JavaHF extends process{
             throw new Exception("next mar letezo elemre mutat");
         }
 
+        //mindenkeppen
         if(_next == ident){
             throw new Exception("A megadott elem saját magára mutat");
         }

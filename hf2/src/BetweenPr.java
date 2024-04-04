@@ -7,7 +7,7 @@ public class BetweenPr extends JavaHF{
             throw new Exception("Az id csak egy poyitiv egesz szam lehet");
         }
 
-        if(isOkPr(name, ident,color,next)){
+        if(isOkPr(name, ident,color,next,1)){ //ha type 1 akkor csak a kozepso reszhez tartozo dolgokat ellenorzi
 
            // System.out.println("folyamat hozzaadva!");
 

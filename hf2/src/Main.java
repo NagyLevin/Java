@@ -4,7 +4,7 @@ import java.util.List;
 public class Main {
 
 
-
+    //kezd elorol lancolt lista mitajara.........................
 
     public static void main(String[] args) throws Exception {
 
@@ -27,18 +27,19 @@ public class Main {
         Mr.Pr("elso",2,"red",3);
 
         Mr.Pr("elso",3,"green",4);
+        //Mr.NewNextPr() //elagazas utan kellene adni
 
         E.remove(3);
 
         Mr.Pr("elso",4,"blue",5); //ha a nextje sajat maga akkor az a lanc vege
 
-        Br.Br("eselag","AND", new int[]{5, 6, 7, 8, 9});
+        Br.BrAnd("eselag",5, new int[]{5, 6, 7, 8, 9});
 
-        Br.Br("vagyag","OR", new int[]{5, 6, 7, 8, 9});
+        Br.BrOr("vagyag",6,">3", new int[]{5, 6, 7, 8, 9});
 
-        Br.Br("customag","CUSTOM", new int[]{5, 6, 7, 8, 9});
+        Br.BrAnd("customag",7, new int[]{5, 6, 7, 8, 9});
 
-        End.End("elso",5,"blue");
+        End.End("elso",8,"blue");
 
         //jhf.Ex(5,"red",6);
 
