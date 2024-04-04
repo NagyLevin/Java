@@ -2,6 +2,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+
         ChainedList list = new ChainedList();
         list.add(1, "elso");
 
@@ -11,6 +12,7 @@ public class Main {
 
         System.out.println("Lancolt Lista:");
         list.show();
+
     }
 
 }
