@@ -3,6 +3,7 @@ import java.util.*;
 public abstract class process {
 
 
+
     protected static final List<String> _colors = Arrays.asList("red", "green", "blue"); //final, mert ezt nem akarjuk vlatoztatni
     protected static Map<Integer, String> _Idents = new HashMap<>();
 
