@@ -1,5 +1,9 @@
 import java.util.Map;
 
+/**
+ * ez a class minden elem ose, ebben vannak azok a fvnyek amelyeket minden ra epulo osztaly hasznalni fog
+ */
+
 public class JavaHF extends process{
 
 
@@ -10,6 +14,11 @@ public class JavaHF extends process{
 
     }
 
+    /**
+     * print fvny szinek szerint csoportositva kiirja a bele tartozo elemeket
+     * kis modositassal nev vagy tipus szerint is ki lehet iratni az elemeket
+     *
+     */
 
     public void print(){ //!!!!!!!!!!!!!!!!!!felul kell deffinialni
         //System.out.println("azonositok: " + _Idents + "szin: " + _colors + "next: " + _next);
@@ -34,6 +43,12 @@ public class JavaHF extends process{
 
     }; //elem ertekeinek kiiratasa
 
+    /**
+     *
+     * @param _color megmonja hogy a szin amit bemenetul adtunk benne van a process classban elore deffinialt szinek kozott
+     * @return ha benne van akkor igazzal ter vissza
+     */
+
     public boolean isColor(String _color){
 
         if(_colors.contains(_color)){
@@ -43,16 +58,23 @@ public class JavaHF extends process{
             return false;
     }
 
-    public boolean isUniqeId(int ident) throws Exception {
+    /**
+     *
+     * @param ident ellenorzi hogy a parameterul kapott ident benne van-e a mar elore felvett identek kozott, amelyek egy mapban tarolodnak a process absztrkt classban
+     * @return ha benne van akkor hamissal ter vissza ami ezk utan errort fog majd kivaltani
+     *
+     */
+
+    public boolean isUniqeId(int ident) {
 
 
 
-        if(_ColorofE.isEmpty()){
+        if(_NameofE.isEmpty()){
             _firstid = ident; //elso id eltarolasa iegy elekszunk az elso ememre
         }
 
 
-        for (Map.Entry<Integer, String> entry :_ColorofE.entrySet()) {
+        for (Map.Entry<Integer, String> entry :_NameofE.entrySet()) {
             //System.out.println(entry.getKey() + " : " + entry.getValue());
             if(entry.getKey().equals(ident)){
                 return false;
@@ -63,6 +85,12 @@ public class JavaHF extends process{
 
         return true;
     }
+
+    /**
+     *
+     * @param ident megnezi hogy benne van e a nexts vectorban amiben a potencialis next elemeket tarolom, ebben a vektorba kerulnek azok az elemek amelyeket az elagazasok elore lefoglalnak esetleges rakovetkezöjukknet
+     * @return ha van ilyen next benne akkor azt felhasznaljuk rakovetkezo id kent, es toroljuk az esetleges rakovok közül
+     */
 
     public boolean isInNexts(int ident){
         for (int i = 0; i < _nexts.size(); i++) {
@@ -76,6 +104,19 @@ public class JavaHF extends process{
         //System.out.println(_nexts);
         return false;
     }
+
+    /**
+     * ez a program fő ellenorzo resze, itt dontom el hogy az egyes paramoterek megfelelnek, illetve abban az esetben ha megfelelnek akkor hozzaadom oket a mapokhoz ahol az elemeket tarolom
+     *
+     * @param name
+     * @param ident
+     * @param color
+     * @param next
+     * @param type
+     * @return
+     * @throws Exception akkor dob Exception-t ha valamelyik parameter rosszul lett megadva
+     */
+
 
     public boolean isOkPr(String name,int ident, String color, int next,int type) throws Exception {
 

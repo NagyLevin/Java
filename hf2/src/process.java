@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+ * ez egy absztrkt class, az absztrakt függvenyeket es a tombokat tartalmazza amelyekben az adatokat tarolni fogom
+ */
+
 public abstract class process {
 
 
@@ -29,6 +33,8 @@ public abstract class process {
 
     protected int _firstid; //elso id
     protected boolean utolsofeladat = false; //lehet e meg feladatot fuzni a lachoz?
+
+
 
     public abstract void print();
 

@@ -6,6 +6,13 @@ public class edit extends JavaHF{
     //modify
     //remove
 
+    /**
+     * Ez a fuggveny torli a megadott elemu elem nextjet, akkor ha az elem nem az utolso elem
+     *
+     * @param index
+     * @throws Exception akkor dobja, ha az utolso elem idjet adjuk meg, amiunek nincsen rakovetkezoje
+     */
+
     public void removenext(int index) throws Exception { //torli a rakovetkezo elemet
 
         if (_NextChain.containsKey(index)) {
@@ -62,7 +69,14 @@ public class edit extends JavaHF{
     }
 
 
-
+    /**
+     * Az @param ident  rakovetkezo elem adatait kicsereli a tobbi megadott parameterre
+     * @param name
+     * @param ident
+     * @param color
+     * @param condition
+     * @throws Exception abban az esetben dob errort, ha valamelyik parameter nem megfelelő
+     */
     public void swapnext(String name,int ident, String color,String condition) throws Exception {  //elem rekov modositas
 
         if (_NextChain.containsKey(ident) && isColor(color)) {
@@ -121,6 +135,17 @@ public class edit extends JavaHF{
 
 
     }
+
+    /**
+     * Berak egy uj rakovetkezo elemet az ident utan
+     *
+     * @param name
+     * @param ident ez utan szurja be
+     * @param newident ezzel az idexxel
+     * @param color ez lesz az uj elem szine
+     * @param condition ez lesz az uj elem feltetele, ha egy elagazas
+     * @throws Exception  ha minden igaz akkor minden szélsoséges elsetet lefedtem, ahol mondjuk rossz helyre vagy rossz elemet akarunk beszúrni
+     */
 
     public void addnext(String name,int ident,int newident, String color,String condition) throws Exception { //elem rakov beszuras
 
