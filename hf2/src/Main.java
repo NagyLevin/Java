@@ -19,14 +19,14 @@ public class Main {
 
 
 
-        Fr.Fr("elso",1,"red",2);
+        Fr.Fr("elso111",1,"red",2);
 
         //jhf.Pr("elso",1,"red",2);
         //System.out.println(Mr._Idents.size());
 
-        Mr.Pr("elso",2,"red",3);
+        Mr.Pr("elso222",2,"red",3);
 
-        Mr.Pr("elso",3,"green",4);
+        Mr.Pr("elso333",3,"green",4);
         //Mr.NewNextPr() //elagazas utan kellene adni
 
 
@@ -37,15 +37,19 @@ public class Main {
 
         Br.BrOr("vagyag",5,">3", new int[]{7});
 
-        Br.BrAnd("customag",6, new int[]{8});
+        Br.BrAnd("customag",7, new int[]{8});
 
         End.End("elso",8,"blue");
 
         //swap, remove , add
         E.swapnext("elso1",3,"red","");
-        E.addnext("masodik",4,10,"green","");
+        E.addnext("masodik",1,10,"green","");
 
         System.out.println(process._NameofE.get(10));
+        //System.out.println(process._NextChain.get(4));
+        //System.out.println(process._NameofE.get(1));
+
+
 
         jhf.print();
 

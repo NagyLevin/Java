@@ -124,21 +124,26 @@ public class edit extends JavaHF{
                 //replace the next of ifent
 
                 _NextChain.replace(ident, newident);
-                _ColorofE.replace(nextid, color);
-                _NameofE.replace(nextid, name);
+                _NextChain.replace(newident, nextofnext);
+
+                _ColorofE.replace(newident, color);
+                _NameofE.replace(newident, name);
 
                 //replace the next of ifent
 
                 //replace the next of next
 
-                _NextChain.put(newident, nextofnext);
-                _NameofE.put(newident, nextname);
+                _NextChain.put(nextid, nextofnext);
+
+                System.out.println(nextid);
+
+                _NameofE.put(nextid, nextname);
 
                 if (_TypeofE.get(nextid) != 4 && _TypeofE.get(nextid) != 3) {
-                    _ColorofE.put(newident, nextcolor);
+                    _ColorofE.put(nextid, nextcolor);
                 }
                 if (_TypeofE.get(nextid) == 4 && !condition.equals("")) {
-                    _ConditionE.put(newident, nextcondition);
+                    _ConditionE.put(nextid, nextcondition);
 
                 }
 

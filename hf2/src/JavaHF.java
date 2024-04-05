@@ -88,6 +88,8 @@ public class JavaHF extends process{
         if(_nextisORAND == true){
 
            if(!isInNexts(ident)){
+               //System.out.println(_nexts);
+
                throw new Exception("nincs az elore megadott nextek kozott az ident!");
 
            }
@@ -96,12 +98,18 @@ public class JavaHF extends process{
         }
 
 
+
         if(utolsofeladat == true){
             throw new Exception("Nem lehet uj feladatot hozzaadni, mert mert mar volt utolso");
         }
         if(next == -1){
             utolsofeladat = true;
         }
+        if(next < -1){
+            throw new Exception("rossz a next");
+
+        }
+
 
         if(type == 0 ||type == 1 || type == 2){
 

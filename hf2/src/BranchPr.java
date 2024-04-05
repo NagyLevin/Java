@@ -14,7 +14,8 @@ public class BranchPr extends JavaHF {
             throw new Exception("Nem lett next megadva");
         }
 
-        if(isOkPr(name,ident,"",-10,4)) { //elagazas ellenorzese
+        if(isOkPr(name,ident,"",nexts[0],4)) { //elagazas ellenorzese
+
             _TypeofE.put(ident,4);
 
         }
@@ -58,8 +59,11 @@ public class BranchPr extends JavaHF {
         if(nexts.length > 5){
             throw new Exception("Túl sok elem lett megadva rakovetkezonek");
         }
+        if(nexts.length == 0){
+            throw new Exception("Nem lett next megadva");
+        }
 
-        if(isOkPr(name,ident,"",-10,3)) { //elagazas ellenorzese
+        if(isOkPr(name,ident,"",nexts[0],3)) { //elagazas ellenorzese
             _TypeofE.put(ident,3);
 
         }
