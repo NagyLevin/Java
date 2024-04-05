@@ -6,22 +6,56 @@ public class edit extends JavaHF{
     //modify
     //remove
 
-    public void removenext(int index) { //torli a rakovetkezo elemet
+    public void removenext(int index) throws Exception { //torli a rakovetkezo elemet
 
         if (_NextChain.containsKey(index)) {
-            int elozo;
-            int utana;
+            int nextid = -2;
+            int nextofnext = -2;
+
             for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
+
+                if(_NextChain.get(index) == -1){
+                    throw new Exception("az utolso elemnek nincsen rakovetkezoje");
+                }
 
 
                 if (entry.getKey().equals(index)) {
-                    System.out.println(entry.getValue());
+                   // System.out.println(entry.getValue());
+                    nextid =entry.getValue();
+                    if(nextid > -1){
+                        nextofnext = _NextChain.get(nextid);
+                    }
+
+
+
 
 
                 }
 
 
             }
+
+            if(nextofnext == -1){
+                throw new Exception("az utolso elemnek nincsen rakovetkezoje");
+            }
+
+            _NextChain.replace(index,nextofnext);
+            if(_NextChain.containsKey(nextid)){
+                _NextChain.remove(nextid);
+            }
+            if(_ConditionE.containsKey(nextid)){
+                _ConditionE.remove(nextid);
+            }
+            if(_NameofE.containsKey(nextid)){
+                _NameofE.remove(nextid);
+            }
+            if(_TypeofE.containsKey(nextid)){
+                _TypeofE.remove(nextid);
+            }
+            if(_ColorofE.containsKey(nextid)){
+                _ColorofE.remove(nextid);
+            }
+
 
         }
 
@@ -92,7 +126,7 @@ public class edit extends JavaHF{
 
         if (_NextChain.containsKey(ident)&& isColor(color) && !_NextChain.containsKey(newident)) {
 
-            int nextid = -1;
+            int nextid = -2;
 
             for (Map.Entry<Integer, Integer> entry : _NextChain.entrySet()) {
                 //System.out.println(entry.getKey());
@@ -105,16 +139,8 @@ public class edit extends JavaHF{
 
 
             }
-            if(nextid != -1) {
-                String nextcolor = "";
-                if (_TypeofE.get(nextid) != 4 && _TypeofE.get(nextid) != 3) {
-                    nextcolor = _ColorofE.get(nextid);
-                }
-                String nextcondition = "";
-                if (_TypeofE.get(nextid) == 4) {
-                    nextcondition = _ConditionE.get(nextid);
+            if(nextid != -2) {
 
-                }
 
                 String nextname = _NameofE.get(nextid);
 
@@ -124,10 +150,11 @@ public class edit extends JavaHF{
                 //replace the next of ifent
 
                 _NextChain.replace(ident, newident);
-                _NextChain.replace(newident, nextofnext);
 
-                _ColorofE.replace(newident, color);
-                _NameofE.replace(newident, name);
+                _NextChain.replace(newident, nextid);
+
+
+                _NameofE.put(newident, name);
 
                 //replace the next of ifent
 
@@ -135,15 +162,14 @@ public class edit extends JavaHF{
 
                 _NextChain.put(nextid, nextofnext);
 
-                System.out.println(nextid);
 
                 _NameofE.put(nextid, nextname);
 
                 if (_TypeofE.get(nextid) != 4 && _TypeofE.get(nextid) != 3) {
-                    _ColorofE.put(nextid, nextcolor);
+                    _ColorofE.put(newident, color);
                 }
                 if (_TypeofE.get(nextid) == 4 && !condition.equals("")) {
-                    _ConditionE.put(nextid, nextcondition);
+                    _ConditionE.put(newident, condition);
 
                 }
 

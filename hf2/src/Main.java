@@ -44,8 +44,10 @@ public class Main {
         //swap, remove , add
         E.swapnext("elso1",3,"red","");
         E.addnext("masodik",1,10,"green","");
+        E.removenext(2);
 
-        System.out.println(process._NameofE.get(10));
+
+        //System.out.println(process._NameofE.get(10));
         //System.out.println(process._NextChain.get(4));
         //System.out.println(process._NameofE.get(1));
 
