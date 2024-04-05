@@ -9,7 +9,10 @@ public class BetweenPr extends JavaHF{
 
         if(isOkPr(name, ident,color,next,1)){ //ha type 1 akkor csak a kozepso reszhez tartozo dolgokat ellenorzi
 
-           // System.out.println("folyamat hozzaadva!");
+
+                _TypeofE.put(ident,1);
+
+
 
         }
 

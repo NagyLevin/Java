@@ -7,7 +7,7 @@ public class FirstPr extends JavaHF {
         }
 
         if(isOkPr(name, ident,color,next,0)){ //ha type 0 akkor csak az elsohoz tartozo reszeket ellenorzi
-
+            _TypeofE.put(ident,0);
             //System.out.println("folyamat hozzaadva!");
 
         }

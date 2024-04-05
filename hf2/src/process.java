@@ -11,7 +11,7 @@ public abstract class process {
     protected static Map<Integer, String> _NameofE = new HashMap<>();
     protected static Map<Integer, Integer> _TypeofE = new HashMap<>();
 
-
+    protected static Map<Integer, String> _ConditionE = new HashMap<>();
 
     protected static Map<Integer, Integer> _NextChain = new HashMap<>();
 

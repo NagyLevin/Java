@@ -29,7 +29,7 @@ public class Main {
         Mr.Pr("elso",3,"green",4);
         //Mr.NewNextPr() //elagazas utan kellene adni
 
-        E.remove(3);
+
 
         Mr.Pr("elso",4,"blue",50); //ha a nextje sajat maga akkor az a lanc vege
 
@@ -41,7 +41,13 @@ public class Main {
 
         End.End("elso",8,"blue");
 
+        //swap, remove , add
+        E.swapnext("elso1",3,"red","");
+        E.addnext("masodik",4,10,"green","");
 
+        System.out.println(process._NameofE.get(10));
+
+        jhf.print();
 
 
 

@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class BranchPr extends JavaHF {
 
-    protected static Map<Integer, String> _Branches = new HashMap<>();
+
 
     public void BrOr(String name,int ident, String condition, int[] nexts) throws Exception {
 
@@ -14,8 +14,10 @@ public class BranchPr extends JavaHF {
             throw new Exception("Nem lett next megadva");
         }
 
-        isOkPr(name,ident,"",nexts[0],3); //elagazas ellenorzese
+        if(isOkPr(name,ident,"",-10,4)) { //elagazas ellenorzese
+            _TypeofE.put(ident,4);
 
+        }
 
         //a branchnek az identjehez kellene eltarolni a potencialis rekovetkezo elemek szamat
 
@@ -39,7 +41,7 @@ public class BranchPr extends JavaHF {
 
         }
         //ha minden okes akkor elmentjuk az elagazas nevet es az elotte levo indexet
-        _Branches.put(_current,name);
+
         _nextisORAND = true;
         for (int i = 0; i < nexts.length; i++) {
             _nexts.add(nexts[i]);
@@ -57,8 +59,10 @@ public class BranchPr extends JavaHF {
             throw new Exception("Túl sok elem lett megadva rakovetkezonek");
         }
 
-        isOkPr(name,ident,"",-10,3); //elagazas ellenorzese
+        if(isOkPr(name,ident,"",-10,3)) { //elagazas ellenorzese
+            _TypeofE.put(ident,3);
 
+        }
 
         //a branchnek az identjehez kellene eltarolni a potencialis rekovetkezo elemek szamat
 
@@ -82,7 +86,7 @@ public class BranchPr extends JavaHF {
 
         }
         //ha minden okes akkor elmentjuk az elagazas nevet es az elotte levo indexet
-        _Branches.put(_current,name);
+
         _nextisORAND = true;
         for (int i = 0; i < nexts.length; i++) {
             _nexts.add(nexts[i]);
