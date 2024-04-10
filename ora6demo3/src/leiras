@@ -1,0 +1,7 @@
+A szerver külön szálat indít minden bejövő kapcsolatra. A kliensek semmit sem tudnak egymás létezéséről, csak a szerver fele tekintő input-output streamekkel foglalkoznak.
+
+A szerver-kliens modell eléggé hasonló általában. Láthattuk, hogy az egy kliens kezelése-több kliens kezelése csupán a szálak indításában különbözött, innentől kezdve pedig a program váza minden esetben ugyanaz lesz. Ezért ezt egyszer kell megérteni.
+
+A való életben azért vannak más technikák is több kliens kezelésére (pl. select, poll, epoll).
+
+
