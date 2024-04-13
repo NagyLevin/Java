@@ -22,24 +22,29 @@ public class TermeloKliens implements Runnable {
             BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
             PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
 
-            String server = fromszerver.readLine();
-            System.out.println("Server: " + server);
-            System.out.print("Client: ");
-            System.out.flush();
+            //toszerver.print("Hello szerver!" + "\r" + "\n");
+            //System.out.println("Server: " + server);
+            while (! Thread.currentThread().isInterrupted()) {
 
 
 
-            System.out.println("I Have Goddies");
-            toszerver.print("I Have Goddies");  //a szervernek ezt az üzenetet küldöm
-            toszerver.flush();
-            //Thread.sleep(100); //majd randommal
+                System.out.flush();
 
 
 
+                toszerver.print("I Have Goddies" + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
+                toszerver.flush();
+                //Thread.sleep(100); //majd randommal
 
-            System.out.println("Server: " + fromszerver.readLine());
-            //serverOutput.flush();
+                    String szerversay = "";
+                    szerversay = fromszerver.readLine();
 
+
+                    System.out.println("Server: " + szerversay);
+
+
+                //serverOutput.flush();
+            }
 
 
 

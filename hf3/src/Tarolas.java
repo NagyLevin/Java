@@ -36,7 +36,7 @@ public class Tarolas extends Thread {
     protected boolean expect(String line,String clientLine) throws IOException {  //ellenorzi hogy a kliens jol vlaszolt-e
         //sendLine("Mit akarsz tőlem?");
         //System.out.println("idáig jó?");
-          //beker egy sort a klienstől
+        //beker egy sort a klienstől
         //System.out.println("ezt mondta a kliens: " +clientLine);
 
 
@@ -50,18 +50,18 @@ public class Tarolas extends Thread {
     }
 
     public void run() {
-            System.out.println("Klienssel kommunikáció indul");
+        System.out.println("Klienssel kommunikáció indul");
 
 
-            try {
+        try {
 
-                sendLine("Hello Kliens!");
-                System.out.println("Hello Kliens!");
+            sendLine("Hello Kliens!");
+            System.out.println("Hello Kliens!");
 
-
+            while (true) {
 
                 String clientLine = clientReader.readLine();
-                String szerverout ="";
+                String szerverout = "11";
                 System.out.println("Kliens Mondta: " + clientLine);
 
 
@@ -73,13 +73,12 @@ public class Tarolas extends Thread {
                     //System.out.println("product felveve");
                     sokprod = 0;
 
-                }
-                else if(Products.size() >= maxprod && expect("I Have Goddies", clientLine)){
+                } else if (Products.size() >= maxprod && expect("I Have Goddies", clientLine)) {
                     szerverout = "sok";
                     sokprod = sokprod + 1;
-                    if (sokprod == 3) {
+                    if (sokprod >= 3) {
                         sendLine("Túl sokat termelsz...");
-                        clientSocket.close();
+                        return;
                     }
 
                 }
@@ -91,24 +90,29 @@ public class Tarolas extends Thread {
                     kevesprod = 0;
 
 
-                }
-                else if(Products.isEmpty() && expect("Give me goddies", clientLine)){//különben nem kap
+                } else if (Products.isEmpty() && expect("Give me goddies", clientLine)) {//különben nem kap
                     szerverout = "keves";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
                     kevesprod = kevesprod + 1;
-                    if (sokprod == 3) {
+                    if (sokprod >= 3) {
                         sendLine("Túl sokat kérsz...");
-                        clientSocket.close();
+                        return;
                     }
                 }
 
                 //egy sendline a végén
-                sendLine(szerverout);
+                if(szerverout != null){
+                    sendLine(szerverout + "\r" + "\n");
+                }
+
                 System.out.println("szerver mondja a vegen: " + szerverout);
 
-               // clientSocket.close(); //csak akkor kell lezárni, ha valami baj van nem?
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+            // clientSocket.close(); //csak akkor kell lezárni, ha valami baj van nem?
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
 

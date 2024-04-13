@@ -28,7 +28,10 @@ public class TaroloSzerver implements Runnable {
         }
 
         try {
-            serverSocket.close();
+            if(serverSocket != null){
+                serverSocket.close();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
