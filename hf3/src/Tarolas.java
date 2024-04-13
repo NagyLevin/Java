@@ -59,6 +59,7 @@ public class Tarolas extends Thread {
                 System.out.println("Hello Kliens!");
 
 
+
                 String clientLine = clientReader.readLine();
                 String szerverout ="";
                 System.out.println("Kliens Mondta: " + clientLine);

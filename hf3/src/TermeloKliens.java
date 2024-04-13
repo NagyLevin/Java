@@ -16,33 +16,49 @@ public class TermeloKliens implements Runnable {
 
 
     public void run() {
-        try {
-            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));                    //kommunikáciohoz
-            BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter serverOutput = new PrintWriter(clientSocket.getOutputStream());                             //kommunikáciohoz
 
-            System.out.println("Server: " + serverInput.readLine());
+        try {
+            BufferedReader clientbeolvas = new BufferedReader(new InputStreamReader(System.in));                   // beolvas a client konzolárol
+            BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
+            PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
+
+            String server = fromszerver.readLine();
+            System.out.println("Server: " + server);
             System.out.print("Client: ");
             System.out.flush();
 
 
 
-
             System.out.println("I Have Goddies");
-            serverOutput.print("I Have Goddies");  //a szervernek ezt az üzenetet küldöm
-            serverOutput.flush();
+            toszerver.print("I Have Goddies");  //a szervernek ezt az üzenetet küldöm
+            toszerver.flush();
             //Thread.sleep(100); //majd randommal
 
-            //System.out.println("Server: " + serverInput.readLine());
+
+
+
+            System.out.println("Server: " + fromszerver.readLine());
+            //serverOutput.flush();
 
 
 
 
-           clientSocket.close();
 
         } catch (IOException e) {
             System.err.println("Nem sikerült kommunikállni a szerverrel");
+        }finally {
+            try{
+                if(clientSocket != null){
+                    clientSocket.close();
+
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
+
     }
 
     public static void main(String[] args) {
