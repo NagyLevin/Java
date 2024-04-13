@@ -7,10 +7,10 @@ import java.net.UnknownHostException;
 import java.io.IOException;
 
 public class FogyasztoKliens implements Runnable {
-    protected Socket clientSocket2;
+    protected Socket clientSocket;
 
     public FogyasztoKliens(String host) throws UnknownHostException, IOException {
-        clientSocket2 = new Socket(host, TaroloSzerver.PORT_NUMBER);
+        clientSocket = new Socket(host, TaroloSzerver.PORT_NUMBER);
     }
 
 
@@ -18,8 +18,8 @@ public class FogyasztoKliens implements Runnable {
     public void run() {
         try {
             BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));                    //kommunikáciohoz
-            BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket2.getInputStream()));
-            PrintWriter serverOutput = new PrintWriter(clientSocket2.getOutputStream());                             //kommunikáciohoz
+            BufferedReader serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter serverOutput = new PrintWriter(clientSocket.getOutputStream());                             //kommunikáciohoz
 
             System.out.println("Server: " + serverInput.readLine());
             System.out.print("Client: ");
@@ -37,7 +37,7 @@ public class FogyasztoKliens implements Runnable {
 
 
 
-            clientSocket2.close();
+            clientSocket.close();
 
         } catch (IOException e) {
             System.err.println("Nem sikerült kommunikállni a szerverrel");
@@ -46,7 +46,7 @@ public class FogyasztoKliens implements Runnable {
 
     public static void main(String[] args) {
         try {
-            new Thread(new TermeloKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
+            new Thread(new FogyasztoKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
         } catch (IOException e) {
             e.printStackTrace();
         }
