@@ -16,7 +16,7 @@ public class Tarolas extends Thread {
 
 
     protected static Vector<Integer> Products = new Vector<Integer>(); //FiFo kell hogy legyen first in first out
-    protected static Integer maxprod = 10;
+    protected static Integer maxprod = 2;
     protected static Integer sokprod = 0;
 
     protected static Integer kevesprod = 0;
@@ -60,6 +60,7 @@ public class Tarolas extends Thread {
 
 
                 String clientLine = clientReader.readLine();
+                String szerverout ="";
                 System.out.println("Kliens Mondta: " + clientLine);
 
 
@@ -67,12 +68,13 @@ public class Tarolas extends Thread {
 
                 if (Products.size() < maxprod && expect("I Have Goddies", clientLine)) {
                     Products.add(1);
-                    sendLine("product felveve");
+                    szerverout = "prod+"; //uj produkt fel lett veve
                     //System.out.println("product felveve");
                     sokprod = 0;
 
-                } else {
-                    sendLine("product nincs felveve");
+                }
+                else if(Products.size() >= maxprod && expect("I Have Goddies", clientLine)){
+                    szerverout = "sok";
                     sokprod = sokprod + 1;
                     if (sokprod == 3) {
                         sendLine("Túl sokat termelsz...");
@@ -82,13 +84,15 @@ public class Tarolas extends Thread {
                 }
 
                 if (!Products.isEmpty() && expect("Give me goddies", clientLine)) {   //ha van product es helyesen ker a kliens
-                    sendLine("1prod");
+
+                    szerverout = "prod-";
                     Products.get(Products.size() - 1);
                     kevesprod = 0;
 
 
-                } else { //különben nem kap
-                    sendLine("0prod");
+                }
+                else if(Products.isEmpty() && expect("Give me goddies", clientLine)){//különben nem kap
+                    szerverout = "keves";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
                     kevesprod = kevesprod + 1;
                     if (sokprod == 3) {
                         sendLine("Túl sokat kérsz...");
@@ -96,8 +100,11 @@ public class Tarolas extends Thread {
                     }
                 }
 
+                //egy sendline a végén
+                sendLine(szerverout);
+                System.out.println("szerver mondja a vegen: " + szerverout);
 
-                clientSocket.close();
+               // clientSocket.close(); //csak akkor kell lezárni, ha valami baj van nem?
             } catch (IOException e) {
                 e.printStackTrace();
             }

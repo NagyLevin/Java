@@ -33,6 +33,7 @@ public class TermeloKliens implements Runnable {
             serverOutput.flush();
             //Thread.sleep(100); //majd randommal
 
+            //System.out.println("Server: " + serverInput.readLine());
 
 
 
