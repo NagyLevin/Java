@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 
 import java.net.UnknownHostException;
 import java.io.IOException;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FogyasztoKliens implements Runnable {
     protected Socket clientSocket;
@@ -20,7 +23,15 @@ public class FogyasztoKliens implements Runnable {
 
     int sikertelenfogaszt =0;
 
+    boolean fogyaszsak = true;
+
+    String isnumber = "\\d+";
+    Pattern patterN = Pattern.compile(isnumber);
+    protected static Vector<Integer> ProductsEaten = new Vector<Integer>();
+
+
     public int RandomBetween(int min, int max) {
+
         return (int) ((Math.random() * (max - min)) + min);
     }
 
@@ -35,7 +46,7 @@ public class FogyasztoKliens implements Runnable {
 
             toszerver.print("Hello szerver!" + "\r" + "\n");
 
-            while (! Thread.currentThread().isInterrupted()) {
+            while (fogyaszsak == true) {
 
 
 
@@ -43,7 +54,7 @@ public class FogyasztoKliens implements Runnable {
 
 
 
-                toszerver.print("Give me goddies" + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
+                toszerver.print("GET PRODUCT" + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
                 toszerver.flush();
                 //Thread.sleep(100); //majd randommal
 
@@ -54,14 +65,27 @@ public class FogyasztoKliens implements Runnable {
                     System.out.println("Server: " + szerversay);
                     //System.out.print(szerversay.length());
 
-                    if(szerversay.equals("prod-")){
+                    if(szerversay.equals("OK SENDING PRODUCT ")){
+
+                        Matcher matcherN = patterN.matcher(szerversay);
+                        if(matcherN.find()){
+
+                            //System.out.println("test: " + matcherN.group());
+
+                            ProductsEaten.add(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
+                        }
+
                         sikeresfogyaszt = sikeresfogyaszt +1;
                     }
-                    if(szerversay.equals("keves")){ //ha sokat termel akkor varnia kell
+                    if(szerversay.equals("NOPE TRY AGAIN")){ //ha sokat termel akkor varnia kell
 
-                        sikertelenfogaszt = sikeresfogyaszt +1;
+                        sikertelenfogaszt = sikertelenfogaszt +1;
                         Thread.sleep(RandomBetween(100,150));//esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
                     }
+                    if(szerversay.equals("You produce to much...")){
+                        fogyaszsak = false;
+                    }
+
 
                 }
 
@@ -71,13 +95,14 @@ public class FogyasztoKliens implements Runnable {
             }
 
 
-
+            int osszkeres = sikeresfogyaszt +sikertelenfogaszt;
+            System.out.println("Sikertelen/Sikeres keres: " + sikeresfogyaszt + "/" + sikertelenfogaszt + " Osszes keres: "+osszkeres);
 
         } catch (IOException | InterruptedException e) {
-            System.err.println("Nem sikerült kommunikállni a szerverrel");
+            System.err.println("Cant reach server");
         }finally {
 
-            System.out.println("Sikertelen/Sikeres keres: " + sikeresfogyaszt + "/" + sikertelenfogaszt + " Osszes keres: "+sikeresfogyaszt +sikertelenfogaszt);
+
             try{
                 if(clientSocket != null){
                     clientSocket.close();

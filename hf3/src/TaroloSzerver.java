@@ -20,7 +20,7 @@ public class TaroloSzerver implements Runnable {
                 try {
                     new Tarolas(clientSocket).start();
                 } catch (IOException e) {
-                    System.err.println("A kommunikáció a klienssel meghiusult");
+                    System.err.println("Cant communicate with the client");
                 }
             }
         } catch (IOException e) {
@@ -36,13 +36,13 @@ public class TaroloSzerver implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("A szerver leállt");
+        System.out.println("BUSINESS IS DOWN");
     }
 
     public static void main(String[] args) {
         try {
             new Thread(new TaroloSzerver()).start();    //a szerver szála
-            System.out.println("A Szerver elindult");
+            System.out.println("BUSINESS IS UP");
         } catch (IOException e) {
             e.printStackTrace();
         }

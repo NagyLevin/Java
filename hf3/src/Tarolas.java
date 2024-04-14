@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.io.IOException;
 
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tarolas extends Thread {
 
@@ -19,7 +21,17 @@ public class Tarolas extends Thread {
     protected static Integer maxprod = 10;
     protected static Integer sokprod = 0;
 
+
     protected static Integer kevesprod = 0;
+
+    String beginnwith_put = "^PUT PRODUCT.*";
+    Pattern pattern1 = Pattern.compile(beginnwith_put);
+
+    String beginnwith_get = "^GET PRODUCT.*";
+    Pattern pattern2 = Pattern.compile(beginnwith_get);
+
+    String isnumber = "\\d+";
+    Pattern patterN = Pattern.compile(isnumber);
 
 
     public Tarolas(Socket clientSocket) throws IOException {
@@ -33,7 +45,7 @@ public class Tarolas extends Thread {
         clientWriter.flush();
     }
 
-    protected boolean expect(String line,String clientLine) throws IOException {  //ellenorzi hogy a kliens jol vlaszolt-e
+    protected boolean expect(Matcher matcher,String clientLine) throws IOException {  //ellenorzi hogy a kliens jol vlaszolt-e
         //sendLine("Mit akarsz tőlem?");
         //System.out.println("idáig jó?");
         //beker egy sort a klienstől
@@ -41,7 +53,7 @@ public class Tarolas extends Thread {
 
 
 
-        if (! clientLine.equals(line)) {    //baj van akkor ha a kliens nem mond semmit
+        if (!matcher.find()) {    //baj van akkor ha a kliens nem mond semmit
             //System.out.println("nem ezt mondta " + line + "helyett " +clientLine);
             return false;
         }
@@ -68,38 +80,46 @@ public class Tarolas extends Thread {
 
 
                 //System.out.println("read után?");
+                Matcher matcherTermelo = pattern1.matcher(clientLine);
+                if (Products.size() < maxprod && expect(matcherTermelo, clientLine)) {
 
-                if (Products.size() < maxprod && expect("I Have Goddies", clientLine)) {
-                    Products.add(1);
-                    szerverout = "prod+"; //uj produkt fel lett veve
+                    Matcher matcherN = patterN.matcher(clientLine);
+                    if(matcherN.find()){
+
+                        //System.out.println("test: " + matcherN.group());
+
+                        Products.add(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
+                    }
+
+                    szerverout = "OK PRODUCT STORED"; //uj produkt fel lett veve
                     //System.out.println("product felveve");
                     sokprod = 0;
 
-                } else if (Products.size() >= maxprod && expect("I Have Goddies", clientLine)) {
-                    szerverout = "sok";
+                } else if (Products.size() >= maxprod && expect(matcherTermelo, clientLine)) {
+                    szerverout = "NOPE PRODUCT REJECTED";
                     sokprod = sokprod + 1;
                     if (sokprod >= 2) {
                         System.out.println("Kliens tul sokat termel");
-                        sendLine("Túl sokat termelsz...");
+                        sendLine("You produce to much...");
                         return;
                     }
 
                 }
+                Matcher matcherFogyaszto = pattern2.matcher(clientLine);
+                if (!Products.isEmpty() && expect(matcherFogyaszto, clientLine)) {   //ha van product es helyesen ker a kliens
 
-                if (!Products.isEmpty() && expect("Give me goddies", clientLine)) {   //ha van product es helyesen ker a kliens
+                    szerverout = "OK SENDING PRODUCT " + Products.get(Products.size() - 1);
 
-                    szerverout = "prod-";
-                    Products.get(Products.size() - 1);
                     Products.remove(Products.size() - 1);
                     kevesprod = 0;
 
 
-                } else if (Products.isEmpty() && expect("Give me goddies", clientLine)) {//különben nem kap
-                    szerverout = "keves";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
+                } else if (Products.isEmpty() && expect(matcherFogyaszto, clientLine)) {//különben nem kap
+                    szerverout = "NOPE TRY AGAIN";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
                     kevesprod = kevesprod + 1;
                     if (kevesprod >= 3) {
-                        System.out.println("Kliens tul sokat kér");
-                        sendLine("Túl sokat kérsz...");
+                        System.out.println("You request to much...");
+                        sendLine("You request to much...");
                         return;
                     }
                 }

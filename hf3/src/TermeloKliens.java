@@ -14,6 +14,7 @@ public class TermeloKliens implements Runnable {
     }
 
     public int RandomBetween(int min, int max) {
+
         return (int) ((Math.random() * (max - min)) + min);
     }
 
@@ -22,7 +23,7 @@ public class TermeloKliens implements Runnable {
     int sikerestermeles = 0;
     int sikertelentermeles = 0;
     int ossztermeles = 0;
-
+    boolean termeljek = true;
 
 
     public void run() {
@@ -34,7 +35,7 @@ public class TermeloKliens implements Runnable {
 
             toszerver.print("Hello szerver!" + "\r" + "\n");
             //System.out.println("Server: " + server);
-            while (! Thread.currentThread().isInterrupted()) {
+            while (termeljek == true) {
 
 
 
@@ -42,7 +43,7 @@ public class TermeloKliens implements Runnable {
 
 
 
-                toszerver.print("I Have Goddies" + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
+                toszerver.print("PUT PRODUCT: " + RandomBetween(1,100) + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
                 toszerver.flush();
                 //Thread.sleep(100); //majd randommal
 
@@ -52,14 +53,16 @@ public class TermeloKliens implements Runnable {
                     if(!szerversay.isEmpty()){
                         System.out.println("Server: " + szerversay);
                         //System.out.print(szerversay.length());
-                        if(szerversay.equals("prod+")){
+                        if(szerversay.equals("OK PRODUCT STORED")){
                             sikerestermeles = sikerestermeles +1;
                         }
-                        if(szerversay.equals("sok")){ //ha sokat termel akkor varnia kell
+                        if(szerversay.equals("NOPE PRODUCT REJECTED")){ //ha sokat termel akkor varnia kell
                             sikertelentermeles = sikertelentermeles +1;
                             Thread.sleep(250); //esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
                         }
-
+                        if(szerversay.equals("You produce to much...")){
+                            termeljek = false;
+                        }
 
 
                     }
@@ -71,13 +74,13 @@ public class TermeloKliens implements Runnable {
                 Thread.sleep(RandomBetween(minrandom,maxrandom));
             }
 
-
-
+            int osszkeres = sikertelentermeles +sikerestermeles;
+            System.out.println("Sikertelen/Sikeres keres: " + sikertelentermeles + "/" + sikerestermeles + " Osszes keres: "+ osszkeres);
 
         } catch (IOException | InterruptedException e) {
-            System.err.println("Nem sikerült kommunikállni a szerverrel");
+            System.err.println("Server unreachable");
         }finally {
-            System.out.println("Sikertelen/Sikeres keres: " + sikertelentermeles + "/" + sikerestermeles + " Osszes keres: "+sikertelentermeles +sikerestermeles);
+
             try{
                 if(clientSocket != null){
                     clientSocket.close();
