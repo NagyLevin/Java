@@ -25,6 +25,7 @@ public class FogyasztoKliens implements Runnable {
 
     boolean fogyaszsak = true;
 
+
     String isnumber = "\\d+";
     Pattern patterN = Pattern.compile(isnumber);
     protected static Vector<Integer> ProductsEaten = new Vector<Integer>();
@@ -119,7 +120,11 @@ public class FogyasztoKliens implements Runnable {
 
     public static void main(String[] args) {
         try {
-            new Thread(new FogyasztoKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
+            for (int i = 0; i < 4; i++) {
+                new Thread(new FogyasztoKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

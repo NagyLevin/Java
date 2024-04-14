@@ -97,7 +97,13 @@ public class TermeloKliens implements Runnable {
 
     public static void main(String[] args) {
         try {
-            new Thread(new TermeloKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
+
+            for (int i = 0; i < 3; i++) {
+                new Thread(new TermeloKliens("127.0.0.1")).start(); //ezen az ip címen probal majd csatlakozni
+            }
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
