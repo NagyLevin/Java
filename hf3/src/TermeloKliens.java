@@ -13,6 +13,12 @@ public class TermeloKliens implements Runnable {
         clientSocket = new Socket(host, TaroloSzerver.PORT_NUMBER);
     }
 
+    public int RandomBetween(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    int minrandom = 200;
+    int maxrandom = 500;
 
 
     public void run() {
@@ -36,20 +42,35 @@ public class TermeloKliens implements Runnable {
                 toszerver.flush();
                 //Thread.sleep(100); //majd randommal
 
-                    String szerversay = "";
+                    String szerversay = "111";
                     szerversay = fromszerver.readLine();
 
+                    if(!szerversay.isEmpty()){
+                        System.out.println("Server: " + szerversay);
+                        //System.out.print(szerversay.length());
+                        if(szerversay.equals("prod+")){
 
-                    System.out.println("Server: " + szerversay);
+                        }
+                        if(szerversay.equals("sok")){ //ha sokat termel akkor varnia kell
+
+                            Thread.sleep(250); //esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
+                        }
 
 
-                //serverOutput.flush();
+
+                    }
+
+
+
+
+
+                Thread.sleep(RandomBetween(minrandom,maxrandom));
             }
 
 
 
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.err.println("Nem sikerült kommunikállni a szerverrel");
         }finally {
             try{

@@ -16,7 +16,7 @@ public class Tarolas extends Thread {
 
 
     protected static Vector<Integer> Products = new Vector<Integer>(); //FiFo kell hogy legyen first in first out
-    protected static Integer maxprod = 2;
+    protected static Integer maxprod = 10;
     protected static Integer sokprod = 0;
 
     protected static Integer kevesprod = 0;
@@ -77,6 +77,7 @@ public class Tarolas extends Thread {
                     szerverout = "sok";
                     sokprod = sokprod + 1;
                     if (sokprod >= 3) {
+                        System.out.println("Kliens tul sokat termel");
                         sendLine("Túl sokat termelsz...");
                         return;
                     }
@@ -87,13 +88,15 @@ public class Tarolas extends Thread {
 
                     szerverout = "prod-";
                     Products.get(Products.size() - 1);
+                    Products.remove(Products.size() - 1);
                     kevesprod = 0;
 
 
                 } else if (Products.isEmpty() && expect("Give me goddies", clientLine)) {//különben nem kap
                     szerverout = "keves";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
                     kevesprod = kevesprod + 1;
-                    if (sokprod >= 3) {
+                    if (kevesprod >= 3) {
+                        System.out.println("Kliens tul sokat kér");
                         sendLine("Túl sokat kérsz...");
                         return;
                     }
