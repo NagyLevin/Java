@@ -76,7 +76,7 @@ public class Tarolas extends Thread {
                 } else if (Products.size() >= maxprod && expect("I Have Goddies", clientLine)) {
                     szerverout = "sok";
                     sokprod = sokprod + 1;
-                    if (sokprod >= 3) {
+                    if (sokprod >= 2) {
                         System.out.println("Kliens tul sokat termel");
                         sendLine("Túl sokat termelsz...");
                         return;

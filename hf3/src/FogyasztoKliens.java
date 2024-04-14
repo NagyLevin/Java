@@ -15,6 +15,10 @@ public class FogyasztoKliens implements Runnable {
     int minrandom = 300;
     int maxrandom = 500;
 
+    int sikeresfogyaszt = 0;
+    int osszkeres = 0;
+
+    int sikertelenfogaszt =0;
 
     public int RandomBetween(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
@@ -25,7 +29,7 @@ public class FogyasztoKliens implements Runnable {
     public void run() {
 
         try {
-            BufferedReader clientbeolvas = new BufferedReader(new InputStreamReader(System.in));                   // beolvas a client konzolárol
+
             BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
             PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
 
@@ -50,17 +54,18 @@ public class FogyasztoKliens implements Runnable {
                     System.out.println("Server: " + szerversay);
                     //System.out.print(szerversay.length());
 
-                    if(szerversay.equals("prod+")){
-
+                    if(szerversay.equals("prod-")){
+                        sikeresfogyaszt = sikeresfogyaszt +1;
                     }
-                    if(szerversay.equals("sok")){ //ha sokat termel akkor varnia kell
+                    if(szerversay.equals("keves")){ //ha sokat termel akkor varnia kell
 
+                        sikertelenfogaszt = sikeresfogyaszt +1;
                         Thread.sleep(RandomBetween(100,150));//esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
                     }
 
                 }
 
-
+                osszkeres = osszkeres +1;
                 Thread.sleep(RandomBetween(minrandom,maxrandom));
 
             }
@@ -71,6 +76,8 @@ public class FogyasztoKliens implements Runnable {
         } catch (IOException | InterruptedException e) {
             System.err.println("Nem sikerült kommunikállni a szerverrel");
         }finally {
+
+            System.out.println("Sikertelen/Sikeres keres: " + sikeresfogyaszt + "/" + sikertelenfogaszt + " Osszes keres: "+sikeresfogyaszt +sikertelenfogaszt);
             try{
                 if(clientSocket != null){
                     clientSocket.close();

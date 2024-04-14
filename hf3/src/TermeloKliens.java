@@ -19,12 +19,16 @@ public class TermeloKliens implements Runnable {
 
     int minrandom = 200;
     int maxrandom = 500;
+    int sikerestermeles = 0;
+    int sikertelentermeles = 0;
+    int ossztermeles = 0;
+
 
 
     public void run() {
 
         try {
-            BufferedReader clientbeolvas = new BufferedReader(new InputStreamReader(System.in));                   // beolvas a client konzolárol
+
             BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
             PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
 
@@ -49,10 +53,10 @@ public class TermeloKliens implements Runnable {
                         System.out.println("Server: " + szerversay);
                         //System.out.print(szerversay.length());
                         if(szerversay.equals("prod+")){
-
+                            sikerestermeles = sikerestermeles +1;
                         }
                         if(szerversay.equals("sok")){ //ha sokat termel akkor varnia kell
-
+                            sikertelentermeles = sikertelentermeles +1;
                             Thread.sleep(250); //esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
                         }
 
@@ -73,6 +77,7 @@ public class TermeloKliens implements Runnable {
         } catch (IOException | InterruptedException e) {
             System.err.println("Nem sikerült kommunikállni a szerverrel");
         }finally {
+            System.out.println("Sikertelen/Sikeres keres: " + sikertelentermeles + "/" + sikerestermeles + " Osszes keres: "+sikertelentermeles +sikerestermeles);
             try{
                 if(clientSocket != null){
                     clientSocket.close();
