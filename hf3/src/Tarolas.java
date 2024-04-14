@@ -55,13 +55,15 @@ public class Tarolas extends Thread {
 
         try {
 
-            sendLine("Hello Kliens!");
-            System.out.println("Hello Kliens!");
+            long ThreadId = Thread.currentThread().getId();
+            sendLine("Hello Kliens!" + "(" +ThreadId + ")");
+
+            //System.out.println("Hello Kliens!" + "(" +ThreadId + ")");
 
             while (true) {
 
                 String clientLine = clientReader.readLine();
-                String szerverout = "11";
+                String szerverout = "";
                 System.out.println("Kliens Mondta: " + clientLine);
 
 

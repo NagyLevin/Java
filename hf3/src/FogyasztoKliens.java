@@ -33,8 +33,8 @@ public class FogyasztoKliens implements Runnable {
             BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
             PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
 
-            //toszerver.print("Hello szerver!" + "\r" + "\n");
-            //System.out.println("Server: " + server);
+            toszerver.print("Hello szerver!" + "\r" + "\n");
+
             while (! Thread.currentThread().isInterrupted()) {
 
 
