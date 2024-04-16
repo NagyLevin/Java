@@ -3,15 +3,26 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class TaroloSzerver implements Runnable {
-    public static final int PORT_NUMBER = 13131;
+    public static final int PORT_NUMBER = 13131;    //port szama 10k felett
     protected ServerSocket serverSocket;
-    public TaroloSzerver() throws IOException {
-        serverSocket = new ServerSocket(PORT_NUMBER);           //a szerver socketje
+
+    /**
+     * szerver elindítása
+     *
+     * @throws RuntimeException ha nem sikerül elinditani
+     */
+    public TaroloSzerver() {
+        try {
+            serverSocket = new ServerSocket(PORT_NUMBER);           //a szerver socketje
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void close() throws IOException {
-        serverSocket.close();
-    }
+    /**
+     * ez a szerver viselkedesenek a fo resze, itt probal meg kommunikalni a klienssel, es itt hivja meg a terolashoz sükséges tarolo osztályt
+     *
+     */
 
     public void run() {
         try {
@@ -39,13 +50,16 @@ public class TaroloSzerver implements Runnable {
         System.out.println("BUSINESS IS DOWN");
     }
 
-    public static void main(String[] args) {
-        try {
-            new Thread(new TaroloSzerver()).start();    //a szerver szála
-            System.out.println("BUSINESS IS UP");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * szerver mainje, itt inditom el a szerver szálát
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+        new Thread(new TaroloSzerver()).start();    //a szerver szála
+        System.out.println("BUSINESS IS UP");
+
+
     }
 
 

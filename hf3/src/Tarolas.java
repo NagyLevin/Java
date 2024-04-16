@@ -18,25 +18,35 @@ public class Tarolas extends Thread {
 
 
     protected static Vector<Integer> Products = new Vector<Integer>(); //FiFo kell hogy legyen first in first out
-    protected static Integer maxprod = 10;
-    protected static Integer sokprod = 0;
+    protected static Integer maxprod = 10; //maximalis product mennyiseg amennyit meg fifosan tarolni tudunk
+    protected static Integer sokprod = 0;   //meri hogy hanyszor termelt a termelo tul sokat
 
+    protected static Integer kevesprod = 0; //meri hogy hanyszor kert a fogyaszto tul sokat
 
-    protected static Integer kevesprod = 0;
-
-    String beginnwith_put = "^PUT PRODUCT.*";
+    String beginnwith_put = "^PUT PRODUCT.*"; //megnezi, hogy mikor kezdodik put productal a termelo kerese
     Pattern pattern1 = Pattern.compile(beginnwith_put);
 
     String beginnwith_get = "^GET PRODUCT.*";
     Pattern pattern2 = Pattern.compile(beginnwith_get);
 
-    String isnumber = "\\d+";
+    String isnumber = "\\d+";   //ezzel vagom majd le a keres szam reszet, ami maga a product id
     Pattern patterN = Pattern.compile(isnumber);
 
+    /**
+     * itt adom hozza a product idjet a productok hoz, azert szinkronizalom, mert azt egyszerre tobb szal is el akarja majd erni
+     *
+     * @param prodid a product idje
+     */
     public synchronized void set(int prodid) {
         Products.add(prodid);
 
     }
+
+    /**
+     * itt adom vissza a fogyasztonak a products fifo legtetején lévő productot, azert szinkronizállom, mert egyszerre tobb szal is kerhet productot
+     *
+     * @return a product id jét adom vissza fifosan
+     */
     public synchronized int get() {
 
         int prodid = Products.get(Products.size() - 1);
@@ -46,18 +56,37 @@ public class Tarolas extends Thread {
     }
 
 
+    /**
+     * itt nyitom meg a klienssel valo kommunikaciohoz szükséges streameket
+     *
+     * @param clientSocket az adott kliens socketje
+     * @throws IOException
+     */
     public Tarolas(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   //reader a kommunikációhoz
         this.clientWriter = new PrintWriter(clientSocket.getOutputStream());    //writer a kommunikációhoz
     }
 
+
+    /**
+     * itt kuldok a kuldeni egy sort a kliensnek, fontos , hogy  "\r\n" ez ott legyen a vegen, mert ez jelzi, hogy el kellküldeni
+     *
+     * @param line
+     * @throws IOException
+     */
     protected void sendLine(String line) throws IOException {   //elküld egy sort a kliensnek
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
 
-    protected boolean expect(Matcher matcher,String clientLine) throws IOException {  //ellenorzi hogy a kliens jol vlaszolt-e
+    /**
+     *  itt nézem meg, hogy mit akar a kliens a szervertől
+     * @param matcher atadom neki a matchert
+     * @return visszaadja hogy false, ha nem talalja benne a matcherben megadott kriteriumot
+     * @throws IOException
+     */
+    protected boolean expect(Matcher matcher) throws IOException {  //ellenorzi hogy a kliens jol vlaszolt-e
         //sendLine("Mit akarsz tőlem?");
         //System.out.println("idáig jó?");
         //beker egy sort a klienstől
@@ -72,6 +101,11 @@ public class Tarolas extends Thread {
 
         return true;
     }
+
+    /**
+     * A szerver tarolojának fő része, itt történik a kommunikáció a kliensekkel
+     *
+     */
 
     public void run() {
         System.out.println("Klienssel kommunikáció indul");
@@ -93,7 +127,7 @@ public class Tarolas extends Thread {
 
                 //System.out.println("read után?");
                 Matcher matcherTermelo = pattern1.matcher(clientLine);
-                if (Products.size() < maxprod && expect(matcherTermelo, clientLine)) {
+                if (Products.size() < maxprod && expect(matcherTermelo)) {
 
                     Matcher matcherN = patterN.matcher(clientLine);
                     if(matcherN.find()){
@@ -107,7 +141,7 @@ public class Tarolas extends Thread {
                     //System.out.println("product felveve");
                     sokprod = 0;
 
-                } else if (Products.size() >= maxprod && expect(matcherTermelo, clientLine)) {
+                } else if (Products.size() >= maxprod && expect(matcherTermelo)) {
                     szerverout = "NOPE PRODUCT REJECTED";
                     sokprod = sokprod + 1;
                     if (sokprod >= 2) {
@@ -118,7 +152,7 @@ public class Tarolas extends Thread {
 
                 }
                 Matcher matcherFogyaszto = pattern2.matcher(clientLine);
-                if (!Products.isEmpty() && expect(matcherFogyaszto, clientLine)) {   //ha van product es helyesen ker a kliens
+                if (!Products.isEmpty() && expect(matcherFogyaszto)) {   //ha van product es helyesen ker a kliens
 
                     szerverout = "OK SENDING PRODUCT " + get();
 
@@ -126,7 +160,7 @@ public class Tarolas extends Thread {
                     kevesprod = 0;
 
 
-                } else if (Products.isEmpty() && expect(matcherFogyaszto, clientLine)) {//különben nem kap
+                } else if (Products.isEmpty() && expect(matcherFogyaszto)) {//különben nem kap
                     szerverout = "NOPE TRY AGAIN";       //esetleg lehet ugy onjavitova tenni, hogy akkor lassabban kereget, ha latja hogy keves van
                     kevesprod = kevesprod + 1;
                     if (kevesprod >= 3) {

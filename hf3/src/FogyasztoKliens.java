@@ -12,35 +12,56 @@ import java.util.regex.Pattern;
 public class FogyasztoKliens implements Runnable {
     protected Socket clientSocket;
 
+    /**
+     * uj socket létrehozása egy szálhoz
+     * @param host
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     public FogyasztoKliens(String host) throws UnknownHostException, IOException {
         clientSocket = new Socket(host, TaroloSzerver.PORT_NUMBER);
     }
-    int minrandom = 300;
-    int maxrandom = 500;
+    int minrandom = 300;    // minimális idő amit vár mielött fogyasztni akar
+    int maxrandom = 500;    //maximális idő amennyit vár mielött fogyasztani akar
 
-    int sikeresfogyaszt = 0;
-    int osszkeres = 0;
+    int sikeresfogyaszt = 0;    //számolja hogy hányszor tudott az adott kliens sikeresen fogyasztani
 
-    int sikertelenfogaszt =0;
+    int sikertelenfogaszt =0; //számolja hogy hanysor akart túl sokat fogyasztani
 
-    boolean fogyaszsak = true;
+    boolean fogyaszsak = true;  //a lent lévő while addig fut amíg a szerver azt nem mondja neki, hogy túl sokat fogyaszt
 
 
-    String isnumber = "\\d+";
+    String isnumber = "\\d+";   //ezzel tudom levágni a számot a szerver üzenetéből
     Pattern patterN = Pattern.compile(isnumber);
-    protected static Vector<Integer> ProductsEaten = new Vector<Integer>();
+    protected static Vector<Integer> ProductsEaten = new Vector<Integer>(); //itt tárolom el a megevett termékeket
 
+
+    /**
+     * A várakozási időt randomizállja
+     * @param min
+     * @param max
+     * @return visszaad egy értéket a min és a max param ok között
+     */
 
     public int RandomBetween(int min, int max) {
 
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    /**
+     * szinkornizállja a szálakat, hiszen egyszerre akár több szál is akarhat valamit belerakni a vektorba
+     * @param prodid a megevett termék id-je
+     */
     public synchronized void set(int prodid) {
         ProductsEaten.add(prodid);
 
     }
 
+    /**
+     * ez a fogyasztokliens fő része, itt kér uj terméket a szerveről
+     *
+     *
+     */
 
     public void run() {
 
@@ -94,7 +115,7 @@ public class FogyasztoKliens implements Runnable {
 
                 }
 
-                osszkeres = osszkeres +1;
+
                 Thread.sleep(RandomBetween(minrandom,maxrandom));
 
             }
@@ -121,6 +142,11 @@ public class FogyasztoKliens implements Runnable {
         }
 
     }
+
+    /**
+     * Fogyasztókliensek itt kezdődnek, én a demohoz 4 fogyasztót állitottam be, a for ciklus segítségével
+     * @param args
+     */
 
     public static void main(String[] args) {
         try {

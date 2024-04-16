@@ -9,28 +9,48 @@ import java.io.IOException;
 public class TermeloKliens implements Runnable {
     protected Socket clientSocket;
 
-    public TermeloKliens(String host) throws UnknownHostException, IOException {
+    /**
+     *  socket keszites
+     * @param host thread
+     * @throws IOException
+     */
+
+    public TermeloKliens(String host) throws IOException {
         clientSocket = new Socket(host, TaroloSzerver.PORT_NUMBER);
     }
+
+    /**
+     * Ad egy random szamot a ket ertek között ezt használom fel a varkozasi idő randomizálására
+     * @param min
+     * @param max
+     * @return visszaadok egy a két szám közözz lévő számot
+     */
 
     public int RandomBetween(int min, int max) {
 
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+
+    /**
+     * nem tudom hogy ezt kell e szinkronizállni, de a biztonság kedvéért ezt is beleraktam, hiszen ehhez is hozzáférhet több szál
+     * @return random szam visszaadása termekidnek 1-100 között
+     */
     public synchronized int getTermel() {
 
         return RandomBetween(1,100);
     }
 
-    int minrandom = 200;
-    int maxrandom = 500;
-    int sikerestermeles = 0;
-    int sikertelentermeles = 0;
-    int ossztermeles = 0;
-    boolean termeljek = true;
+    int minrandom = 200;    //min idő ami alatt termelhet
+    int maxrandom = 500;    //max idő ami alatt termelet
+    int sikerestermeles = 0;    //sikeres termelések száma
+    int sikertelentermeles = 0; //sikertelen termelések száma
+    boolean termeljek = true;   //addig megy a lenti while amíg a szerver azt nem mondja neki, hogy ne termeljen, mert túl sokat termelt
 
 
+    /**
+     * termelő fő része, itt kommunikáll a szerverrel, és itt adja át neki az elkészült productot
+     */
 
     public void run() {
 
@@ -100,6 +120,11 @@ public class TermeloKliens implements Runnable {
         }
 
     }
+
+    /**
+     * Termelő mainje, itt lehet több klienst beállitani a for ciklusban, én a teszt kedvéért 3 ra állitottam
+     * @param args
+     */
 
     public static void main(String[] args) {
         try {
