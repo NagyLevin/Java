@@ -36,6 +36,10 @@ public class FogyasztoKliens implements Runnable {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    public synchronized void set(int prodid) {
+        ProductsEaten.add(prodid);
+
+    }
 
 
     public void run() {
@@ -73,7 +77,7 @@ public class FogyasztoKliens implements Runnable {
 
                             //System.out.println("test: " + matcherN.group());
 
-                            ProductsEaten.add(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
+                            set(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
                         }
 
                         sikeresfogyaszt = sikeresfogyaszt +1;
@@ -83,7 +87,7 @@ public class FogyasztoKliens implements Runnable {
                         sikertelenfogaszt = sikertelenfogaszt +1;
                         Thread.sleep(RandomBetween(100,150));//esetleg megszorozva a sokak szamaval, hogy kissebb legyen az esély a megállásra
                     }
-                    if(szerversay.equals("You produce to much...")){
+                    if(szerversay.equals("You request to much...")){
                         fogyaszsak = false;
                     }
 

@@ -33,6 +33,18 @@ public class Tarolas extends Thread {
     String isnumber = "\\d+";
     Pattern patterN = Pattern.compile(isnumber);
 
+    public synchronized void set(int prodid) {
+        Products.add(prodid);
+
+    }
+    public synchronized int get() {
+
+        int prodid = Products.get(Products.size() - 1);
+        Products.remove(Products.size() - 1);
+
+        return prodid;
+    }
+
 
     public Tarolas(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
@@ -88,7 +100,7 @@ public class Tarolas extends Thread {
 
                         //System.out.println("test: " + matcherN.group());
 
-                        Products.add(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
+                       set(Integer.parseInt(matcherN.group())); //a vegerol levagja a szamot, es belerakja a products ba
                     }
 
                     szerverout = "OK PRODUCT STORED"; //uj produkt fel lett veve
@@ -108,9 +120,9 @@ public class Tarolas extends Thread {
                 Matcher matcherFogyaszto = pattern2.matcher(clientLine);
                 if (!Products.isEmpty() && expect(matcherFogyaszto, clientLine)) {   //ha van product es helyesen ker a kliens
 
-                    szerverout = "OK SENDING PRODUCT " + Products.get(Products.size() - 1);
+                    szerverout = "OK SENDING PRODUCT " + get();
 
-                    Products.remove(Products.size() - 1);
+
                     kevesprod = 0;
 
 

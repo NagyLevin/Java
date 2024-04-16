@@ -18,12 +18,18 @@ public class TermeloKliens implements Runnable {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    public synchronized int getTermel() {
+
+        return RandomBetween(1,100);
+    }
+
     int minrandom = 200;
     int maxrandom = 500;
     int sikerestermeles = 0;
     int sikertelentermeles = 0;
     int ossztermeles = 0;
     boolean termeljek = true;
+
 
 
     public void run() {
@@ -43,7 +49,7 @@ public class TermeloKliens implements Runnable {
 
 
 
-                toszerver.print("PUT PRODUCT: " + RandomBetween(1,100) + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
+                toszerver.print("PUT PRODUCT: " + getTermel() + "\r" + "\n");  //a szervernek ezt az üzenetet küldöm // \r \n el kuldom el
                 toszerver.flush();
                 //Thread.sleep(100); //majd randommal
 
