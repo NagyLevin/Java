@@ -84,7 +84,7 @@ public class FogyasztoKliens implements Runnable {
                 toszerver.flush();
                 //Thread.sleep(100); //majd randommal
 
-                String szerversay = "111";
+                String szerversay = "";
                 szerversay = fromszerver.readLine();
 
                 if(!szerversay.isEmpty()){
