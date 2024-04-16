@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.net.UnknownHostException;
 import java.io.IOException;
 
+
+
 public class TermeloKliens implements Runnable {
     protected Socket clientSocket;
 

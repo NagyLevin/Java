@@ -10,6 +10,24 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * suti obijektum amit el kell tarolni
+ */
+class Suti {
+    private int _sutiszam;
+
+    public Suti(int sutiszam){
+        _sutiszam = sutiszam;
+
+    }
+    public int getsutiszam(){
+
+        return _sutiszam;
+    }
+
+}
+
+
 public class Tarolas extends Thread {
 
     protected Socket clientSocket;
@@ -17,7 +35,7 @@ public class Tarolas extends Thread {
     protected PrintWriter clientWriter;
 
 
-    protected static Vector<Integer> Products = new Vector<Integer>(); //FiFo kell hogy legyen first in first out
+    protected static Vector<Suti> Products = new Vector<Suti>(); //FiFo kell hogy legyen first in first out
     protected static Integer maxprod = 10; //maximalis product mennyiseg amennyit meg fifosan tarolni tudunk
     protected static Integer sokprod = 0;   //meri hogy hanyszor termelt a termelo tul sokat
 
@@ -38,7 +56,9 @@ public class Tarolas extends Thread {
      * @param prodid a product idje
      */
     public synchronized void set(int prodid) {
-        Products.add(prodid);
+
+        Suti suti = new Suti(prodid);
+        Products.add(suti);
 
     }
 
@@ -49,7 +69,9 @@ public class Tarolas extends Thread {
      */
     public synchronized int get() {
 
-        int prodid = Products.get(Products.size() - 1);
+        Suti suti = Products.get(Products.size() - 1);
+        int prodid = suti.getsutiszam();
+
         Products.remove(Products.size() - 1);
 
         return prodid;
@@ -101,6 +123,9 @@ public class Tarolas extends Thread {
 
         return true;
     }
+
+
+
 
     /**
      * A szerver tarolojának fő része, itt történik a kommunikáció a kliensekkel

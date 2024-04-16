@@ -9,8 +9,23 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+
 public class FogyasztoKliens implements Runnable {
     protected Socket clientSocket;
+
+    /**
+     * itt van a suti obijektum a fogyasztoi oldalon
+     */
+    class Suti {
+        private int _sutiszam;
+
+        public Suti(int sutiszam){
+            _sutiszam = sutiszam;
+
+        }
+
+    }
 
     /**
      * uj socket létrehozása egy szálhoz
@@ -33,7 +48,7 @@ public class FogyasztoKliens implements Runnable {
 
     String isnumber = "\\d+";   //ezzel tudom levágni a számot a szerver üzenetéből
     Pattern patterN = Pattern.compile(isnumber);
-    protected static Vector<Integer> ProductsEaten = new Vector<Integer>(); //itt tárolom el a megevett termékeket
+    protected static Vector<Suti> ProductsEaten = new Vector<Suti>(); //itt tárolom el a megevett termékeket
 
 
     /**
@@ -53,7 +68,9 @@ public class FogyasztoKliens implements Runnable {
      * @param prodid a megevett termék id-je
      */
     public synchronized void set(int prodid) {
-        ProductsEaten.add(prodid);
+
+        Suti suti = new Suti(prodid);
+        ProductsEaten.add(suti);
 
     }
 
