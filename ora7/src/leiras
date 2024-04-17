@@ -1,0 +1,24 @@
+Felső korlát (extends)
+Például olyan listát szeretnénk átvenni, amelyben szám tárolódik (List<Integer>, List<Double>, stb).
+public void printList(List<Number> l) { } // nem jó
+public void printList(List<? extends Number> l) { }
+Alsó korlát (super)
+Például bármilyen listát átveszünk, amelyben Integer tárolódhat, akár List<Number>, vagy List<Object>.
+public void printList(List<Integer> l) { } // nem jó
+public void printList(List<? super  Integer> l) { }
+
+
+3.1. Comparator
+Egy Comparator interfészt megvalósító osztály az két azonos típusú objektum összehasonlítására szolgál.
+
+A compare() metódus viselkedése azonos a korábban bemutatott compareTo() metódussal. Felmerülhet a kérdés, hogy minek van ebből kétféle?
+
+A Complarable osztály saját maga definiálja az összehasonlításhoz a függvényt. Ehhez egyféle algoritmust adhat meg. (Egy szempont szerint, vagy sorrendben határozza meg, hogy ki a nagyobb.
+"Külső" Comparator több is írható ugyanarra a típusra, és mindig azt használjuk, amelyikre éppen szükségünk van.
+Emlékezzünk a dátumok radix rendezésére.
+
+4. Stream API
+4.1. Map és Reduce dióhéjban
+A map függvény segítségével műveleteket tudunk elvégezni a stream elemein, egyesével. Tehát minden elemhez, hozzárendelünk egy értéket és azon dolgozunk tovább. Természetesen lehet előtte szűrni, rendezni, stb.
+
+A reduce függvény pedig, valamilyen összevonást hajt végre. Ilyen volt a count az előző példában, amely a teljes streamet redukálja egyetlen értékre. Lehet más műveletet is végrehajtani. A következő példában a streamet a String.concat() függvénye segítségével egyetlen karakterlánccá fűzzük össze:
