@@ -1,0 +1,10 @@
+Felső korlát (extends)
+Például olyan listát szeretnénk átvenni, amelyben szám tárolódik (List<Integer>, List<Double>, stb).
+public void printList(List<Number> l) { } // nem jó
+public void printList(List<? extends Number> l) { }
+Alsó korlát (super)
+Például bármilyen listát átveszünk, amelyben Integer tárolódhat, akár List<Number>, vagy List<Object>.
+public void printList(List<Integer> l) { } // nem jó
+public void printList(List<? super  Integer> l) { }
+
+
