@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -56,8 +57,45 @@ public class Main {
         processObjectList(intList); //fordítási hiba
         processWildcardList(intList);
         */
+        /*
+        Iterable<T> list = new ArrayList<T>;
+        for (T t : list) {
+            t.doSomething();
+        }
+        */
+        //foreach
+        /*
+        Collection<T> collection = ...;
+        Iterator<T> iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            T element = iterator.next();
+            if (removalCheck(element)) {
+                iterator.remove();
+            }
+          }
+*/
+        //nincsen túlterhelés
 
 
+        //Lehetőségünk van a szűrés, rendezés, stb. eredményét újra valamilyen collectionbe tenni. Az alábbi példa a lista elemei közül azt tartja meg, amely tartalmaz "a" karaktert. A szűrt streamben levő stringeket kigyűjti egy új ArrayList példányba.
+
+        List<String> l = new ArrayList<>();
+        l.add("test1");
+        l.add("test2");
+        l.add("test3");
+        l.add("test4");
+        ArrayList<String> a = l.stream()
+                .distinct()
+                .filter(e -> e.contains("2"))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        a.stream().forEach(e->System.out.println(e));
+        //A szűréshez pedig lehetséges külső függvényt is megadni:
+
+       // boolean pontravegzodik = se.stream().anyMatch(str -> str.endsWith("."));
+
+
+        //HA STREAMET HASZNÁLSZ AKKOR AZ OBIJEKTUMOT NEM TUDOD/AKAROD KÖZBEN MÓDOSITANI
 
     }
 }
