@@ -1,8 +1,8 @@
-module com.example.nagyfeladat {
+module DrawGame.GUI {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens com.example.nagyfeladat to javafx.fxml;
-    exports com.example.nagyfeladat;
+    opens DrawGame.GUI to javafx.fxml;
+    exports DrawGame.GUI;
 }
