@@ -20,7 +20,7 @@ import java.util.Random;
 public class Lobby extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
-    public void events(Canvas canvas,GraphicsContext gc,Scene scene){   //eventek egy helyre összegyüjtve
+    public void events(Canvas canvas,GraphicsContext gc,Scene scene, StackPane sp){   //eventek egy helyre összegyüjtve
 
         scene.setOnKeyPressed(event -> {
 
@@ -30,7 +30,10 @@ public class Lobby extends Application {
                 Platform.exit();
 
             }
+            if (event.getCode() == KeyCode.B) { //b megnyomasara uj jatekos nev ideglenesen
 
+                createbutton(sp,"tesztbutton");
+            }
 
         });
 
@@ -46,6 +49,16 @@ public class Lobby extends Application {
     }
 
 
+    private void createbutton(StackPane sp, String nev) {
+        Button gomb = new Button(nev);
+
+
+        sp.getChildren().add(gomb);
+
+
+        StackPane.setMargin(gomb, new Insets(0,RandomBetween(-1*XX+50,XX-50) ,RandomBetween(-1*YY+50,YY-50) ,0 )); //le jobbra fel balra
+
+    }
 
 
     @Override
@@ -73,7 +86,7 @@ public class Lobby extends Application {
 
         szovegdoboz.setEditable(false);
         */
-        Button gomb = new Button("Test");
+
 
 
 
@@ -86,8 +99,6 @@ public class Lobby extends Application {
         SP.getChildren().add(canvas);//breakom legfelülre
         //SP.getChildren().add(szovegdoboz);//breakom legfelülre
 
-        SP.getChildren().add(gomb);
-        StackPane.setMargin(gomb, new Insets(RandomBetween(0,XX)/2, RandomBetween(0,XX)/2, RandomBetween(0,XX)/2, RandomBetween(0,XX)/2)); //le jobbra fel balra
 
 
 
@@ -96,7 +107,7 @@ public class Lobby extends Application {
 
 
 
-        events(canvas,gc,scene); //eventek futtatasa
+        events(canvas,gc,scene,SP); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);
