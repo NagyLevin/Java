@@ -1,4 +1,110 @@
 package DrawGame.GUI;
 
-public class Lobby {
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.Random;
+
+
+public class Lobby extends Application {
+    private final int XX = 900;     //golbális méretek
+    private final int YY = 600;
+    public void events(Canvas canvas,GraphicsContext gc,Scene scene){   //eventek egy helyre összegyüjtve
+
+        scene.setOnKeyPressed(event -> {
+
+
+
+            if (event.getCode() == KeyCode.ESCAPE) {    //egyszerübb kilépés, lásd flugigraphics
+                Platform.exit();
+
+            }
+
+
+        });
+
+
+    }
+
+    public int RandomBetween(int min, int max){ //random by https://stackoverflow.com/questions/5271598/java-generate-random-number-between-two-given-values
+        Random r = new Random();
+
+        int result = r.nextInt(max-min) + min;
+
+        return result;
+    }
+
+
+
+
+    @Override
+    public void start(Stage Lobby) {
+        //Csinálok egy Canvast
+        Canvas canvas = new Canvas(XX, YY);
+
+        //Grafikus felület a canvashoz
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        //beallitom hogy milyen szinre akarom festeni
+        gc.setFill(Color.rgb(200,255,200));
+
+        //kiszinezem vele a kepernyöt teljesen
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        /*
+        TextField szovegdoboz = new TextField();
+        szovegdoboz.setPromptText("Teszt");
+        szovegdoboz.setLayoutX(XX/2);
+        szovegdoboz.setLayoutX(YY/2);
+        //szovegdoboz.setPrefSize(10, 10);
+        //szovegdoboz.setPrefWidth(100);
+        szovegdoboz.autosize();
+
+        szovegdoboz.setEditable(false);
+        */
+        Button gomb = new Button("Test");
+
+
+
+        //gomb.setLayoutX(RandomBetween(0,XX));
+        //gomb.setLayoutY(RandomBetween(0,YY));
+
+
+
+        StackPane SP = new StackPane();  //itt tarolom el a canvasz
+        SP.getChildren().add(canvas);//breakom legfelülre
+        //SP.getChildren().add(szovegdoboz);//breakom legfelülre
+
+        SP.getChildren().add(gomb);
+        StackPane.setMargin(gomb, new Insets(RandomBetween(0,XX)/2, RandomBetween(0,XX)/2, RandomBetween(0,XX)/2, RandomBetween(0,XX)/2)); //le jobbra fel balra
+
+
+
+        // Letrehozom az ablakot
+        Scene scene = new Scene(SP, XX, YY);
+
+
+
+        events(canvas,gc,scene); //eventek futtatasa
+        // ablak kirajzolasa ez keruljon a vegere
+
+        Lobby.setScene(scene);
+        Lobby.setTitle("GUI test");
+        Lobby.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
