@@ -21,8 +21,8 @@ public class Main extends Application {
     //new BorderPaneStage();
     //new VBoxStage();
     //new FlowPaneStage();
-    //new GridPaneStage();
-    new ComplexLayoutStage();
+    new GridPaneStage();
+    //new ComplexLayoutStage();
     //new AnchorPaneLayout();
 
     //primaryStage.show();

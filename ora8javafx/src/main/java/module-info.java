@@ -7,6 +7,10 @@ module java {
     exports org.example.ora8javafx;
     exports org.example.ora8javafx.demok;
     exports layouts;
+    exports FXML;
+    exports Examplevent;
+    exports EventFilters;
+    exports FxThreaddig;
 
 
 }

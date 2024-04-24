@@ -39,6 +39,13 @@ public class HelloApplication extends Application {
 //figyelj, hogy minek hol állitod be az elhelyezkedeset
 //szülö befolyásolja a gyereket, gyerek a szulot, last szelesseg
 //gridbe bele a flow planet akár
+//guis alkokhoz SCENEBUILDER APP
+//mause event key event touch event
+//nem mindegy hogy event listener vagy filter
+//kep be kiimportalas az egyik példában
+//Helyette létre kell hozni egy Runnable objektumot, aminek a run() metódusa elvégzi a GUI állapotmódosítását, és ezt kell a Platform.runLater() utasítással meghívni. Ekkor a módosítást a JAT szál fogja végrehajtani, tehát a szabály teljesül.
+//Tetszőleges kódban a Platform.isFxApplicationThread() megadja, hogy a JAT szál futtatja-e az adott kódot. Észrevehető, hogy ez már a GUI inicializálásakor is teljesül, hiszen az Application.start() a JAT szálon hívódik meg.
+//EZZEL TUDOM MEGNÉZNI, HOGY A JAT SZÁLON VAGYOK-e
 
 
 //minden elem node ként létezik

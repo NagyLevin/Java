@@ -2,6 +2,7 @@ package DrawGame.GUI;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -13,6 +14,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -22,6 +25,8 @@ public class Lobby extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
     public void events(Canvas canvas,GraphicsContext gc,Scene scene, StackPane sp){   //eventek egy helyre összegyüjtve
+
+        //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
         scene.setOnKeyPressed(event -> {
 
@@ -34,6 +39,7 @@ public class Lobby extends Application {
             if (event.getCode() == KeyCode.B) { //b megnyomasara uj jatekos nev ideglenesen
 
                 createbutton(sp,"TesztFelirat");
+                //esetleg valahogy ugy rakd, hogy egy gridben kozepen van a cim körülötte meg a nevek
 
 
             }
@@ -56,6 +62,7 @@ public class Lobby extends Application {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(0,180));
+        szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
         sp.getChildren().add(szoveg);
 
 

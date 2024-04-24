@@ -13,9 +13,17 @@ public class BorderPaneStage extends Stage {
     Button top = new Button("Top");
     root.setTop(top);
     BorderPane.setAlignment(top, Pos.CENTER);
-    root.setRight(new Button("Right"));
+
+    Button right = new Button("Top");
+    root.setRight(right);
+    BorderPane.setAlignment(right, Pos.CENTER);
+
     root.setLeft(new Button("Left"));
+    BorderPane.setAlignment(top, Pos.CENTER);
+
     root.setCenter(new Button("Center"));
+    BorderPane.setAlignment(top, Pos.CENTER);
+
     Scene scene = new Scene(root,200,200);
     setScene(scene);
     show();
