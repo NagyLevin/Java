@@ -1,0 +1,25 @@
+2.2. Alapvető Paneltípusok
+Group
+nem rendezi el a gyerekeit, azok mérete a preferált méretük lesz
+alakja felveszi a gyerekeinek a befoglaló téglalapját (nem átméretezhető)
+transzformációk alkalmazhatók rá, ezek az összes gyerekére hatni fognak
+FlowPane
+sor-, vagy oszlopfolytonosan helyezi el a gyerekeit; azok mérete a preferált méret lesz
+közöttük vízszintesen és függőlegesen távolság adható meg
+HBox, VBox
+vízszintesen, illetve függőlegesen helyezi el a gyerekeit
+ebben az irányban a preferált méretükre méretezi őket
+a hgrow és vgrow tulajdonságokkal lehet szabályozni a fennmaradó hely kitöltöttségét
+a másik irány mentén alapértelmezetten megpróbálja a saját méretére méretezni őket
+AnchorPane
+a gyerekeinek meg lehet adni oldalaktól való távolságot
+ha két ellentétes oldaltól adunk meg távolságot, akkor át is méretezi a gyereket
+GridPane
+egy táblázatban helyezi el a gyerekeit; egy akár több cellát is elfoglalhat
+alapértelmezetten a tartalom határozza meg a sorok és az oszlopok méretét
+felül lehet írni ColumnConstraints és RowConstraints objektumokkal
+BorderPane
+öt helyre tud gyereket elhelyezni: felülre, alulra, balra, jobbra, középre
+alul és felül a gyerekek a preferált magasságukat kapják, és vízszintesen kiterjednek a panel széléig
+a jobboldali és baloldali gyerekek a preferált szélességüket kapják, és függőlegesen elfoglalják a felső és az alsó gyerek közötti helyet
+a középső kapja a többi helyet
