@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -63,10 +64,12 @@ public class Lobby extends Application {
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(0,180));
         szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
+        szoveg.setTextFill(Color.rgb(RandomBetween(0,254),RandomBetween(0,254),RandomBetween(0,254)));
         sp.getChildren().add(szoveg);
 
 
-        StackPane.setMargin(szoveg, new Insets(0,RandomBetween(-1*XX+50,XX-50) ,RandomBetween(-1*YY+50,YY-50) ,0 )); //le jobbra fel balra
+        //StackPane.setMargin(szoveg, new Insets(0,RandomBetween(-1*XX+100,XX-200) ,RandomBetween(-1*YY+100,YY-100) ,0 )); //le jobbra fel balra
+        StackPane.setMargin(szoveg, new Insets(0,RandomBetween(-1*XX+150,XX-150) ,RandomBetween(-1*YY+700,YY-100) ,0 )); //le jobbra fel balra
 
 
     }
@@ -86,34 +89,28 @@ public class Lobby extends Application {
         //kiszinezem vele a kepernyöt teljesen
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        /*
-        TextField szovegdoboz = new TextField();
-        szovegdoboz.setPromptText("Teszt");
-        szovegdoboz.setLayoutX(XX/2);
-        szovegdoboz.setLayoutX(YY/2);
-        //szovegdoboz.setPrefSize(10, 10);
-        //szovegdoboz.setPrefWidth(100);
-        szovegdoboz.autosize();
-
-        szovegdoboz.setEditable(false);
-        */
+        Label cim = new Label("Drawable");
+        cim.setFont(Font.font("ComicSans", FontWeight.BOLD,100));
+        cim.setTextFill(Color.rgb(200,0,0));
 
 
-
-
-        //gomb.setLayoutX(RandomBetween(0,XX));
-        //gomb.setLayoutY(RandomBetween(0,YY));
+        Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
+        Button StartGomb = new Button("Start");
+        StartGomb.setFont(startgombfont);
 
 
 
         StackPane SP = new StackPane();  //itt tarolom el a canvasz
         SP.getChildren().add(canvas);//breakom legfelülre
-        //SP.getChildren().add(szovegdoboz);//breakom legfelülre
+        SP.getChildren().add(cim);
+        SP.getChildren().add(StartGomb);
+        StackPane.setMargin(cim, new Insets(0,0 ,-1*YY*0.3 ,0 )); //közepre be a cimet
+        StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
 
 
 
 
-        // Letrehozom az ablakot
+        // Scene az ablakok tartalma
         Scene scene = new Scene(SP, XX, YY);
 
 
