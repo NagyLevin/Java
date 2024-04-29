@@ -16,6 +16,12 @@ public class Matrix {
         return matrix[i][j];
     }
 
+    public void matrixstore(int i,int j,int value){
+        matrix[i][j] = value;
+
+
+    }
+
     public static void main(String[] args) {
 
 

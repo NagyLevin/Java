@@ -2,7 +2,6 @@ package org.example.hf4;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,12 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+
 
 
 import java.io.IOException;
@@ -26,6 +21,27 @@ public class MatrixGUI extends Application {
 
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
+
+
+    public void getGridText(GridPane GP) {
+
+
+
+        for (int i = 0; i < GP.getRowCount(); i++) {
+
+            for (int j = 0; j < GP.getColumnCount(); j++) {
+
+                TextField tx = (TextField) GP.getChildren().get(i * GP.getColumnCount() + j); //atalakitom vissza textfielde
+
+                String text = tx.getText();
+
+
+                System.out.println("sor " + i + ", oszlop " + j + "szoveg: " + text);
+
+            }
+        }
+    }
+
 
     public void fillmatrix(GridPane GP,boolean iseditable){
 
@@ -119,8 +135,10 @@ public class MatrixGUI extends Application {
 
 
 
+        //TextField tx = new TextField("aaa");//valahogy igy kellene informaciot kinyerni
+        //System.out.println(tx.getCharacters());
 
-
+        getGridText(InnerGMatrix1);
 
         Scene scene = new Scene(outerGrid);
 
@@ -129,7 +147,7 @@ public class MatrixGUI extends Application {
 
 
         GUI.setScene(scene);
-        GUI.setTitle("GUI test");
+        GUI.setTitle("Matrix Calc");
         GUI.show();
 
     }
