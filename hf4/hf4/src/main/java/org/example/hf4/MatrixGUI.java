@@ -26,7 +26,7 @@ public class MatrixGUI extends Application {
     private Matrix matrix1 = new Matrix(3,3);
     private Matrix matrix2 = new Matrix(3,3);
     public static Matrix matrixSol = new Matrix(3,3);   //static, hogy minden szálról el lehessen érni
-
+    static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
 
     public synchronized void setGridText(int i,int j,int value, GridPane GP) throws InterruptedException {
 
@@ -69,7 +69,7 @@ public class MatrixGUI extends Application {
     }
 
 
-    public void fillmatrix(GridPane GP,boolean iseditable){
+    public synchronized void fillmatrix(GridPane GP,boolean iseditable){
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -104,15 +104,24 @@ public class MatrixGUI extends Application {
 
         //System.out.printf("Ez a updatematrixos");
         //matrixSol.printM();
+        Platform.runLater(() -> {
 
+            try {
+                updateSolGui();
+                //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
     }//itt meg jo a behely
 
-    public synchronized void updateSolGui(GridPane gp) throws InterruptedException {
+    public synchronized void updateSolGui( ) throws InterruptedException {
         for (int i = 0; i < matrixSol.MrowLength(); i++) {
             for (int j = 0; j < matrixSol.MColLength(); j++) {
-                setGridText(i,j,matrixSol.matrixshow(j,i),gp);
+                setGridText(i,j,matrixSol.matrixshow(j,i),InnerGMatrix3);
 
                 System.out.println(matrixSol.matrixshow(i,j));
             }
@@ -159,7 +168,7 @@ public class MatrixGUI extends Application {
 
         fillmatrix(InnerGMatrix2,true);
 
-        GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
+
         InnerGMatrix3.setHgap(3);
         InnerGMatrix3.setVgap(3);
 
@@ -198,16 +207,7 @@ public class MatrixGUI extends Application {
 
                 new Thread(new MatrixMulti(matrix1,matrix2)).start();
 
-                Platform.runLater(() -> {
 
-                    try {
-                        updateSolGui(InnerGMatrix3);
-                        //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
-
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
                 //matrixSol.printM();
 
                 //matrixSol.replacematrix(  MatrixMulti());

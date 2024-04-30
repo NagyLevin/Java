@@ -62,7 +62,7 @@ public class MatrixMulti implements Runnable {
                     */
 
                     Mgui.UpdateSolMatrix(i,j,sum);
-                    //Thread.sleep(250); //alvas
+                    Thread.sleep(250); //alvas
                     //mo[i][j] = sum;
                 }
             }
