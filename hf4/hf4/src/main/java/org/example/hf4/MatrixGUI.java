@@ -27,17 +27,18 @@ public class MatrixGUI extends Application {
     private Matrix matrixSol = new Matrix(3,3);
 
 
-    public void setGridText(int i,int j,int value, GridPane GP){
+    public synchronized void setGridText(int i,int j,int value, GridPane GP){
 
         TextField tx = new TextField(""+value);
-       // (TextField) GP.getChildren().get(i * GP.getColumnCount() + j) = tx;
+        //System.out.printf("Updated grid");
         GP.add(tx,i,j);
+
 
 
     }
 
 
-    public int[][] getGridText(GridPane GP) throws Exception {
+    public synchronized int[][] getGridText(GridPane GP) throws Exception {
 
         int tenpnatrix[][] = new int[GP.getRowCount()][GP.getColumnCount()];
         String regex = "[0-9]+";
@@ -96,9 +97,11 @@ public class MatrixGUI extends Application {
         });
     }
 
-    public void UpdateSolMatrix(int i, int j, int value){
+    public synchronized void UpdateSolMatrix(int i, int j, int value){
         matrixSol.matrixstore(i,j,value);
-
+        //System.out.printf("Ez a updatematrixos");
+        //matrixSol.printM();
+       //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
     }
 
 
@@ -173,19 +176,21 @@ public class MatrixGUI extends Application {
 
 
             try {
-                new Thread(new MatrixMulti(matrix1,matrix2)).start();
-
-
                 matrix1.replacematrix(getGridText(InnerGMatrix1));
                 matrix2.replacematrix(getGridText(InnerGMatrix2));
                 matrixSol.replacematrix(getGridText(InnerGMatrix3));
+
+                new Thread(new MatrixMulti(matrix1,matrix2)).start();
+
+                //matrixSol.printM();
+
                 //matrixSol.replacematrix(  MatrixMulti());
                 //matrixSol.printM();
                 //meg nem szep
                 for (int i = 0; i < matrixSol.MrowLength(); i++) {
                     for (int j = 0; j < matrixSol.MColLength(); j++) {
                         setGridText(i,j,matrixSol.matrixshow(i,j),InnerGMatrix3);
-
+                        //System.out.println(matrixSol.matrixshow(i,j));
                     }
 
                 }

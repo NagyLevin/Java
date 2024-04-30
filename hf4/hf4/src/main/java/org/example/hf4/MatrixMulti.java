@@ -3,10 +3,11 @@ package org.example.hf4;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
-public class MatrixMulti extends Task<Double> {
+public class MatrixMulti implements Runnable {
 
     private Matrix _matrix1;
     private Matrix _matrix2;
+
 
 
     MatrixMulti(Matrix matrix1,Matrix matrix2){
@@ -16,18 +17,21 @@ public class MatrixMulti extends Task<Double> {
 
     }
 
+    @Override
+    public void run() {
+        //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
+        try {
+            MatrixMulti();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-    protected Double call() throws Exception {
-        System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
-        MatrixMulti();
-
-
-        return 0.0;
     }
 
 
     public void MatrixMulti() throws Exception {
-        MatrixGUI Mgui = null;
+
+        MatrixGUI Mgui = new MatrixGUI();
 
         int r1 = _matrix1.MrowLength();
         int c1 = _matrix1.MColLength();
@@ -50,7 +54,7 @@ public class MatrixMulti extends Task<Double> {
                         sum = sum +  _matrix1.matrixshow(i,k) * _matrix2.matrixshow(k,j);
 
                     }
-                    System.out.println(sum);
+                    //System.out.println(sum);
                     /*
                     Platform.runLater(new Runnable() {
 
@@ -67,7 +71,7 @@ public class MatrixMulti extends Task<Double> {
         }
 
 
-        System.out.println("vegiglefut?");
+       // System.out.println("vegiglefut?");
     }
 
 
