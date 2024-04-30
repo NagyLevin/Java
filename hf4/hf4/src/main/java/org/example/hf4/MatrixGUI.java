@@ -23,9 +23,10 @@ public class MatrixGUI extends Application {
     private final int YY = 600;
 
 
-    public void getGridText(GridPane GP) {
+    public int[][] getGridText(GridPane GP) throws Exception {
 
-
+        int tenpnatrix[][] = new int[GP.getRowCount()][GP.getColumnCount()];
+        String regex = "[0-9]+";
 
         for (int i = 0; i < GP.getRowCount(); i++) {
 
@@ -35,11 +36,20 @@ public class MatrixGUI extends Application {
 
                 String text = tx.getText();
 
+                if(text.length() > 0 && text.matches(regex)){
+                    tenpnatrix[i][j] = Integer.parseInt(text);
+                }else{
+                    throw new Exception("Hibas input a matrixban");
+                }
 
-                System.out.println("sor " + i + ", oszlop " + j + "szoveg: " + text);
+                //System.out.println("sor " + i + ", oszlop " + j + "szoveg: " + text);
 
             }
+
+
         }
+
+        return tenpnatrix;
     }
 
 
@@ -62,12 +72,19 @@ public class MatrixGUI extends Application {
 
 
     }
-    public void events(Scene sc, Button bt){
+    public void events(Scene sc, Button bt, Matrix matrix, GridPane GP){
         bt.setOnAction(event -> {
 
             System.out.println("megnyomtad a megsemmisito gombot :D");
+            try {
 
+                matrix.replacematrix(getGridText(GP));
+                matrix.printM();
+            } catch (Exception e) {
 
+                throw new RuntimeException(e);
+
+            }
 
 
         });
@@ -80,8 +97,13 @@ public class MatrixGUI extends Application {
         });
     }
 
+    public void UpdateGUIMatrix(){
+        //lecserelem az egesz eredmenymatrixot az uj eredmenymatrixra, de ugye szorzasonkent ezert ugy latszik, minthat cellanként menne
 
-    public void start(Stage GUI) throws IOException {
+
+    }
+
+    public void start(Stage GUI) throws Exception {
 
         //Csinálok egy Canvast
         Canvas canvas = new Canvas(XX, YY);
@@ -138,11 +160,20 @@ public class MatrixGUI extends Application {
         //TextField tx = new TextField("aaa");//valahogy igy kellene informaciot kinyerni
         //System.out.println(tx.getCharacters());
 
-        getGridText(InnerGMatrix1);
+
+        Matrix matrix1 = new Matrix(3,3);
+        Matrix matrix2 = new Matrix(3,3);
+        Matrix matrixSol = new Matrix(3,3);
+
+
+
 
         Scene scene = new Scene(outerGrid);
 
-        events(scene,Calcgomb);
+        events(scene,Calcgomb, matrix1,InnerGMatrix1);//egyik
+        events(scene,Calcgomb, matrix2,InnerGMatrix2);//masik
+        events(scene,Calcgomb, matrixSol,InnerGMatrix3);// megoldasok
+
 
 
 
