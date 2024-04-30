@@ -15,13 +15,13 @@ public class Matrix {
 
     }
 
-    public int matrixshow(int i,int j){
+    public synchronized int matrixshow(int i,int j){
 
 
         return _matrix[i][j];
     }
 
-    public void replacematrix(int[][] matrix){
+    public synchronized void replacematrix(int[][] matrix){
         if(_matrix.length == matrix.length && matrix[0].length == _matrix[0].length){
             _matrix = matrix;
         }else{
@@ -40,17 +40,17 @@ public class Matrix {
     }
 
 
-    public void matrixstore(int i,int j,int value){
+    public synchronized void matrixstore(int i,int j,int value){
         _matrix[i][j] = value;
 
 
     }
 
-    public int MrowLength(){
+    public synchronized int MrowLength(){
 
         return _matrix.length;
     }
-    public int MColLength(){
+    public synchronized int MColLength(){
 
         return _matrix[0].length;
     }

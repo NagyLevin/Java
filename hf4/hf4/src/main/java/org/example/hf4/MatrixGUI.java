@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -24,14 +25,14 @@ public class MatrixGUI extends Application {
 
     private Matrix matrix1 = new Matrix(3,3);
     private Matrix matrix2 = new Matrix(3,3);
-    private Matrix matrixSol = new Matrix(3,3);
+    public static Matrix matrixSol = new Matrix(3,3);   //static, hogy minden szálról el lehessen érni
 
 
-    public synchronized void setGridText(int i,int j,int value, GridPane GP){
+    public synchronized void setGridText(int i,int j,int value, GridPane GP) throws InterruptedException {
 
         TextField tx = new TextField(""+value);
         //System.out.printf("Updated grid");
-        GP.add(tx,i,j);
+        GP.add(tx,j,i);
 
 
 
@@ -98,12 +99,23 @@ public class MatrixGUI extends Application {
     }
 
     public synchronized void UpdateSolMatrix(int i, int j, int value){
-        matrixSol.matrixstore(i,j,value);
+        matrixSol.matrixstore(j,i,value);
         //System.out.printf("Ez a updatematrixos");
         //matrixSol.printM();
-       //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
-    }
+       System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
+    }//itt meg jo a behely
 
+    public synchronized void updateSolGui(GridPane gp) throws InterruptedException {
+        for (int i = 0; i < matrixSol.MrowLength(); i++) {
+            for (int j = 0; j < matrixSol.MColLength(); j++) {
+                setGridText(i,j,matrixSol.matrixshow(j,i),gp);
+
+                System.out.println(matrixSol.matrixshow(i,j));
+            }
+
+        }
+
+    }
 
 
     public void start(Stage GUI) throws Exception {
@@ -182,19 +194,13 @@ public class MatrixGUI extends Application {
 
                 new Thread(new MatrixMulti(matrix1,matrix2)).start();
 
+                updateSolGui(InnerGMatrix3);
+
                 //matrixSol.printM();
 
                 //matrixSol.replacematrix(  MatrixMulti());
                 //matrixSol.printM();
-                //meg nem szep
-                for (int i = 0; i < matrixSol.MrowLength(); i++) {
-                    for (int j = 0; j < matrixSol.MColLength(); j++) {
-                        setGridText(i,j,matrixSol.matrixshow(i,j),InnerGMatrix3);
-                        //System.out.println(matrixSol.matrixshow(i,j));
-                    }
 
-                }
-                //meg nem szep
 
 
 
@@ -203,6 +209,7 @@ public class MatrixGUI extends Application {
                 throw new RuntimeException(e);
 
             }
+
 
 
         });
