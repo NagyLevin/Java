@@ -22,6 +22,11 @@ public class MatrixGUI extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
 
+    private Matrix matrix1 = new Matrix(3,3);
+    private Matrix matrix2 = new Matrix(3,3);
+    private Matrix matrixSol = new Matrix(3,3);
+
+
     public void setGridText(int i,int j,int value, GridPane GP){
 
         TextField tx = new TextField(""+value);
@@ -66,7 +71,7 @@ public class MatrixGUI extends Application {
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
-                TextField tf = new TextField("0");//+i+j);
+                TextField tf = new TextField("10");//+i+j);
 
                 if(iseditable == false){
                     tf.setEditable(false); //ne lehessen beleirni
@@ -91,39 +96,12 @@ public class MatrixGUI extends Application {
         });
     }
 
-    public void UpdateGUIMatrix(){
-        //lecserelem az egesz eredmenymatrixot az uj eredmenymatrixra, de ugye szorzasonkent ezert ugy latszik, minthat cellanként menne
-
+    public void UpdateSolMatrix(int i, int j, int value){
+        matrixSol.matrixstore(i,j,value);
 
     }
 
-    public int[][] MatrixMulti(Matrix matrix1, Matrix matrix2) throws Exception {
-        int r1 = matrix1.MrowLength();
-        int c1 = matrix1.MColLength();
-        int r2 = matrix2.MrowLength();
-        int c2 = matrix2.MColLength();
 
-        int[][] mo = new int[r1][c2];
-        if (c1 == r2) {
-
-
-            for (int i = 0; i < r1; i++) {
-                for (int j = 0; j < c2; j++) {
-                    int sum = 0;
-                    for (int k = 0; k < c1; k++) {
-                        sum += matrix1.matrixshow(i,k) * matrix2.matrixshow(k,j);
-                    }
-                    mo[i][j] = sum;
-                }
-            }
-        }else {
-            throw new Exception("Matrixok dimenzioi nem egyeznek");
-        }
-
-
-
-        return mo;
-    }
 
     public void start(Stage GUI) throws Exception {
 
@@ -134,7 +112,7 @@ public class MatrixGUI extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //beallitom hogy milyen szinre akarom festeni
-        gc.setFill(Color.rgb(100,100,255));
+        //gc.setFill(Color.rgb(100,100,255));
 
         //kiszinezem vele a kepernyöt teljesen
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -183,25 +161,25 @@ public class MatrixGUI extends Application {
         //System.out.println(tx.getCharacters());
 
 
-        Matrix matrix1 = new Matrix(3,3);
-        Matrix matrix2 = new Matrix(3,3);
-        Matrix matrixSol = new Matrix(3,3);
+
 
 
 
 
         Scene scene = new Scene(outerGrid);
 
-        events(scene);//egyik
+        events(scene);
         Calcgomb.setOnAction(event -> {
 
-            //System.out.println("megnyomtad a megsemmisito gombot :D");
+
             try {
+                new Thread(new MatrixMulti(matrix1,matrix2)).start();
+
 
                 matrix1.replacematrix(getGridText(InnerGMatrix1));
                 matrix2.replacematrix(getGridText(InnerGMatrix2));
                 matrixSol.replacematrix(getGridText(InnerGMatrix3));
-                matrixSol.replacematrix(  MatrixMulti(matrix1,matrix2));
+                //matrixSol.replacematrix(  MatrixMulti());
                 //matrixSol.printM();
                 //meg nem szep
                 for (int i = 0; i < matrixSol.MrowLength(); i++) {
@@ -225,7 +203,6 @@ public class MatrixGUI extends Application {
         });
 
 
-        //szorzasfuggveny osztaly helyett
 
 
 

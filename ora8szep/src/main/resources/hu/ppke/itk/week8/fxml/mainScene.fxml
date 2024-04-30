@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hu.ppke.itk.week8.fxml.MainSceneController"
+            fx:id="root"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <MenuBar >
+        <Menu fx:id="mFile" text="File">
+            <MenuItem text="Exit" onAction="#exit"/>
+            <MenuItem text="Get alert" onAction="#alert"/>
+        </Menu>
+        <Menu fx:id="mJavaFX" text="JavaFX">
+            <MenuItem text="ExampleLoginMenu" onAction="#changePaneToLoginMenu"/>
+            <MenuItem text="ExampleWithCSS" onAction="#changePaneToCSS"/>
+        </Menu>
+    </MenuBar>
+
+    <Pane/>
+
+</VBox>
