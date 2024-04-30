@@ -22,8 +22,11 @@ public class MatrixGUI extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
 
-    public void setGridText(){
+    public void setGridText(int i,int j,int value, GridPane GP){
 
+        TextField tx = new TextField(""+value);
+       // (TextField) GP.getChildren().get(i * GP.getColumnCount() + j) = tx;
+        GP.add(tx,i,j);
 
 
     }
@@ -192,14 +195,24 @@ public class MatrixGUI extends Application {
         events(scene);//egyik
         Calcgomb.setOnAction(event -> {
 
-            System.out.println("megnyomtad a megsemmisito gombot :D");
+            //System.out.println("megnyomtad a megsemmisito gombot :D");
             try {
 
                 matrix1.replacematrix(getGridText(InnerGMatrix1));
                 matrix2.replacematrix(getGridText(InnerGMatrix2));
                 matrixSol.replacematrix(getGridText(InnerGMatrix3));
                 matrixSol.replacematrix(  MatrixMulti(matrix1,matrix2));
-                matrixSol.printM();
+                //matrixSol.printM();
+                //meg nem szep
+                for (int i = 0; i < matrixSol.MrowLength(); i++) {
+                    for (int j = 0; j < matrixSol.MColLength(); j++) {
+                        setGridText(i,j,matrixSol.matrixshow(i,j),InnerGMatrix3);
+
+                    }
+
+                }
+                //meg nem szep
+
 
 
             } catch (Exception e) {
