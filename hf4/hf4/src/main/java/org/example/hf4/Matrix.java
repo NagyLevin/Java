@@ -46,6 +46,16 @@ public class Matrix {
 
     }
 
+    public int MrowLength(){
+
+        return _matrix.length;
+    }
+    public int MColLength(){
+
+        return _matrix[0].length;
+    }
+
+
     public static void main(String[] args) {
 
 

@@ -22,6 +22,12 @@ public class MatrixGUI extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
 
+    public void setGridText(){
+
+
+
+    }
+
 
     public int[][] getGridText(GridPane GP) throws Exception {
 
@@ -57,7 +63,7 @@ public class MatrixGUI extends Application {
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
-                TextField tf = new TextField(""+i+j);
+                TextField tf = new TextField("0");//+i+j);
 
                 if(iseditable == false){
                     tf.setEditable(false); //ne lehessen beleirni
@@ -72,22 +78,7 @@ public class MatrixGUI extends Application {
 
 
     }
-    public void events(Scene sc, Button bt, Matrix matrix, GridPane GP){
-        bt.setOnAction(event -> {
-
-            System.out.println("megnyomtad a megsemmisito gombot :D");
-            try {
-
-                matrix.replacematrix(getGridText(GP));
-                matrix.printM();
-            } catch (Exception e) {
-
-                throw new RuntimeException(e);
-
-            }
-
-
-        });
+    public void events(Scene sc){
         sc.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {    //egyszerübb kilépés, lásd flugigraphics
                 Platform.exit();
@@ -101,6 +92,34 @@ public class MatrixGUI extends Application {
         //lecserelem az egesz eredmenymatrixot az uj eredmenymatrixra, de ugye szorzasonkent ezert ugy latszik, minthat cellanként menne
 
 
+    }
+
+    public int[][] MatrixMulti(Matrix matrix1, Matrix matrix2) throws Exception {
+        int r1 = matrix1.MrowLength();
+        int c1 = matrix1.MColLength();
+        int r2 = matrix2.MrowLength();
+        int c2 = matrix2.MColLength();
+
+        int[][] mo = new int[r1][c2];
+        if (c1 == r2) {
+
+
+            for (int i = 0; i < r1; i++) {
+                for (int j = 0; j < c2; j++) {
+                    int sum = 0;
+                    for (int k = 0; k < c1; k++) {
+                        sum += matrix1.matrixshow(i,k) * matrix2.matrixshow(k,j);
+                    }
+                    mo[i][j] = sum;
+                }
+            }
+        }else {
+            throw new Exception("Matrixok dimenzioi nem egyeznek");
+        }
+
+
+
+        return mo;
     }
 
     public void start(Stage GUI) throws Exception {
@@ -170,10 +189,30 @@ public class MatrixGUI extends Application {
 
         Scene scene = new Scene(outerGrid);
 
-        events(scene,Calcgomb, matrix1,InnerGMatrix1);//egyik
-        events(scene,Calcgomb, matrix2,InnerGMatrix2);//masik
-        events(scene,Calcgomb, matrixSol,InnerGMatrix3);// megoldasok
+        events(scene);//egyik
+        Calcgomb.setOnAction(event -> {
 
+            System.out.println("megnyomtad a megsemmisito gombot :D");
+            try {
+
+                matrix1.replacematrix(getGridText(InnerGMatrix1));
+                matrix2.replacematrix(getGridText(InnerGMatrix2));
+                matrixSol.replacematrix(getGridText(InnerGMatrix3));
+                matrixSol.replacematrix(  MatrixMulti(matrix1,matrix2));
+                matrixSol.printM();
+
+
+            } catch (Exception e) {
+
+                throw new RuntimeException(e);
+
+            }
+
+
+        });
+
+
+        //szorzasfuggveny osztaly helyett
 
 
 
