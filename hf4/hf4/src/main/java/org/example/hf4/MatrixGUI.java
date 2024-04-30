@@ -99,10 +99,14 @@ public class MatrixGUI extends Application {
     }
 
     public synchronized void UpdateSolMatrix(int i, int j, int value){
-        matrixSol.matrixstore(j,i,value);
+        //
+        matrixSol.matrixstore(j, i, value);
+
         //System.out.printf("Ez a updatematrixos");
         //matrixSol.printM();
-       System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
+
+
+
     }//itt meg jo a behely
 
     public synchronized void updateSolGui(GridPane gp) throws InterruptedException {
@@ -194,8 +198,16 @@ public class MatrixGUI extends Application {
 
                 new Thread(new MatrixMulti(matrix1,matrix2)).start();
 
-                updateSolGui(InnerGMatrix3);
+                Platform.runLater(() -> {
 
+                    try {
+                        updateSolGui(InnerGMatrix3);
+                        //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                 //matrixSol.printM();
 
                 //matrixSol.replacematrix(  MatrixMulti());
