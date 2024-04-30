@@ -7,7 +7,7 @@ public class MatrixMulti implements Runnable {
 
     private Matrix _matrix1;
     private Matrix _matrix2;
-
+    private int sleeptime = 500;
 
 
     MatrixMulti(Matrix matrix1,Matrix matrix2){
@@ -21,7 +21,10 @@ public class MatrixMulti implements Runnable {
     public void run() {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         try {
-            MatrixMulti();
+            //MatrixSor();
+            //MatrixOszlop();
+            MatrixFreeStyle();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +32,7 @@ public class MatrixMulti implements Runnable {
     }
 
 
-    public void MatrixMulti() throws Exception {
+    public void MatrixSor() throws Exception {
 
         MatrixGUI Mgui = new MatrixGUI();
 
@@ -62,7 +65,7 @@ public class MatrixMulti implements Runnable {
                     */
 
                     Mgui.UpdateSolMatrix(i,j,sum);
-                    Thread.sleep(250); //alvas
+                    Thread.sleep(sleeptime); //alvas
                     //mo[i][j] = sum;
                 }
             }
@@ -73,6 +76,83 @@ public class MatrixMulti implements Runnable {
 
        // System.out.println("vegiglefut?");
     }
+
+    public void MatrixOszlop() throws Exception {
+
+        MatrixGUI Mgui = new MatrixGUI();
+
+        int r1 = _matrix1.MrowLength();
+        int c1 = _matrix1.MColLength();
+        int r2 = _matrix2.MrowLength();
+        int c2 = _matrix2.MColLength();
+
+
+
+        if (c1 == r2) {
+
+
+
+            for (int j = 0; j < c2; j++) {
+                for (int i = 0; i < r1; i++) {
+                    int sum = 0;
+                    for (int k = 0; k < r2; k++) {
+                        sum = sum  + _matrix1.matrixshow(i,k) * _matrix1.matrixshow(k,j);
+                    }
+                    Mgui.UpdateSolMatrix(i,j,sum);
+                    Thread.sleep(sleeptime); //alvas
+                }
+            }
+
+        }else {
+            throw new Exception("Matrixok dimenzioi nem egyeznek");
+        }
+
+
+        // System.out.println("vegiglefut?");
+    }
+
+
+    public void MatrixFreeStyle() throws Exception {
+
+
+            MatrixGUI Mgui = new MatrixGUI();
+
+            int r1 = _matrix1.MrowLength();
+            int c1 = _matrix1.MColLength();
+            int r2 = _matrix2.MrowLength();
+            int c2 = _matrix2.MColLength();
+
+            if (c1 == r2) {
+
+                for (int j = 0; j < c2; j++) {
+                    //páros sorok
+                    for (int i = 0; i < r1; i += 2) {
+                        int sum = 0;
+                        for (int k = 0; k < r2; k++) {
+                            sum = sum + _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
+                        }
+                        Mgui.UpdateSolMatrix(i, j, sum);
+                        Thread.sleep(sleeptime);
+                    }
+                    //páratlan sorok
+                    for (int i = 1; i < r1; i += 2) {
+                        int sum = 0;
+                        for (int k = 0; k < r2; k++) {
+                            sum = sum + _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
+                        }
+                        Mgui.UpdateSolMatrix(i, j, sum);
+                        Thread.sleep(sleeptime);
+                    }
+                    //egyenkent mukszenek, de egyszerre nagyon furcsan nez ki... nezz majd ra legkozelebb
+
+                }
+            } else {
+                throw new Exception("Matrixok dimenzioi nem egyeznek");
+            }
+        }
+
+
+
 
 
 
