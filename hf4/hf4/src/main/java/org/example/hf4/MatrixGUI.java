@@ -111,12 +111,12 @@ public class MatrixGUI extends Application {
         fillmatrix(GP,true,matrix);
 
     }
-    public void ResiceStage(Stage stage, boolean w, boolean h, double mertek){
+    public void ResiceStage(Stage stage, boolean w, boolean h){
         if(w){
-            stage.setWidth(stage.getWidth() + mertek);
+            stage.setWidth(stage.getWidth()*1.1);
         }
         if(h){
-            stage.setHeight(stage.getHeight() + mertek);
+            stage.setHeight(stage.getHeight()*1.1);
         }
 
     }
@@ -132,8 +132,7 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChild);
 
             outergrid.add(InnerGMatrix1,0,1);
-            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
-            ResiceStage(stage,true,false,tx.getWidth());
+            ResiceStage(stage,true,false);
 
         });
         EM1y.setOnAction(event -> {
@@ -152,8 +151,7 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChildSol);
             outergrid.add(InnerGMatrix3,1,1);
 
-            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
-            ResiceStage(stage,false,true,tx.getWidth());
+            ResiceStage(stage,false,true);
 
         });
         EM2x.setOnAction(event -> {
@@ -172,8 +170,7 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChildSol);
             outergrid.add(InnerGMatrix3,1,1);
 
-            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
-            ResiceStage(stage,true,false,tx.getWidth());
+            ResiceStage(stage,true,false);
         });
         EM2y.setOnAction(event -> {
             expandmatrix(2, matrix2,InnerGMatrix2);//expand matrix1 in x dirrection
@@ -185,8 +182,8 @@ public class MatrixGUI extends Application {
 
             outergrid.add(InnerGMatrix2,1,0);
 
-            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
-            ResiceStage(stage,false,true,tx.getWidth());
+
+            ResiceStage(stage,false,true);
         });
         //sc.getWindow().setWidth(sc.getWidth() + 10);
 
