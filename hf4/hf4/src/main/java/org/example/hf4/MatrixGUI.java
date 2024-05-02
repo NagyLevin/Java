@@ -111,8 +111,18 @@ public class MatrixGUI extends Application {
         fillmatrix(GP,true,matrix);
 
     }
+    public void ResiceStage(Stage stage, boolean w, boolean h, double mertek){
+        if(w){
+            stage.setWidth(stage.getWidth() + mertek);
+        }
+        if(h){
+            stage.setHeight(stage.getHeight() + mertek);
+        }
 
-    public void events(Scene sc,Button Calcgomb,Button EM1x,Button EM1y,Button EM2x,Button EM2y,Button Reset,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane InnerGMatrix3,GridPane outergrid,Matrix matrix1,Matrix matrix2){
+    }
+
+
+    public void events(Scene sc,Button Calcgomb,Button EM1x,Button EM1y,Button EM2x,Button EM2y,Button Reset,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane InnerGMatrix3,GridPane outergrid,Matrix matrix1,Matrix matrix2,Stage stage){
         EM1x.setOnAction(event -> {
             expandmatrix(1, matrix1,InnerGMatrix1);//expand matrix1 in x dirrection
 
@@ -122,7 +132,8 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChild);
 
             outergrid.add(InnerGMatrix1,0,1);
-
+            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
+            ResiceStage(stage,true,false,tx.getWidth());
 
         });
         EM1y.setOnAction(event -> {
@@ -141,6 +152,9 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChildSol);
             outergrid.add(InnerGMatrix3,1,1);
 
+            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
+            ResiceStage(stage,false,true,tx.getWidth());
+
         });
         EM2x.setOnAction(event -> {
             expandmatrix(1, matrix2,InnerGMatrix2);//expand matrix1 in x dirrection
@@ -158,6 +172,8 @@ public class MatrixGUI extends Application {
             outergrid.getChildren().remove(indexOfChildSol);
             outergrid.add(InnerGMatrix3,1,1);
 
+            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
+            ResiceStage(stage,true,false,tx.getWidth());
         });
         EM2y.setOnAction(event -> {
             expandmatrix(2, matrix2,InnerGMatrix2);//expand matrix1 in x dirrection
@@ -169,6 +185,8 @@ public class MatrixGUI extends Application {
 
             outergrid.add(InnerGMatrix2,1,0);
 
+            TextField tx = (TextField) InnerGMatrix3.getChildren().get(0);
+            ResiceStage(stage,false,true,tx.getWidth());
         });
         //sc.getWindow().setWidth(sc.getWidth() + 10);
 
@@ -335,7 +353,7 @@ public class MatrixGUI extends Application {
 
         Scene scene = new Scene(outerGrid);
 
-        events(scene,Calcgomb,ExpandM1x,ExpandM1y,ExpandM2x,ExpandM2y,Reset, InnerGMatrix1,InnerGMatrix2,InnerGMatrix3,outerGrid,matrix1,matrix2);
+        events(scene,Calcgomb,ExpandM1x,ExpandM1y,ExpandM2x,ExpandM2y,Reset, InnerGMatrix1,InnerGMatrix2,InnerGMatrix3,outerGrid,matrix1,matrix2,GUI);
 
 
 
