@@ -136,10 +136,10 @@ public class MatrixGUI extends Application {
             outergrid.add(InnerGMatrix1,0,1);
 
             //megoldas matrixot is kell
-            //expandmatrix(2,matrixSol,InnerGMatrix3);
-            //int indexOfChildSol = outergrid.getChildren().indexOf(InnerGMatrix3);
-            //outergrid.getChildren().remove(indexOfChildSol);
-            //outergrid.add(InnerGMatrix1,1,1);
+            expandmatrix(2,matrixSol,InnerGMatrix3);
+            int indexOfChildSol = outergrid.getChildren().indexOf(InnerGMatrix3);
+            outergrid.getChildren().remove(indexOfChildSol);
+            outergrid.add(InnerGMatrix3,1,1);
 
         });
         EM2x.setOnAction(event -> {
@@ -153,10 +153,10 @@ public class MatrixGUI extends Application {
             outergrid.add(InnerGMatrix2,1,0);
 
             //megoldas matrixot is kell
-            //expandmatrix(1,matrixSol,InnerGMatrix3);
-            //int indexOfChildSol = outergrid.getChildren().indexOf(InnerGMatrix3);
-            //outergrid.getChildren().remove(indexOfChildSol);
-            //outergrid.add(InnerGMatrix1,1,1);
+            expandmatrix(1,matrixSol,InnerGMatrix3);
+            int indexOfChildSol = outergrid.getChildren().indexOf(InnerGMatrix3);
+            outergrid.getChildren().remove(indexOfChildSol);
+            outergrid.add(InnerGMatrix3,1,1);
 
         });
         EM2y.setOnAction(event -> {
