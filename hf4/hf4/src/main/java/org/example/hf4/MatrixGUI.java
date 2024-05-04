@@ -7,11 +7,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
 import javafx.stage.Stage;
 
 
@@ -19,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
+//A mátrixok gridplanek amikben textboxok vannak
 public class MatrixGUI extends Application {
 
     private final int XX = 900;     //golbális méretek
@@ -30,6 +29,15 @@ public class MatrixGUI extends Application {
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
     static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
 
+
+
+    /**
+     * A gridplane i,j-edik elemét ami ugye egy textbox lecseréli egy másik textboxra, amiben a value érték található
+     * @param i
+     * @param j
+     * @param value
+     * @param GP
+     */
     public synchronized void setGridText(int i,int j,int value, GridPane GP) {
 
         TextField tx = new TextField(""+value);
@@ -40,7 +48,12 @@ public class MatrixGUI extends Application {
 
     }
 
-
+    /**
+     * Visszaad egy mátrixot, amiben a bekért gridplaneben található értékek vannak, így kapom meg a userinputot
+     * @param GP
+     * @return
+     * @throws Exception
+     */
     public synchronized int[][] getGridText(GridPane GP) throws Exception {
 
         int[][] tenpnatrix = new int[GP.getRowCount()][GP.getColumnCount()];
@@ -69,6 +82,13 @@ public class MatrixGUI extends Application {
 
         return tenpnatrix;
     }
+
+    /**
+     * Random szám generátor
+     * @param min
+     * @param max
+     * @return
+     */
 
     public int RandomBetween(int min, int max){
         Random r = new Random();

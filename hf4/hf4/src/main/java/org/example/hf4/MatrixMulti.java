@@ -5,10 +5,15 @@ public class MatrixMulti implements Runnable {
 
     private Matrix _matrix1;
     private Matrix _matrix2;
-    private int sleeptime = 500;
-    private int _chase = -1;
+    private int sleeptime = 500; //ennyit vár a lépések között
+    private int _chase = -1;       //melyik eset
 
-
+    /**
+     * Mátrixszorzás osztály konstruktora
+     * @param matrix1 az elő mátrix, ami itt másodiknak van véve, a mátrixszorzás sorendje miatt
+     * @param matrix2 a második mátrix ami elsőnek van véve a mátrixszorzás sorrendje miatt
+     * @param chase megmondja hogy melyik gombot nyomták meg, 1 ha sor szerint szeretnénk, 2 ha oszlop, ill 3 ha a freestlyle opció
+     */
     MatrixMulti(Matrix matrix1,Matrix matrix2, int chase){
         _matrix1 = matrix2;
         _matrix2 = matrix1;
@@ -16,6 +21,9 @@ public class MatrixMulti implements Runnable {
 
     }
 
+    /**
+     * Futtatás illetve eldöntjük hogy melyik ágat szeretnénk futtatni
+     */
     @Override
     public void run() {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
@@ -39,7 +47,10 @@ public class MatrixMulti implements Runnable {
 
     }
 
-
+    /**
+     * Itt soronként összeszorozva adja vissza az eredményeket
+     * @throws Exception
+     */
     public void MatrixSor() throws Exception {
 
         MatrixGUI Mgui = new MatrixGUI();
@@ -76,9 +87,14 @@ public class MatrixMulti implements Runnable {
 
 
 
-    }//ez mar jol szamol
+    }
 
     //System.out.println(_matrix1.matrixshow(i,k) + " * "+_matrix2.matrixshow(k,j) + " = " +sum);
+
+    /**
+     * Itt oszloponként adja vissza az eredményeket az elsőtől kezdve
+     * @throws Exception
+     */
 
     public void MatrixOszlop() throws Exception {
 
@@ -114,6 +130,10 @@ public class MatrixMulti implements Runnable {
 
     }
 
+    /**
+     * Itt elsőnek a páratlan számú oszlopok értékeit adja vissza, majd  a párosokét
+     * @throws Exception
+     */
 
     public void MatrixFreeStyle() throws Exception {
 
