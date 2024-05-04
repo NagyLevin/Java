@@ -42,13 +42,13 @@ public class GUITest extends Application {
         //Grafikus felület a canvashoz
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Set the fill color to white
+
         gc.setFill(Color.rgb(200,255,200));
 
-        // Fill the entire canvas with white color
+
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Create a StackPane to hold the canvas
+
         StackPane root = new StackPane();
         root.getChildren().add(canvas);
 

@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -25,9 +26,23 @@ import java.util.Random;
 public class Lobby extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
-    public void events(Canvas canvas,GraphicsContext gc,Scene scene, StackPane sp){   //eventek egy helyre összegyüjtve
+    boolean ishosted = false;
+
+    public void events(Scene scene, StackPane sp,Button host, Button Start){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
+
+        host.setOnAction(event -> {
+            if(!ishosted){
+                ishosted = true;
+
+
+
+            }
+
+
+
+        });
 
         scene.setOnKeyPressed(event -> {
 
@@ -62,7 +77,7 @@ public class Lobby extends Application {
     private void createbutton(StackPane sp, String nev) {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
-        szoveg.setRotate(RandomBetween(0,180));
+        szoveg.setRotate(RandomBetween(-45,45));
         szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
         szoveg.setTextFill(Color.rgb(RandomBetween(0,254),RandomBetween(0,254),RandomBetween(0,254)));
         sp.getChildren().add(szoveg);
@@ -89,9 +104,15 @@ public class Lobby extends Application {
         //kiszinezem vele a kepernyöt teljesen
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        Label cim = new Label("Drawable");
+        Label cim = new Label("DrawfulL");
         cim.setFont(Font.font("ComicSans", FontWeight.BOLD,100));
         cim.setTextFill(Color.rgb(200,0,0));
+
+        TextField gamecode = new TextField();
+        GridPane gridcentercode = new GridPane();
+        gridcentercode.add(gamecode,0,0);
+        Button startsessionbutton = new Button("HOST");
+        gridcentercode.add(startsessionbutton,1,0);
 
 
         Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
@@ -104,6 +125,7 @@ public class Lobby extends Application {
         SP.getChildren().add(canvas);//breakom legfelülre
         SP.getChildren().add(cim);
         SP.getChildren().add(StartGomb);
+        SP.getChildren().add(gridcentercode);
         StackPane.setMargin(cim, new Insets(0,0 ,-1*YY*0.3 ,0 )); //közepre be a cimet
         StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
 
@@ -115,7 +137,7 @@ public class Lobby extends Application {
 
 
 
-        events(canvas,gc,scene,SP); //eventek futtatasa
+        events(scene,SP,startsessionbutton,StartGomb); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);
