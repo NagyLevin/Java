@@ -27,21 +27,62 @@ public class Lobby extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
     boolean ishosted = false;
+    String gamecode;
 
-    public void events(Scene scene, StackPane sp,Button host, Button Start){   //eventek egy helyre összegyüjtve
+
+    public boolean validatecode(String code){
+       code = code.toLowerCase();
+
+        if(code.length() < 4){
+
+            return false;
+        }
+        for (int i = 0; i < code.length(); i++) {
+            char betu = code.charAt(i);
+            if(!Character.isLetter(betu)){
+
+
+                return false;
+
+            }
+
+
+        }
+
+
+
+        return true;
+    }
+
+    public void events(Scene scene, StackPane sp,Button host, Button Start, TextField hostcode){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
         host.setOnAction(event -> {
             if(!ishosted){
                 ishosted = true;
+                hostcode.setEditable(false);
+                String code = hostcode.getText();
+                if(validatecode(code)){
 
+                    System.out.printf("Hosting started");
+                    gamecode = code;
+                    //startSession ugy ertem hogy startold majd a hostolást
+
+                }
 
 
             }
 
 
 
+        });
+        Start.setOnAction(event -> {
+            if(ishosted == true){
+                //Start elso gamestage
+
+
+            }
         });
 
         scene.setOnKeyPressed(event -> {
@@ -54,7 +95,7 @@ public class Lobby extends Application {
             }
             if (event.getCode() == KeyCode.B) { //b megnyomasara uj jatekos nev ideglenesen
 
-                createbutton(sp,"TesztFelirat");
+                createlabel(sp,"TesztFelirat");
                 //esetleg valahogy ugy rakd, hogy egy gridben kozepen van a cim körülötte meg a nevek
 
 
@@ -74,7 +115,7 @@ public class Lobby extends Application {
     }
 
 
-    private void createbutton(StackPane sp, String nev) {
+    private void createlabel(StackPane sp, String nev) {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(-45,45));
@@ -109,10 +150,10 @@ public class Lobby extends Application {
         cim.setTextFill(Color.rgb(200,0,0));
 
         TextField gamecode = new TextField();
-        GridPane gridcentercode = new GridPane();
-        gridcentercode.add(gamecode,0,0);
+        gamecode.setMaxWidth(XX/5);
+
         Button startsessionbutton = new Button("HOST");
-        gridcentercode.add(startsessionbutton,1,0);
+
 
 
         Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
@@ -125,9 +166,15 @@ public class Lobby extends Application {
         SP.getChildren().add(canvas);//breakom legfelülre
         SP.getChildren().add(cim);
         SP.getChildren().add(StartGomb);
-        SP.getChildren().add(gridcentercode);
+        SP.getChildren().add(gamecode);
+        SP.getChildren().add(startsessionbutton);
+
         StackPane.setMargin(cim, new Insets(0,0 ,-1*YY*0.3 ,0 )); //közepre be a cimet
         StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
+        StackPane.setAlignment(gamecode,Pos.TOP_LEFT);
+        StackPane.setAlignment(startsessionbutton,Pos.TOP_LEFT);
+        StackPane.setMargin(startsessionbutton, new Insets(30,0 ,0,0 ));
+
 
 
 
@@ -137,7 +184,7 @@ public class Lobby extends Application {
 
 
 
-        events(scene,SP,startsessionbutton,StartGomb); //eventek futtatasa
+        events(scene,SP,startsessionbutton,StartGomb,gamecode); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);
