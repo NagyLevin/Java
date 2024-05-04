@@ -55,23 +55,17 @@ public class Matrix {
 
         return _matrix[0].length;
     }
-    public synchronized void expand(boolean expandx, boolean expandy){
-        if(expandx == true){
+    public synchronized void expand(){
+
             int x = this.MrowLength();
             int y = this.MColLength();
             x = x + 1;
+            y = y + 1;
             //System.out.printf("megnoveltemx: " + x);
 
             _matrix = new int[x][y];
-        }
-        if(expandy == true){
-            int x = this.MrowLength();
-            int y = this.MColLength();
-            y = y + 1;
-            //System.out.printf("megnoveltemy: " + y);
 
-            _matrix = new int[x][y];
-        }
+
 
 
     }

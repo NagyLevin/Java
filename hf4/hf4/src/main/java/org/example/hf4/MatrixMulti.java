@@ -12,8 +12,8 @@ public class MatrixMulti implements Runnable {
 
 
     MatrixMulti(Matrix matrix1,Matrix matrix2, int chase){
-        _matrix1 = matrix1;
-        _matrix2 = matrix2;
+        _matrix1 = matrix2;
+        _matrix2 = matrix1;
         _chase = chase;
 
     }
@@ -23,6 +23,8 @@ public class MatrixMulti implements Runnable {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         try {
             if(_chase == 1){
+
+
                 MatrixSor();
             }
             if(_chase == 2){
@@ -56,34 +58,29 @@ public class MatrixMulti implements Runnable {
 
 
             for (int i = 0; i < r1; i++) {
-
-                for (int j = 0; j < c2; j++) {
+                for (int j = 0; j < r2; j++) {
                     int sum = 0;
                     for (int k = 0; k < c1; k++) {
-
-
-                        sum = sum +  _matrix1.matrixshow(i,k) * _matrix2.matrixshow(k,j);
-
+                       sum += _matrix1.matrixshow(i,k) * _matrix2.matrixshow(k,j);
+                       // System.out.println(_matrix1.matrixshow(i,k) + " * "+_matrix2.matrixshow(k,j) + " = " +sum);
                     }
-                    //System.out.println(sum);
-                    /*
-                    Platform.runLater(new Runnable() {
-
-                    });
-                    */
-
                     Mgui.UpdateSolMatrix(i,j,sum);
                     Thread.sleep(sleeptime); //alvas
-                    //mo[i][j] = sum;
+
                 }
             }
+
+
+
         }else {
             throw new Exception("Matrixok dimenzioi nem egyeznek");
         }
 
 
-       // System.out.println("vegiglefut?");
-    }
+
+    }//ez mar jol szamol
+
+    //System.out.println(_matrix1.matrixshow(i,k) + " * "+_matrix2.matrixshow(k,j) + " = " +sum);
 
     public void MatrixOszlop() throws Exception {
 
@@ -104,10 +101,10 @@ public class MatrixMulti implements Runnable {
                 for (int i = 0; i < r1; i++) {
                     int sum = 0;
                     for (int k = 0; k < r2; k++) {
-                        sum = sum  + _matrix1.matrixshow(i,k) * _matrix1.matrixshow(k,j);
+                        sum += _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
                     }
-                    Mgui.UpdateSolMatrix(i,j,sum);
-                    Thread.sleep(sleeptime); //alvas
+                    Mgui.UpdateSolMatrix(i, j, sum);
+                    Thread.sleep(sleeptime);
                 }
             }
 
