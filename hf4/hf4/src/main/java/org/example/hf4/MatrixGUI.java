@@ -98,6 +98,14 @@ public class MatrixGUI extends Application {
         return result;
     }
 
+    /**
+     * Feltülti a gridplanet text fieldekkel, amelyek megegyeznek a mátrix sorainak és oszlopainak orientációjával
+     *
+     * @param GP
+     * @param iseditable megmonja hogy szeretném e tudni editelni a beírt számokat
+     * @param fillwith0 mivel töltse fel, itt most a demo miatt a két mátrix random számokkal van feltöltve a megoldásmátrix meg nullákkal
+     * @param matrix
+     */
 
     public synchronized void fillmatrix(GridPane GP,boolean iseditable, boolean fillwith0, Matrix matrix){
 
@@ -127,6 +135,13 @@ public class MatrixGUI extends Application {
 
     }
 
+
+    /**
+     * Megnőveli a mátrixot egyel nagyobbra, mint amekkora
+     * @param ismo ha megoldásmátrix akkor ugye nem szabad editelni, és 0 val leyen feltöltve
+     * @param matrix
+     * @param GP
+     */
     public void expandmatrix(boolean ismo,Matrix matrix, GridPane GP){
         if(!ismo){
             matrix.expand();
@@ -140,11 +155,18 @@ public class MatrixGUI extends Application {
 
             matrix.expand();
             GP.getChildren().clear();
-            fillmatrix(GP,true,true,matrix);
+            fillmatrix(GP,false,true,matrix);
 
         }
 
     }
+
+    /**
+     * Visszaállitja a mátrixot egy 1x1 es alakba
+     * @param ismo
+     * @param matrix
+     * @param GP
+     */
     public void resetmatrix(boolean ismo,Matrix matrix, GridPane GP){
         if(!ismo){
             matrix.reset();
@@ -158,25 +180,40 @@ public class MatrixGUI extends Application {
 
             matrix.reset();
             GP.getChildren().clear();
-            fillmatrix(GP,true,true,matrix);
+            fillmatrix(GP,false,true,matrix);
 
         }
 
     }
 
 
+    /**
+     * Megnöveli az ablak méretét, azért hogy ne kelljen mindig nagyobbra húzni az ablakot, ha extendeled a mátrixot
+     * @param stage
+     */
+    public void ResiceStage(Stage stage){
 
-    public void ResiceStage(Stage stage, boolean w, boolean h){
-        if(w){
             stage.setWidth(stage.getWidth()*1.1); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
-        }
-        if(h){
-            stage.setHeight(stage.getHeight()*1.2); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
-        }
+
+
+            stage.setHeight(stage.getHeight()*1.1); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
+
 
     }
 
-
+    /**
+     * Itt van összegyüjtve az összes event
+     * @param sc az ablakok tartalma
+     * @param Calcgomb számolás gomb lenyomása
+     * @param Expand mátrixok átméretezése
+     * @param Reset visszaállítás
+     * @param CalcRow sor szerinti számolás
+     * @param CalcFree freestlye számolás
+     * @param InnerGMatrix1 egyes mátrix gridplane-je
+     * @param InnerGMatrix2 kettes mátrix gridplane-je
+     * @param outergrid a nagy grid, amiben benne vannak a gombok és a mátrixok
+     * @param stage az ablak
+     */
     public void events(Scene sc,Button Calcgomb,Button Expand, Button Reset,Button CalcRow,Button CalcFree,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane outergrid,Stage stage){
         Expand.setOnAction(event -> {
             expandmatrix(false, matrix1,InnerGMatrix1);//expand matrix1 in x dirrection
@@ -204,7 +241,7 @@ public class MatrixGUI extends Application {
             outergrid.add(InnerGMatrix3,1,1);
 
 
-            ResiceStage(stage,true,true);
+            ResiceStage(stage);
 
         });
 
@@ -259,6 +296,12 @@ public class MatrixGUI extends Application {
 
     }
 
+    /**
+     * Ez törtönik akkor, ha bármelyik calculate gombot lenyomjuk
+     * @param InnerGMatrix1
+     * @param InnerGMatrix2
+     * @param chase megmondja hogy meyik gombotnyomtuk le, 1 ha oszlop, 2 ha sor, 3 ha freestlye
+     */
     private void handleButtonPressed(GridPane InnerGMatrix1, GridPane InnerGMatrix2, int chase){
 
 
@@ -291,14 +334,21 @@ public class MatrixGUI extends Application {
 
     }
 
-
+    /**
+     * A megoldásmátrixbe itt irjuk bele az értékeket, mint a guin, mint magába a mátrixba
+     * i,j az elem poziciója
+     * value az érték, amit be kell írni
+     * @param i
+     * @param j
+     * @param value
+     */
     public synchronized void UpdateSolMatrix(int i, int j, int value){
         //
         matrixSol.matrixstore(j, i, value);
 
         //System.out.printf("Ez a updatematrixos");
         //matrixSol.printM();
-        Platform.runLater(() -> {
+        Platform.runLater(() -> { //szál bevárása
 
             try {
                 updateSolGui();
@@ -312,6 +362,10 @@ public class MatrixGUI extends Application {
 
     }
 
+    /**
+     * Itt updatelem a megoldásmátrixot a
+     * @throws InterruptedException
+     */
     public synchronized void updateSolGui( ) throws InterruptedException {
 
 
