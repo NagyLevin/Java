@@ -1,14 +1,12 @@
 package org.example.hf4;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 
 public class MatrixMulti implements Runnable {
 
     private Matrix _matrix1;
     private Matrix _matrix2;
     private int sleeptime = 500;
-    private int _chase = 500;
+    private int _chase = -1;
 
 
     MatrixMulti(Matrix matrix1,Matrix matrix2, int chase){
@@ -49,7 +47,7 @@ public class MatrixMulti implements Runnable {
         int r1 = _matrix1.MrowLength();
         int c1 = _matrix1.MColLength();
         int r2 = _matrix2.MrowLength();
-        int c2 = _matrix2.MColLength();
+
 
 
 
@@ -130,7 +128,7 @@ public class MatrixMulti implements Runnable {
             if (c1 == r2) {
 
                 for (int j = 0; j < c2; j++) {
-                    //páros sorok
+                    //páros oszlopok
                     for (int i = 0; i < r1; i += 2) {
                         int sum = 0;
                         for (int k = 0; k < r2; k++) {
@@ -143,7 +141,7 @@ public class MatrixMulti implements Runnable {
 
                 }
 
-                //páratlan sorok
+                //páratlan oszlopok
                 for (int j = 0; j < c2; j++) {
                     for (int i = 1; i < r1; i += 2) {
                         int sum = 0;

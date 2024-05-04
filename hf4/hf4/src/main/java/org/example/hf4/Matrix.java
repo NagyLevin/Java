@@ -30,9 +30,9 @@ public class Matrix {
     }
 
     void printM(){
-        for(int i = 0;i < _matrix.length;i++){
-            for(int j = 0;j < _matrix[0].length;j++){
-                System.out.println(_matrix[i][j]);
+        for (int[] matrix : _matrix) {
+            for (int j = 0; j < _matrix[0].length; j++) {
+                System.out.println(matrix[j]);
             }
         }
     }

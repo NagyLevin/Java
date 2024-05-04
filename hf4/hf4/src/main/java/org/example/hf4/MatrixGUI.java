@@ -7,16 +7,16 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.InnerShadow;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 
 
 
-import java.io.IOException;
+
 import java.util.Random;
 
 public class MatrixGUI extends Application {
@@ -30,7 +30,7 @@ public class MatrixGUI extends Application {
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
     static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
 
-    public synchronized void setGridText(int i,int j,int value, GridPane GP) throws InterruptedException {
+    public synchronized void setGridText(int i,int j,int value, GridPane GP) {
 
         TextField tx = new TextField(""+value);
         //System.out.printf("Updated grid");
@@ -43,7 +43,7 @@ public class MatrixGUI extends Application {
 
     public synchronized int[][] getGridText(GridPane GP) throws Exception {
 
-        int tenpnatrix[][] = new int[GP.getRowCount()][GP.getColumnCount()];
+        int[][] tenpnatrix = new int[GP.getRowCount()][GP.getColumnCount()];
         String regex = "[0-9]+";
 
         for (int i = 0; i < GP.getRowCount(); i++) {
@@ -54,7 +54,7 @@ public class MatrixGUI extends Application {
 
                 String text = tx.getText();
 
-                if(text.length() > 0 && text.matches(regex)){
+                if(!text.isEmpty() && text.matches(regex)){
                     tenpnatrix[i][j] = Integer.parseInt(text);
                 }else{
                     throw new Exception("Hibas input a matrixban");
@@ -93,7 +93,7 @@ public class MatrixGUI extends Application {
 
                 TextField tf = new TextField(""+ num );//""+i+j);
 
-                if(iseditable == false){
+                if(!iseditable){
                     tf.setEditable(false); //ne lehessen beleirni
                 }
 
@@ -307,7 +307,7 @@ public class MatrixGUI extends Application {
     }
 
 
-    public void start(Stage GUI) throws Exception {
+    public void start(Stage GUI) {
 
         //Csinálok egy Canvast
         Canvas canvas = new Canvas(XX, YY);
