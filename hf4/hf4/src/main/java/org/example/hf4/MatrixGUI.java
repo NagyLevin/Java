@@ -23,7 +23,7 @@ public class MatrixGUI extends Application {
     private final int XX = 900;     //golbális méretek
     private final int YY = 600;
 
-    private static final int demosize = 2;
+    private static final int demosize = 3;
     private static Matrix matrix1 = new Matrix(demosize,demosize);//Matrix(1,1);
     private static Matrix matrix2 = new Matrix(demosize,demosize);//Matrix(1,1);
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
@@ -193,10 +193,10 @@ public class MatrixGUI extends Application {
      */
     public void ResiceStage(Stage stage){
 
-            stage.setWidth(stage.getWidth()*1.1); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
+            stage.setWidth(stage.getWidth()*1.2); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
 
 
-            stage.setHeight(stage.getHeight()*1.1); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
+            stage.setHeight(stage.getHeight()*1.2); //csak azert hogy ne kelljen feltetlen atmeretezni az ablakot
 
 
     }
@@ -351,7 +351,7 @@ public class MatrixGUI extends Application {
         Platform.runLater(() -> { //szál bevárása
 
             try {
-                updateSolGui();
+                updateSolGui(j,i);
 
 
             } catch (InterruptedException e) {
@@ -366,20 +366,16 @@ public class MatrixGUI extends Application {
      * Itt updatelem a megoldásmátrixot a
      * @throws InterruptedException
      */
-    public synchronized void updateSolGui( ) throws InterruptedException {
+    public synchronized void updateSolGui(int i,int j ) throws InterruptedException {
+        setGridText(i,j,matrixSol.matrixshow(i,j),InnerGMatrix3);
 
-
-        for (int i = 0; i < matrixSol.MrowLength(); i++) {
-            for (int j = 0; j < matrixSol.MColLength(); j++) {
-                setGridText(i,j,matrixSol.matrixshow(i,j),InnerGMatrix3);
-
-                //System.out.println(matrixSol.matrixshow(i,j));
-            }
-
-        }
 
     }
 
+    /**
+     * Letrehozza a gombokat, gridplaneket stbt
+     * @param GUI
+     */
 
     public void start(Stage GUI) {
 
@@ -459,23 +455,9 @@ public class MatrixGUI extends Application {
         //TextField tx = new TextField("aaa");//valahogy igy kellene informaciot kinyerni
         //System.out.println(tx.getCharacters());
 
-
-
-
-
-
-
         Scene scene = new Scene(outerGrid);
 
         events(scene,Calcgomb,Expand,Reset,CalcRow,CalcFree,InnerGMatrix1,InnerGMatrix2,outerGrid,GUI);
-
-
-
-
-
-
-
-
 
         GUI.setScene(scene);
 

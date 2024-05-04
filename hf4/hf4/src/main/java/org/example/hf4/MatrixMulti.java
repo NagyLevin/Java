@@ -53,7 +53,7 @@ public class MatrixMulti implements Runnable {
      */
     public void MatrixSor() throws Exception {
 
-        MatrixGUI Mgui = new MatrixGUI();
+
 
         int r1 = _matrix1.MrowLength();
         int c1 = _matrix1.MColLength();
@@ -73,8 +73,7 @@ public class MatrixMulti implements Runnable {
                        sum += _matrix1.matrixshow(i,k) * _matrix2.matrixshow(k,j);
                        // System.out.println(_matrix1.matrixshow(i,k) + " * "+_matrix2.matrixshow(k,j) + " = " +sum);
                     }
-                    Mgui.UpdateSolMatrix(i,j,sum);
-                    Thread.sleep(sleeptime); //alvas
+                    UpdateMatrix(i,j,sum);
 
                 }
             }
@@ -98,7 +97,7 @@ public class MatrixMulti implements Runnable {
 
     public void MatrixOszlop() throws Exception {
 
-        MatrixGUI Mgui = new MatrixGUI();
+
 
         int r1 = _matrix1.MrowLength();
         int c1 = _matrix1.MColLength();
@@ -117,8 +116,8 @@ public class MatrixMulti implements Runnable {
                     for (int k = 0; k < r2; k++) {
                         sum += _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
                     }
-                    Mgui.UpdateSolMatrix(i, j, sum);
-                    Thread.sleep(sleeptime);
+
+                    UpdateMatrix(i,j,sum);
                 }
             }
 
@@ -131,6 +130,26 @@ public class MatrixMulti implements Runnable {
     }
 
     /**
+     * Összegyüjtve szebben a mátrix update, hogy ne legyen mindez 4x leírva
+     * Updateli a solutionmatrixot az aktuális eredménnyel
+     * @param i
+     * @param j
+     * @param value
+     * @throws InterruptedException
+     */
+    public synchronized void UpdateMatrix(int i, int j,int value) throws InterruptedException {
+        MatrixGUI Mgui = new MatrixGUI();
+
+        Mgui.UpdateSolMatrix(i, j, 0);
+        Thread.sleep(sleeptime); //alvas
+        Mgui.UpdateSolMatrix(i, j, value);
+        Thread.sleep(sleeptime);
+
+
+    }
+
+
+    /**
      * Itt elsőnek a páratlan számú oszlopok értékeit adja vissza, majd  a párosokét
      * @throws Exception
      */
@@ -138,7 +157,7 @@ public class MatrixMulti implements Runnable {
     public void MatrixFreeStyle() throws Exception {
 
 
-            MatrixGUI Mgui = new MatrixGUI();
+
 
             int r1 = _matrix1.MrowLength();
             int c1 = _matrix1.MColLength();
@@ -154,8 +173,8 @@ public class MatrixMulti implements Runnable {
                         for (int k = 0; k < r2; k++) {
                             sum = sum + _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
                         }
-                        Mgui.UpdateSolMatrix(i, j, sum);
-                        Thread.sleep(sleeptime);
+                        UpdateMatrix(i,j,sum);
+
                     }
 
 
@@ -168,8 +187,7 @@ public class MatrixMulti implements Runnable {
                         for (int k = 0; k < r2; k++) {
                             sum = sum + _matrix1.matrixshow(i, k) * _matrix2.matrixshow(k, j);
                         }
-                        Mgui.UpdateSolMatrix(i, j, sum);
-                        Thread.sleep(sleeptime);
+                        UpdateMatrix(i,j,sum);
                     }
                 }
                 //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
