@@ -8,12 +8,13 @@ public class MatrixMulti implements Runnable {
     private Matrix _matrix1;
     private Matrix _matrix2;
     private int sleeptime = 500;
+    private int _chase = 500;
 
 
-    MatrixMulti(Matrix matrix1,Matrix matrix2){
+    MatrixMulti(Matrix matrix1,Matrix matrix2, int chase){
         _matrix1 = matrix1;
         _matrix2 = matrix2;
-
+        _chase = chase;
 
     }
 
@@ -21,9 +22,16 @@ public class MatrixMulti implements Runnable {
     public void run() {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         try {
-            //MatrixSor();
-            //MatrixOszlop();
-            MatrixFreeStyle();
+            if(_chase == 1){
+                MatrixSor();
+            }
+            if(_chase == 2){
+                MatrixOszlop();
+            }
+            if(_chase == 3){
+                MatrixFreeStyle();
+            }
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -108,7 +116,7 @@ public class MatrixMulti implements Runnable {
         }
 
 
-        // System.out.println("vegiglefut?");
+
     }
 
 
@@ -134,7 +142,12 @@ public class MatrixMulti implements Runnable {
                         Mgui.UpdateSolMatrix(i, j, sum);
                         Thread.sleep(sleeptime);
                     }
-                    //páratlan sorok
+
+
+                }
+
+                //páratlan sorok
+                for (int j = 0; j < c2; j++) {
                     for (int i = 1; i < r1; i += 2) {
                         int sum = 0;
                         for (int k = 0; k < r2; k++) {
@@ -143,9 +156,9 @@ public class MatrixMulti implements Runnable {
                         Mgui.UpdateSolMatrix(i, j, sum);
                         Thread.sleep(sleeptime);
                     }
-                    //egyenkent mukszenek, de egyszerre nagyon furcsan nez ki... nezz majd ra legkozelebb
-
                 }
+                //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread());
+
             } else {
                 throw new Exception("Matrixok dimenzioi nem egyeznek");
             }

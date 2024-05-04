@@ -22,11 +22,9 @@ public class Matrix {
     }
 
     public synchronized void replacematrix(int[][] matrix){
-        if(_matrix.length == matrix.length && matrix[0].length == _matrix[0].length){
+
             _matrix = matrix;
-        }else{
-            throw new IllegalArgumentException("A matrixok dimenzioja nem egyezik");
-        }
+
 
 
     }
@@ -44,6 +42,9 @@ public class Matrix {
         _matrix[i][j] = value;
 
 
+    }
+    public synchronized void reset(){
+        _matrix = new int[1][1];
     }
 
     public synchronized int MrowLength(){
