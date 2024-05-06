@@ -28,7 +28,7 @@ public class MatrixGUI extends Application {
     private static Matrix matrix2 = new Matrix(demosize,demosize);//Matrix(1,1);
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
     static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
-
+    static boolean calcrunning = false; //ne leheessen változtatni számolás közben
 
 
     /**
@@ -215,33 +215,36 @@ public class MatrixGUI extends Application {
      * @param stage az ablak
      */
     public void events(Scene sc,Button Calcgomb,Button Expand, Button Reset,Button CalcRow,Button CalcFree,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane outergrid,Stage stage){
+
         Expand.setOnAction(event -> {
-            expandmatrix(false, matrix1,InnerGMatrix1);//expand matrix1 in x dirrection
+
+            if(!calcrunning) {
+                expandmatrix(false, matrix1, InnerGMatrix1);//expand matrix1 in x dirrection
 
 
-            int indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix1);
+                int indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix1);
 
-            outergrid.getChildren().remove(indexOfChild);
+                outergrid.getChildren().remove(indexOfChild);
 
-            outergrid.add(InnerGMatrix1,0,1);
+                outergrid.add(InnerGMatrix1, 0, 1);
 
-            expandmatrix(false, matrix2,InnerGMatrix2);//expand matrix1 in x dirrection
-
-
-            indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix2);
-
-            outergrid.getChildren().remove(indexOfChild);
-
-            outergrid.add(InnerGMatrix2,1,0);
-
-            //megoldas matrixot is kell
-            expandmatrix(true,matrixSol,InnerGMatrix3);
-            indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix3);
-            outergrid.getChildren().remove(indexOfChild);
-            outergrid.add(InnerGMatrix3,1,1);
+                expandmatrix(false, matrix2, InnerGMatrix2);//expand matrix1 in x dirrection
 
 
-            ResiceStage(stage);
+                indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix2);
+
+                outergrid.getChildren().remove(indexOfChild);
+
+                outergrid.add(InnerGMatrix2, 1, 0);
+
+                //megoldas matrixot is kell
+                expandmatrix(true, matrixSol, InnerGMatrix3);
+                indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix3);
+                outergrid.getChildren().remove(indexOfChild);
+                outergrid.add(InnerGMatrix3, 1, 1);
+            }
+
+            //ResiceStage(stage);
 
         });
 
@@ -249,27 +252,28 @@ public class MatrixGUI extends Application {
         //sc.getWindow().setWidth(sc.getWidth() + 10);
         Reset.setOnAction(event -> {
 
-            resetmatrix(false, matrix1,InnerGMatrix1);//mindent a default 1x1 es formatumra
-            resetmatrix(false, matrix2,InnerGMatrix2);
-            resetmatrix(true, matrixSol,InnerGMatrix3);
+            if(!calcrunning) {
+                resetmatrix(false, matrix1, InnerGMatrix1);//mindent a default 1x1 es formatumra
+                resetmatrix(false, matrix2, InnerGMatrix2);
+                resetmatrix(true, matrixSol, InnerGMatrix3);
 
 
-            int indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix1);
+                int indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix1);
 
-            outergrid.getChildren().remove(indexOfChild);
+                outergrid.getChildren().remove(indexOfChild);
 
-            indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix2);
+                indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix2);
 
-            outergrid.getChildren().remove(indexOfChild);
+                outergrid.getChildren().remove(indexOfChild);
 
-            indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix3);
+                indexOfChild = outergrid.getChildren().indexOf(InnerGMatrix3);
 
-            outergrid.getChildren().remove(indexOfChild);
+                outergrid.getChildren().remove(indexOfChild);
 
-            outergrid.add(InnerGMatrix1,0,1);
-            outergrid.add(InnerGMatrix2,1,0);
-            outergrid.add(InnerGMatrix3,1,1);
-
+                outergrid.add(InnerGMatrix1, 0, 1);
+                outergrid.add(InnerGMatrix2, 1, 0);
+                outergrid.add(InnerGMatrix3, 1, 1);
+            }
 
 
         });
@@ -304,6 +308,7 @@ public class MatrixGUI extends Application {
      */
     private void handleButtonPressed(GridPane InnerGMatrix1, GridPane InnerGMatrix2, int chase){
 
+        if(!calcrunning) {
 
 
             try {
@@ -311,7 +316,7 @@ public class MatrixGUI extends Application {
                 matrix2.replacematrix(getGridText(InnerGMatrix2));
                 matrixSol.replacematrix(getGridText(InnerGMatrix3));
 
-                new Thread(new MatrixMulti(matrix1,matrix2,chase)).start();
+                new Thread(new MatrixMulti(matrix1, matrix2, chase)).start();
 
 
                 //matrixSol.printM();
@@ -320,13 +325,12 @@ public class MatrixGUI extends Application {
                 //matrixSol.printM();
 
 
-
-
             } catch (Exception e) {
 
                 throw new RuntimeException(e);
 
             }
+        }
 
 
 

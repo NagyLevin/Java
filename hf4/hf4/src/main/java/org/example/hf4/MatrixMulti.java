@@ -27,22 +27,28 @@ public class MatrixMulti implements Runnable {
     @Override
     public void run() {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
+
+
+        if(!MatrixGUI.calcrunning){
+            MatrixGUI.calcrunning = true;
         try {
-            if(_chase == 1){
+            if (_chase == 1) {
 
 
                 MatrixSor();
             }
-            if(_chase == 2){
+            if (_chase == 2) {
                 MatrixOszlop();
             }
-            if(_chase == 3){
+            if (_chase == 3) {
                 MatrixFreeStyle();
             }
+            MatrixGUI.calcrunning = false;
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
         }
 
     }
