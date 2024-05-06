@@ -7,7 +7,7 @@ public class MatrixMulti implements Runnable {
     private Matrix _matrix2;
     private int sleeptime = 500; //ennyit vár a lépések között
     private int _chase = -1;       //melyik eset
-
+    static boolean calcrunning = false; //ne leheessen változtatni számolás közben
     /**
      * Mátrixszorzás osztály konstruktora
      * @param matrix1 az elő mátrix, ami itt másodiknak van véve, a mátrixszorzás sorendje miatt
@@ -29,8 +29,8 @@ public class MatrixMulti implements Runnable {
         //System.out.println("isJavaFxThread?" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
 
-        if(!MatrixGUI.calcrunning){
-            MatrixGUI.calcrunning = true;
+        if(!calcrunning){
+            calcrunning = true;
         try {
             if (_chase == 1) {
 
@@ -43,7 +43,7 @@ public class MatrixMulti implements Runnable {
             if (_chase == 3) {
                 MatrixFreeStyle();
             }
-            MatrixGUI.calcrunning = false;
+            calcrunning = false;
 
 
         } catch (Exception e) {

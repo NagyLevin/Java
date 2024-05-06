@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
+import static org.example.hf4.MatrixMulti.calcrunning;
+
 //A mátrixok gridplanek amikben textboxok vannak
 public class MatrixGUI extends Application {
 
@@ -28,7 +30,7 @@ public class MatrixGUI extends Application {
     private static Matrix matrix2 = new Matrix(demosize,demosize);//Matrix(1,1);
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
     static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
-    static boolean calcrunning = false; //ne leheessen változtatni számolás közben
+
 
 
     /**
