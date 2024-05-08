@@ -276,6 +276,8 @@ public class MatrixGUI extends Application {
                 outergrid.add(InnerGMatrix1, 0, 1);
                 outergrid.add(InnerGMatrix2, 1, 0);
                 outergrid.add(InnerGMatrix3, 1, 1);
+                voltsteps = false;
+
             }
 
 
