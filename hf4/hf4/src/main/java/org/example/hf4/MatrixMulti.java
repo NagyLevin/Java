@@ -5,9 +5,12 @@ public class MatrixMulti implements Runnable {
 
     private Matrix _matrix1;
     private Matrix _matrix2;
-    private int sleeptime = 500; //ennyit vár a lépések között
+    static int sleeptime = 500; //ennyit vár a lépések között
     private int _chase = -1;       //melyik eset
     static boolean calcrunning = false; //ne leheessen változtatni számolás közben
+    static boolean steps = false;
+    static boolean voltsteps = false;
+
     /**
      * Mátrixszorzás osztály konstruktora
      * @param matrix1 az elő mátrix, ami itt másodiknak van véve, a mátrixszorzás sorendje miatt
@@ -79,7 +82,9 @@ public class MatrixMulti implements Runnable {
                        sum += _matrix1.matrixshow(i,k) * _matrix2.matrixshow(k,j);
                        // System.out.println(_matrix1.matrixshow(i,k) + " * "+_matrix2.matrixshow(k,j) + " = " +sum);
                     }
-                    UpdateMatrix(i,j,sum);
+
+                        UpdateMatrix(i,j,sum);
+
 
                 }
             }
@@ -145,12 +150,16 @@ public class MatrixMulti implements Runnable {
      */
     public synchronized void UpdateMatrix(int i, int j,int value) throws InterruptedException {
         MatrixGUI Mgui = new MatrixGUI();
-
+        steps = true;
         Mgui.UpdateSolMatrix(i, j, 0);
-        Thread.sleep(sleeptime); //alvas
+        Thread.sleep(sleeptime);
+        while(steps && voltsteps){   // ha megnomtad a steps gombot akkor addig vár amig nem nyomod meg ujra a következö lépéssel
+            Thread.sleep(sleeptime); //alvas
+
+        }
         Mgui.UpdateSolMatrix(i, j, value);
         Thread.sleep(sleeptime);
-
+        steps = false;
 
     }
 

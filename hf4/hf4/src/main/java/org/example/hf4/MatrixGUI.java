@@ -5,19 +5,16 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-
-//
-
 import java.util.Random;
 
-import static org.example.hf4.MatrixMulti.calcrunning;
+import static org.example.hf4.MatrixMulti.*;
 
 //A mátrixok gridplanek amikben textboxok vannak
 public class MatrixGUI extends Application {
@@ -30,7 +27,6 @@ public class MatrixGUI extends Application {
     private static Matrix matrix2 = new Matrix(demosize,demosize);//Matrix(1,1);
     public static Matrix matrixSol = new Matrix(demosize,demosize);   //static, hogy minden szálról el lehessen érni
     static GridPane InnerGMatrix3 = new GridPane();    //eredmánymátrix
-
 
 
     /**
@@ -216,7 +212,7 @@ public class MatrixGUI extends Application {
      * @param outergrid a nagy grid, amiben benne vannak a gombok és a mátrixok
      * @param stage az ablak
      */
-    public void events(Scene sc,Button Calcgomb,Button Expand, Button Reset,Button CalcRow,Button CalcFree,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane outergrid,Stage stage){
+    public void events(Scene sc,Button Calcgomb,Button Expand, Button Reset,Button CalcRow,Button CalcFree,Button CalcStep,GridPane InnerGMatrix1,GridPane InnerGMatrix2,GridPane outergrid,Stage stage){
 
         Expand.setOnAction(event -> {
 
@@ -249,7 +245,11 @@ public class MatrixGUI extends Application {
             //ResiceStage(stage);
 
         });
+        CalcStep.setOnAction(event -> {
+            steps = !steps;
+            voltsteps = true;
 
+        });
 
         //sc.getWindow().setWidth(sc.getWidth() + 10);
         Reset.setOnAction(event -> {
@@ -292,6 +292,8 @@ public class MatrixGUI extends Application {
             }
 
         });
+
+
 
 
 
@@ -350,14 +352,18 @@ public class MatrixGUI extends Application {
      */
     public synchronized void UpdateSolMatrix(int i, int j, int value){
         //
+
+
+
         matrixSol.matrixstore(j, i, value);
 
         //System.out.printf("Ez a updatematrixos");
         //matrixSol.printM();
         Platform.runLater(() -> { //szál bevárása
 
+
             try {
-                updateSolGui(j,i);
+                    updateSolGui(j,i);
 
 
             } catch (InterruptedException e) {
@@ -434,18 +440,18 @@ public class MatrixGUI extends Application {
         Button Reset = new Button("Reset");
         Button CalcRow = new Button("CalcRow");
         Button CalcFree = new Button("CalcFree");
+        Button CalcStep = new Button("CalcStep");
 
 
 
         GridPane ButtonGrid = new GridPane();
+
         ButtonGrid.add(Calcgomb,0,0);
         ButtonGrid.add(Expand,1,0);
-
-
-
         ButtonGrid.add(Reset,5,0);
         ButtonGrid.add(CalcRow,0,1);
         ButtonGrid.add(CalcFree,0,2);
+        ButtonGrid.add(CalcStep,1,1);
 
 
 
@@ -463,7 +469,7 @@ public class MatrixGUI extends Application {
 
         Scene scene = new Scene(outerGrid);
 
-        events(scene,Calcgomb,Expand,Reset,CalcRow,CalcFree,InnerGMatrix1,InnerGMatrix2,outerGrid,GUI);
+        events(scene,Calcgomb,Expand,Reset,CalcRow,CalcFree ,CalcStep,InnerGMatrix1,InnerGMatrix2,outerGrid,GUI);
 
         GUI.setScene(scene);
 
