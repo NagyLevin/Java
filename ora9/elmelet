@@ -1,0 +1,27 @@
+A wait() hívásakor a szál …
+
+elengedi az objektum monitorát, hogy más rendelkezni tudjon azzal;
+ütemezésen kívülre kerül, nem futtatható.
+A wait-for-notification állapot véget ér, és a szál az entry setbe kerül, ha
+
+Valaki notify()-t hív, és a rendszer őt választja.
+Valaki notifyAll()-t hív.
+Letelik a wait() paramétereként megadott idő.
+Ezután a szál ismét sorba áll a monitorért, amit megszerezve a wait() után folytatódik a futása.
+A feltétel ellenőrzését és nem teljesülése esetén a wait() hívását mindig while ciklusba tegyük! Nem biztos, hogy aki felébresztett, az olyan változásokat eszközölt, amelyektől a feltétel teljesítetté vált, csak lehetséges.
+        https://www.geeksforgeeks.org/difference-between-notify-and-notifyall-in-java/
+ Ikább notyfy all mint csak sima notify
+ Minden waithez egy notify all
+
+ sleep(timeout)
+ A megadott idő lejártáig a szál nem futtatható
+ wait()
+ Várakozás egy feltétel teljesülésére.
+ join()
+ Várakozás egy másik szál befejeződésére
+ pl tobb szamolas majd a vegen egyesites
+
+ Az interrupt egy jelzés a szálnak, hogy fejezze be, amit most csinál és csináljon valami mást. Fontos, hogy ez egy jelzés, amit nem szükséges figyelembe vennie! Nevéből az következne, hogy megszakítja a szál végrehajtását, de ez
+ általában nem igaz. !!!!!!!!!!!!!!!!!!!!!!
+
+ ATTÓL Függ, hogy hogyan irom meg az is interrupted chach ágat
