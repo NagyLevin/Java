@@ -17,7 +17,7 @@ public class ClientJoin extends Application {
 
 
     private final int XX = 300;
-    private final int YY = 500;
+    private final int YY = 400;
 
 
     public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton,Player player){   //eventek egy helyre összegyüjtve
@@ -90,12 +90,18 @@ public class ClientJoin extends Application {
 
         vBox.getChildren().add(ClientJoinButton);
 
+        // Csak akkor lássa a kliens ha ő a host
+        Button StartButton = new Button("Start");
+        Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
+        StartButton.setFont(buttons);
+
+        vBox.getChildren().add(StartButton);
 
 
 
 
         vBox.setStyle("-fx-background-color: rgb(200, 255, 200);"); //esetleg playercolorra?
-        Scene scene = new Scene(vBox, 300, 200);
+        Scene scene = new Scene(vBox, XX, YY);
 
 
         ClientStage.setScene(scene);

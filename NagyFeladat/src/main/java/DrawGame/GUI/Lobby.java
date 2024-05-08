@@ -54,7 +54,7 @@ public class Lobby extends Application {
         return true;
     }
 
-    public void events(Scene scene, StackPane sp,Button host, Button Start, TextField hostcode){   //eventek egy helyre összegyüjtve
+    public void events(Scene scene, StackPane sp,Button host, TextField hostcode){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -77,13 +77,7 @@ public class Lobby extends Application {
 
 
         });
-        Start.setOnAction(event -> {
-            if(ishosted == true){
-                //Start elso gamestage
 
-
-            }
-        });
 
         scene.setOnKeyPressed(event -> {
 
@@ -157,20 +151,20 @@ public class Lobby extends Application {
 
 
         Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
-        Button StartGomb = new Button("Start");
-        StartGomb.setFont(startgombfont);
+        //Button StartGomb = new Button("Start"); // inkább egy kliensnél legyen ez a gomb
+        //StartGomb.setFont(startgombfont);
 
 
 
         StackPane SP = new StackPane();  //itt tarolom el a canvasz
         SP.getChildren().add(canvas);//breakom legfelülre
         SP.getChildren().add(cim);
-        SP.getChildren().add(StartGomb);
+        //SP.getChildren().add(StartGomb);
         SP.getChildren().add(gamecode);
         SP.getChildren().add(startsessionbutton);
 
         StackPane.setMargin(cim, new Insets(0,0 ,-1*YY*0.3 ,0 )); //közepre be a cimet
-        StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
+        //StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
         StackPane.setAlignment(gamecode,Pos.TOP_LEFT);
         StackPane.setAlignment(startsessionbutton,Pos.TOP_LEFT);
         StackPane.setMargin(startsessionbutton, new Insets(30,0 ,0,0 ));
@@ -184,7 +178,7 @@ public class Lobby extends Application {
 
 
 
-        events(scene,SP,startsessionbutton,StartGomb,gamecode); //eventek futtatasa
+        events(scene,SP,startsessionbutton,gamecode); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);
