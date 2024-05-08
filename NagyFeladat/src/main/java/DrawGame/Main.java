@@ -15,6 +15,13 @@ public class Main {
         //rakj bele minden olyan extra dolgot amint tanultal a felev soran
         // rakj bele enumot
 
+        //kell egy kliens join ablak
+        //kell egy főablak
+        //kell egy rajzolós ablak itt egy listából kapja a promtot
+        //kell egy promt adós ablak
+        //kell egy szavazós ablak ahol a szavazás után a pontok is látszanak majd
+
+
     }
 
 

@@ -126,6 +126,8 @@ public class ClientJoin extends Application {
 
     public static void main(String[] args) {
 
+        //minden uj lobbyt egy uj threadként kell elmentenünk egy új playerként
+
         launch(args);
     }
 }
