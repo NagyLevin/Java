@@ -13,7 +13,7 @@ public class Main {
         //a logic külön szálra
         //Platform.isFxApplicationThread() debug a szálakhoz
         //rakj bele minden olyan extra dolgot amint tanultal a felev soran
-
+        // rakj bele enumot
 
     }
 
