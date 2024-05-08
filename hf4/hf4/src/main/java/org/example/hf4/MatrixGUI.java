@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
@@ -245,7 +246,7 @@ public class MatrixGUI extends Application {
             //ResiceStage(stage);
 
         });
-        CalcStep.setOnAction(event -> {
+        CalcStep.setOnAction(event -> { // lepesrol lepesre mutatja a megoldast, elsonek ezt nyomd meg utana pedig a preferealt szamolasi modot, utana minden lepeshez ezt a gombot kell megynomni
             steps = !steps;
             voltsteps = true;
 
@@ -441,17 +442,22 @@ public class MatrixGUI extends Application {
         Button CalcRow = new Button("CalcRow");
         Button CalcFree = new Button("CalcFree");
         Button CalcStep = new Button("CalcStep");
-
+        Label helpfelirat1 = new Label("Nyomd meg utana pedig a preferalt szamolasi módot");
+        Label helpfelirat2 = new Label("Utana a gomb ujboli lenyomasaval tudod léptetni");
 
 
         GridPane ButtonGrid = new GridPane();
 
         ButtonGrid.add(Calcgomb,0,0);
         ButtonGrid.add(Expand,1,0);
-        ButtonGrid.add(Reset,5,0);
+        ButtonGrid.add(Reset,2,0);
         ButtonGrid.add(CalcRow,0,1);
         ButtonGrid.add(CalcFree,0,2);
         ButtonGrid.add(CalcStep,1,1);
+        ButtonGrid.add(helpfelirat1,2,1);
+        ButtonGrid.add(helpfelirat2,2,2);
+
+
 
 
 
