@@ -1,12 +1,25 @@
 package DrawGame;
 
+import DrawGame.GUI.Lobby;
+
+
 public class Main {
+
+
     public static void main(String[] args) {
         //System.out.println("Hello world!");
 
-        ReadPromts RP = new ReadPromts();
+        ReadPromts RP = new ReadPromts(); //PROMTOK BEOLVASÁSA
         RP.readfile("promts.txt");
         RP.readpromts();
+
+        Lobby lobby = new Lobby();
+
+        //lobby.start();
+
+
+
+
         //GM gamemaster ebben legyenek a gamestagek
         //hosszu kódot, ne a javba rakd, mert lefagy a gui
         //a felhasználo felület maradjon rszponziv
@@ -15,8 +28,8 @@ public class Main {
         //rakj bele minden olyan extra dolgot amint tanultal a felev soran
         // rakj bele enumot
 
-        //kell egy kliens join ablak
-        //kell egy főablak
+        //megvan egy kliens join ablak
+        //megvan egy főablak
         //kell egy rajzolós ablak itt egy listából kapja a promtot
         //kell egy promt adós ablak
         //kell egy szavazós ablak ahol a szavazás után a pontok is látszanak majd

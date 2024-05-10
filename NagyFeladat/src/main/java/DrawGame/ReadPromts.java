@@ -42,6 +42,15 @@ public class ReadPromts {
 
     }
 
+    public String getOnePromt(){
+        String promt ="";
+
+
+
+
+        return promt;
+    }
+
 
 
 

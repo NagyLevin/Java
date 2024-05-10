@@ -182,9 +182,11 @@ public class Lobby extends Application {
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);
-        Lobby.setTitle("GUI test");
+        Lobby.setTitle("LOBBY");
         Lobby.show();
     }
+
+
 
     public static void main(String[] args) {
         launch(args);
