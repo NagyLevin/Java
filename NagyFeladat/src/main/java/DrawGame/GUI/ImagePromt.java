@@ -24,9 +24,9 @@ public class ImagePromt extends Application {
     public void start(Stage VoteStage)  {
 
 
-        Image image = new Image("file:1.png"); // Töltse be a háttérben
+        Image image = new Image("file:1.png"); // Töltse be a képet
 
-        VBox vbox = new VBox(20, new ImageView(image));
+        VBox vbox = new VBox(20, new ImageView(image)); //belerakja a vboxba
         vbox.setAlignment(Pos.BASELINE_CENTER);
 
         Label GiveaPromt = new Label("Give a promt for the immage:");

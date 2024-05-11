@@ -9,7 +9,7 @@ public class ReadPromts {
 
 
     private  String[] promts;
-
+    Random Rand = new Random();
 
     public void readfile(String nev){   //esetleg felesleges spacek eltavolitasat ird meg
         try {
@@ -43,7 +43,8 @@ public class ReadPromts {
     }
 
     public String getOnePromt(){
-        String promt ="";
+
+        String promt = promts[Rand.nextInt(0, promts.length-1)]; //2x ne legyen ugyan az, esetleg torold ki utána
 
 
 
