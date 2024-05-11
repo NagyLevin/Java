@@ -103,6 +103,7 @@ public class ClientJoin extends Application {
         vBox.setStyle("-fx-background-color: rgb(200, 255, 200);"); //esetleg playercolorra?
         Scene scene = new Scene(vBox, XX, YY);
 
+        events(scene,userCode,userName,ClientJoinButton,ClientPlayer);
 
         ClientStage.setScene(scene);
 
@@ -113,7 +114,7 @@ public class ClientJoin extends Application {
         ClientStage.show();
 
 
-        events(scene,userCode,userName,ClientJoinButton,ClientPlayer);
+
 
 
 

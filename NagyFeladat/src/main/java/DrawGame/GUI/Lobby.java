@@ -150,7 +150,7 @@ public class Lobby extends Application {
 
 
 
-        Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
+        //Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,50);    //nezz utana hogy van e comicsans ///TO DO
         //Button StartGomb = new Button("Start"); // inkább egy kliensnél legyen ez a gomb
         //StartGomb.setFont(startgombfont);
 
