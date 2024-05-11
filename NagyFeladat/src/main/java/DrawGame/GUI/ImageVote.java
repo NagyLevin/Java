@@ -43,8 +43,7 @@ public class ImageVote extends Application {
         GameMaster GM = new GameMaster();
         GM.testpromtREMOVELATER();
 
-        GridPane GP = new GridPane();
-        GP.setHgap(15); //eltolás
+
 
         for (int i = 0; i < GM.PromtsThisRound.length; i++) {
 
@@ -55,6 +54,8 @@ public class ImageVote extends Application {
                 if(!playerPressed ){
                     button.setStyle("-fx-background-color: red");
                    playersChoice =  button.getText();
+
+
                    playerPressed = true;
                 }
 
@@ -62,11 +63,12 @@ public class ImageVote extends Application {
 
             }); //talán késöbb playercolor?
 
-            GP.add(button,0,i);
+
+            vbox.getChildren().add(button);
 
         }
-        vbox.getChildren().add(GP);
-        vbox.setAlignment(Pos.TOP_LEFT);
+
+        vbox.setAlignment(Pos.CENTER);
 
 
         //System.out.println(image.getHeight());
