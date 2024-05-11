@@ -14,8 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import static javafx.application.Application.launch;
-
 public class ImagePromt extends Application {
 
 

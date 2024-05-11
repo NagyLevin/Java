@@ -2,12 +2,18 @@ package DrawGame.GUI;
 
 import DrawGame.ReadPromts;
 
+import java.util.Vector;
+
 public class GameMaster {
     int maxplayers = 8;
-    int currentplayers = 8; //test input változtasd
+    static int  currentplayers = 8; //test input változtasd
     String[] allRealpromts = new String[currentplayers];
-    String[] PromtsThisRound = new String[currentplayers+1];
+    static String[] PromtsThisRound = new String[currentplayers+1];
     String GoodPromtThisRound = "";
+    Vector<Integer> players = new Vector<>();
+    Vector<Integer> playersColor = new Vector<>();
+    Vector<Integer> playersPoints = new Vector<>();
+
 
 
     //itt induljanak a gamestagek
