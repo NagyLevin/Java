@@ -20,6 +20,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Random;
 
 
@@ -28,6 +31,14 @@ public class Lobby extends Application {
     private final int YY = 600;
     boolean ishosted = false;
     String gamecode;
+    Boolean gameStarted = false;
+    int playercount = 0;
+
+    //Hosting resz
+
+
+
+    //Hosting resz
 
 
     public boolean validatecode(String code){
@@ -61,12 +72,15 @@ public class Lobby extends Application {
         host.setOnAction(event -> {
             if(!ishosted){
                 ishosted = true;
-                hostcode.setEditable(false);
-                String code = hostcode.getText();
-                if(validatecode(code)){
 
-                    System.out.printf("Hosting started");
+                String code = hostcode.getText();
+                if(!validatecode(code)){    //ÁTCSERÉLTEM NEM RE A TESZTHEZ
+
+
                     gamecode = code;
+                    hostcode.setEditable(false);
+                    new Thread(new hosting()).start();
+                    System.out.printf("Hosting started");
                     //startSession ugy ertem hogy startold majd a hostolást
 
                 }
@@ -127,6 +141,12 @@ public class Lobby extends Application {
 
     @Override
     public void start(Stage Lobby) {
+
+
+
+
+
+        //hosting();
         //Csinálok egy Canvast
         Canvas canvas = new Canvas(XX, YY);
 
@@ -169,7 +189,13 @@ public class Lobby extends Application {
         StackPane.setAlignment(startsessionbutton,Pos.TOP_LEFT);
         StackPane.setMargin(startsessionbutton, new Insets(30,0 ,0,0 ));
 
+        if(gameStarted = true){
 
+
+
+            GameMaster GM = new GameMaster(playercount);
+
+        }
 
 
 
@@ -189,6 +215,7 @@ public class Lobby extends Application {
 
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }

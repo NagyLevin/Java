@@ -40,7 +40,7 @@ public class ImageVote extends Application {
         GiveaPromt.setFont(promz);
         vbox.getChildren().add(GiveaPromt);
 
-        GameMaster GM = new GameMaster();
+        GameMaster GM = new GameMaster(1);
         GM.testpromtREMOVELATER();
 
 

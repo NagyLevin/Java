@@ -4,7 +4,7 @@ import DrawGame.ReadPromts;
 
 import java.util.Vector;
 
-public class GameMaster {
+public class GameMaster extends Thread {
     int maxplayers = 8;
     static int  currentplayers = 8; //test input változtasd
     String[] allRealpromts = new String[currentplayers];
@@ -14,6 +14,9 @@ public class GameMaster {
     Vector<Integer> playersColor = new Vector<>();
     Vector<Integer> playersPoints = new Vector<>();
 
+    GameMaster(int playercount){
+        currentplayers = playercount;
+    }
 
 
     //itt induljanak a gamestagek

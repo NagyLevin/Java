@@ -44,7 +44,7 @@ public class ClientJoin extends Application {
             System.out.println("Kod: " + code); //az eltarolt adat
             System.out.println("Nev: " + nev); //az eltarolt adat
 
-            player.setName(nev);
+            player.setPlayerName(nev);
 
         });
 

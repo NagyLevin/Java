@@ -1,5 +1,11 @@
 package DrawGame.GUI;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 public class Player {
     private int[] palyercolor = new int[3];
     private boolean amIhost = false;
@@ -10,7 +16,9 @@ public class Player {
     int playerid ;
 
 
-    public void setName(String name){
+
+
+    public void setPlayerName(String name){
 
         playername = name;
     }
