@@ -7,10 +7,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -26,8 +24,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 
@@ -38,7 +38,7 @@ public class DrawfuLboard extends Application {
         bfinish.setOnAction(e->{
 
             canedit = false;
-            savadrawing();
+            savadrawing(canvas);
             //kep elmentese
 
 
@@ -89,33 +89,40 @@ public class DrawfuLboard extends Application {
 
 
     }
-    public void savadrawing(){
+    public void savadrawing(Canvas canvas) {
+        int playerid = 1; // currentplayer.playerid;
+        String playeridS = String.valueOf(playerid);
 
-        int playerid = 1;//currentplayer.playerid;
-        String playeridS = String.valueOf(playerid) +".png";
+        WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        canvas.snapshot(null, writableImage); //kell csinálni róla egy snapshootot
 
-        WritableImage image = new WritableImage(XX, YY);
-        File file = new File(playeridS); //fajlnev
-
-        BufferedImage bufferedImage = new BufferedImage(XX, YY, BufferedImage.TYPE_INT_ARGB);
-
-
+        File file = new File(playeridS + ".png"); //fájl neve
 
         try {
 
+            BufferedImage bufferedImage = WriteableToBufferedImmage(writableImage);
             ImageIO.write(bufferedImage, "png", file);
-            System.out.println("Immage saved");
-
-
-
+            System.out.println("Kep elmentve");
         } catch (IOException e) {
-            throw new RuntimeException("Cant savae immage");
+            System.err.println("Valami hiba lépett fel a kép mentése közben");
         }
+    }
 
+    private BufferedImage WriteableToBufferedImmage(Image image) {
+
+        BufferedImage bufferedImage = new BufferedImage(XX, YY, BufferedImage.TYPE_INT_ARGB);
+
+        int[] pixels = new int[XX * YY];
+        image.getPixelReader().getPixels(0, 0, XX, YY, PixelFormat.getIntArgbInstance(), pixels, 0, XX);
+
+        WritableRaster raster = bufferedImage.getRaster();
+        raster.setDataElements(0, 0, XX, YY, pixels);
+
+        return bufferedImage;
     }
 
 
-    public int RandomBetween(int min, int max){ //random by https://stackoverflow.com/questions/5271598/java-generate-random-number-between-two-given-values
+    public int RandomBetween(int min, int max){
         Random r = new Random();
 
         int result = r.nextInt(max-min) + min;

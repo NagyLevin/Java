@@ -24,7 +24,7 @@ public class ImagePromt extends Application {
     public void start(Stage VoteStage)  {
 
 
-        Image image = new Image("file:test.png"); // Töltse be a háttérben
+        Image image = new Image("file:1.png"); // Töltse be a háttérben
 
         VBox vbox = new VBox(20, new ImageView(image));
         vbox.setAlignment(Pos.BASELINE_CENTER);
@@ -43,7 +43,7 @@ public class ImagePromt extends Application {
         SendInPromt.setFont(buttonz);
         vbox.getChildren().add(SendInPromt);
 
-        System.out.println(image.getHeight());
+        //System.out.println(image.getHeight());
 
         Scene scene = new Scene(vbox, image.getWidth(), image.getHeight()*1.3);
 
