@@ -10,9 +10,8 @@ public class GameMaster extends Thread {
     String[] allRealpromts = new String[currentplayers];
     static String[] PromtsThisRound = new String[currentplayers+1];
     String GoodPromtThisRound = "";
-    Vector<Integer> players = new Vector<>();
-    Vector<Integer> playersColor = new Vector<>();
-    Vector<Integer> playersPoints = new Vector<>();
+
+
 
     GameMaster(){
 

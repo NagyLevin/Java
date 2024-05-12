@@ -1,6 +1,10 @@
 package DrawGame.GUI.Client;
 
 import DrawGame.GUI.Server.hosting;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,20 +120,38 @@ public class Player implements Runnable{
         System.out.println("client join is running");
 
 
-
+        System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         if(fromserver().equals("Givestats")){
             //System.out.println("siker");
 
             try {
                 toServer("firstStats");
-                toServer(String.valueOf( Lplayer.getPlayerColoR()));
-                toServer(String.valueOf( Lplayer.getPlayerColoG()));
-                toServer(String.valueOf( Lplayer.getPlayerColoB()));
-                toServer(Lplayer.playername);
+                toServer(joincode);
+                toServer(String.valueOf( Lplayer.getPlayerColoR()));//szinR
+                toServer(String.valueOf( Lplayer.getPlayerColoG()));//szinG
+                toServer(String.valueOf( Lplayer.getPlayerColoB()));//szinB
+                toServer(Lplayer.playername);//nev beállít
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            if(fromserver().equals("true")){
+                Lplayer.amIhost = true;
 
+                Platform.runLater(() -> {
+                    //System.out.println("runs?");
+                    ClientJoin.playerishost = true;
+                    ClientJoin.createStart();
+                });
+
+
+
+            }
+            else if(fromserver().equals("false")){
+                Lplayer.amIhost = false;
+            }else{
+                System.out.println("hiba az adatok szinkronizállása közben");
+
+            }
 
 
         }

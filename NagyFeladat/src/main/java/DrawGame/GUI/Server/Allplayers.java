@@ -1,10 +1,13 @@
 package DrawGame.GUI.Server;
 
+import javafx.application.Platform;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Vector;
 
 class OnlinePlayer{
     int[] palyercolor = new int[3];
@@ -59,23 +62,31 @@ class OnlinePlayer{
 }
 
 
+
 public class Allplayers extends Thread{
 
     protected Socket clientSocket;
     protected BufferedReader clientReader;
     protected PrintWriter clientWriter;
+    static Vector<OnlinePlayer> players = new Vector<>();
+    static String gamecode = "";
+
 
 
     public Allplayers(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   //reader a kommunikációhoz
         this.clientWriter = new PrintWriter(clientSocket.getOutputStream());    //writer a kommunikációhoz
+        gamecode = hosting.gamecode;
+
     }
     protected void sendLine(String line) throws IOException {   //elküld egy sort a kliensnek
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
     public void run() {
+
+        System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
         OnlinePlayer Oplayer = new OnlinePlayer();
         GameMaster GameM = new GameMaster();
@@ -91,12 +102,31 @@ public class Allplayers extends Thread{
 
               if(clientReader.readLine().equals("firstStats")){
 
+                  String clienscode = clientReader.readLine();
+                  if(!clienscode.equals(gamecode)){
+                      System.out.println(clienscode + " : " + gamecode);
 
-                  Oplayer.setPlayerColoR(Integer.parseInt(clientReader.readLine()) );
-                  Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );
-                  Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );
-                  Oplayer.playername = clientReader.readLine();
+                      clientSocket.close();
+
+                  }
+
+                  Oplayer.setPlayerColoR(Integer.parseInt(clientReader.readLine()) ); //szinR
+                  Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
+                  Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
+                  Oplayer.playername = clientReader.readLine(); //nev beállít
                   Oplayer.playerid = (int) ThreadId;
+                  if(players.isEmpty()){
+                      Oplayer.amIhost = true;
+                      sendLine("true");
+                  }
+                  else{
+                      Oplayer.amIhost = false;
+                      sendLine("false");
+                  }
+
+
+                  players.add(Oplayer);
+
 
                   //System.out.println(Oplayer.playername);
               }

@@ -77,9 +77,9 @@ public class Lobby extends Application {
                 if(!validatecode(code)){    //ÁTCSERÉLTEM NEM RE A TESZTHEZ
 
 
-                    gamecode = code;
+                    gamecode = "ABCD";//code;
                     hostcode.setEditable(false);
-                    new Thread(new hosting()).start();
+                    new Thread(new hosting(gamecode)).start();
                     System.out.printf("Hosting started");
                     //startSession ugy ertem hogy startold majd a hostolást
 
@@ -145,7 +145,7 @@ public class Lobby extends Application {
 
 
 
-
+        System.out.println("isJavaFxThread? Lobbyban" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         //hosting();
         //Csinálok egy Canvast
         Canvas canvas = new Canvas(XX, YY);

@@ -8,10 +8,12 @@ public class hosting implements Runnable {
 
     public static final int PORT_NUMBER = 13131;    //port szama 10k felett
     protected ServerSocket serverSocket;
-
-    public hosting() {
+    public static String gamecode = "";
+    public hosting(String _gamecode) {
         try {
             serverSocket= new ServerSocket(PORT_NUMBER);           //a szerver socketje
+            gamecode = _gamecode;
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

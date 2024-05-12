@@ -19,7 +19,10 @@ public class ClientJoin extends Application {
     private final int XX = 300;
     private final int YY = 400;
     int[] playercolor = {200,0,0};
-    boolean playerishost = false;
+    public static boolean playerishost = false;
+    public boolean joined = false;
+    static VBox vBox = new VBox();
+
 
     public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton){   //eventek egy helyre összegyüjtve
 
@@ -42,13 +45,16 @@ public class ClientJoin extends Application {
             //UserCode.setText("");
             String nev = UserName.getText();
 
-            if(nev.isEmpty() && code.isEmpty()){
+            if(nev.isEmpty() && code.isEmpty() && !joined){
                 //System.out.println("Kod: " + code); //az eltarolt adat
                 //System.out.println("Nev: " + nev); //az eltarolt adat
                 nev = "tesztplayer";
                 code = "ABCD";
+                joined = true;
 
                 new Thread(new Player(nev,playercolor,code,"127.0.0.1")).start();
+
+
 
             }
 
@@ -57,14 +63,33 @@ public class ClientJoin extends Application {
 
 
     }
+
+    public static void createStart(){
+
+        Platform.runLater(() -> {
+
+            //System.out.println("playeris host: " +playerishost);
+            if(playerishost){
+
+
+                Button StartButton = new Button("Start");
+                Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
+                StartButton.setFont(buttons);
+
+
+
+                vBox.getChildren().add(StartButton);
+
+            }
+        });
+
+
+    }
+
+
     @Override
     public void start(Stage ClientStage) {
 
-
-
-
-
-        VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
 
         Label Drawfullclient = new Label("DrawfulL Client");
@@ -96,15 +121,9 @@ public class ClientJoin extends Application {
         ClientJoinButton.setFont(buttonz);
 
         vBox.getChildren().add(ClientJoinButton);
+        System.out.println("isJavaFxThread? Client Joinban" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
-        if(playerishost == true){
-            // Csak akkor lássa a kliens ha ő a host
-            Button StartButton = new Button("Start");
-            Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
-            StartButton.setFont(buttons);
 
-            vBox.getChildren().add(StartButton);
-        }
 
 
 
