@@ -72,7 +72,7 @@ public class Allplayers extends Thread{
     static String gamecode = "";
     int minplayer = 1;  //kesobb 3 ra állísd
     int maxplayer = 1;  //kesobb 8 a példában
-
+    static boolean gamestartedbyclient = false;
 
     public Allplayers(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
@@ -146,29 +146,43 @@ public class Allplayers extends Thread{
                   //System.out.println(Oplayer.playername);
               }
 
+            if(Oplayer.amIhost){
+                System.out.println("wait1");
 
-            System.out.println("wait1");
-              clientout = clientReader.readLine();
-            System.out.println("wait2");
-              System.out.println(clientout);
+                clientout = clientReader.readLine();  //es itt akad meg a másik kliens
+                System.out.println("wait2");
+                System.out.println(clientout);
 
-              if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
-                //itt kezdodik a game
+                if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
+                    //itt kezdodik a game
 
-                      sendLine("StartGameCountDown");
-                      sendLine("10");
-
-
-
-
-              }
+                    gamestartedbyclient = true;
 
 
 
 
 
+                }
 
-        } catch (IOException e) {
+            }
+
+            while(!gamestartedbyclient){    //kliensek ujraszinkronizállása, hogy bevárják egymást
+                //System.out.println("Waiting for game to start");
+                Thread.sleep(1);
+            }
+
+            if(gamestartedbyclient){
+                sendLine("StartGameCountDown");
+                sendLine("10");
+
+            }
+
+
+
+
+
+
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
