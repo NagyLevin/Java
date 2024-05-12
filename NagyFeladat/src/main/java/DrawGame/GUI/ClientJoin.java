@@ -18,9 +18,10 @@ public class ClientJoin extends Application {
 
     private final int XX = 300;
     private final int YY = 400;
+    int[] playercolor = {200,0,0};
+    boolean playerishost = false;
 
-
-    public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton,Player player){   //eventek egy helyre összegyüjtve
+    public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -41,10 +42,16 @@ public class ClientJoin extends Application {
             //UserCode.setText("");
             String nev = UserName.getText();
 
-            System.out.println("Kod: " + code); //az eltarolt adat
-            System.out.println("Nev: " + nev); //az eltarolt adat
+            if(nev.isEmpty() && code.isEmpty()){
+                //System.out.println("Kod: " + code); //az eltarolt adat
+                //System.out.println("Nev: " + nev); //az eltarolt adat
+                nev = "tesztplayer";
+                code = "ABCD";
 
-            player.setPlayerName(nev);
+                new Thread(new Player(nev,playercolor,code,"127.0.0.1")).start();
+
+            }
+
 
         });
 
@@ -53,7 +60,7 @@ public class ClientJoin extends Application {
     @Override
     public void start(Stage ClientStage) {
 
-        Player ClientPlayer = new Player();
+
 
 
 
@@ -90,12 +97,15 @@ public class ClientJoin extends Application {
 
         vBox.getChildren().add(ClientJoinButton);
 
-        // Csak akkor lássa a kliens ha ő a host
-        Button StartButton = new Button("Start");
-        Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
-        StartButton.setFont(buttons);
+        if(playerishost == true){
+            // Csak akkor lássa a kliens ha ő a host
+            Button StartButton = new Button("Start");
+            Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
+            StartButton.setFont(buttons);
 
-        vBox.getChildren().add(StartButton);
+            vBox.getChildren().add(StartButton);
+        }
+
 
 
 
@@ -103,7 +113,7 @@ public class ClientJoin extends Application {
         vBox.setStyle("-fx-background-color: rgb(200, 255, 200);"); //esetleg playercolorra?
         Scene scene = new Scene(vBox, XX, YY);
 
-        events(scene,userCode,userName,ClientJoinButton,ClientPlayer);
+        events(scene,userCode,userName,ClientJoinButton);
 
         ClientStage.setScene(scene);
 

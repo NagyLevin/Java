@@ -1,5 +1,5 @@
 package DrawGame.GUI;
-
+/*
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -225,3 +225,4 @@ public class DrawfuLboard extends Application {
     boolean canedit = true;
 
 }
+*/

@@ -23,6 +23,9 @@ public class Allplayers extends Thread{
         clientWriter.flush();
     }
     public void run() {
+        System.out.println("van egy kliens!");
+        long ThreadId = Thread.currentThread().getId();
+        System.out.println("Hello Kliens!" + "(" +ThreadId + ")");
 
     }
 
