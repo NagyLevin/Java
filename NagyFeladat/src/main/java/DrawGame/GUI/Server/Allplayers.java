@@ -24,35 +24,35 @@ class OnlinePlayer{
 
     }
 
-    public void setPlayerName(String name){
+    public synchronized void setPlayerName(String name){
 
         playername = name;
     }
-    public int getPlayerColoR(){
+    public synchronized int getPlayerColoR(){
 
         return palyercolor[0];
 
     }
-    public int getPlayerColoB(){
+    public synchronized int getPlayerColoB(){
 
         return palyercolor[2];
 
     }
-    public int getPlayerColoG(){
+    public synchronized int getPlayerColoG(){
 
         return palyercolor[1];
 
     }
-    public void setPlayerColoR(int coloR){
+    public synchronized void setPlayerColoR(int coloR){
 
         palyercolor[0] = coloR;
 
     }
-    public void setPlayerColoB(int coloB){
+    public synchronized void setPlayerColoB(int coloB){
 
         palyercolor[2] = coloB;
 
-    } public void setPlayerColoG(int coloG){
+    } public synchronized void setPlayerColoG(int coloG){
 
         palyercolor[1] = coloG;
 
@@ -70,7 +70,8 @@ public class Allplayers extends Thread{
     protected PrintWriter clientWriter;
     static Vector<OnlinePlayer> players = new Vector<>();
     static String gamecode = "";
-
+    int minplayer = 1;  //kesobb 3 ra állísd
+    int maxplayer = 1;  //kesobb 8 a példában
 
 
     public Allplayers(Socket clientSocket) throws IOException {
@@ -80,11 +81,11 @@ public class Allplayers extends Thread{
         gamecode = hosting.gamecode;
 
     }
-    protected void sendLine(String line) throws IOException {   //elküld egy sort a kliensnek
+    protected synchronized void sendLine(String line) throws IOException {   //elküld egy sort a kliensnek
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
-    public void run() {
+    public synchronized void run() {
 
         System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
@@ -100,7 +101,9 @@ public class Allplayers extends Thread{
               sendLine("Givestats");
             //System.out.println(clientReader.readLine());
 
-              if(clientReader.readLine().equals("firstStats")){
+            String clientout = clientReader.readLine();
+            System.out.println(clientout);
+              if(clientout.equals("firstStats")){
 
                   String clienscode = clientReader.readLine();
                   if(!clienscode.equals(gamecode)){
@@ -116,26 +119,45 @@ public class Allplayers extends Thread{
                   Oplayer.playername = clientReader.readLine(); //nev beállít
                   Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
                   Oplayer.playerid = (int) ThreadId;
+
+                    clientout =clientReader.readLine();
+                  System.out.println(clientout);
+                  if(clientout.equals("AmIHost")){
+
+
                   if(players.isEmpty()){
                       Oplayer.amIhost = true;
                       sendLine("true");
+                     // System.out.println("lefut a true");
                   }
                   else{
+                     // System.out.println("lefut a fase");
                       Oplayer.amIhost = false;
                       sendLine("false");
                   }
 
+                  if(players.size() > maxplayer){
+                      clientSocket.close(); //max player hat
+                  }
 
                   players.add(Oplayer);
-
+                  }
 
                   //System.out.println(Oplayer.playername);
               }
 
-              String startedgame = clientReader.readLine();
-              if(startedgame.equals("PlayerStartedTheGame")){
+              clientout = clientReader.readLine();
+            System.out.println(clientout);
 
-                  System.out.println("Game indul");
+              if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
+                //itt kezdodik a game
+
+                      sendLine("StartGameCountDown");
+                      sendLine("10");
+
+
+
+
               }
 
 

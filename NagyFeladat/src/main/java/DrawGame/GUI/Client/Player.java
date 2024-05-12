@@ -75,7 +75,7 @@ public class Player implements Runnable{
     String ip = "";
     protected static Socket clientSocket;
     boolean playerstartedgame = false;
-
+    int countdown = 0;
 
 
 
@@ -112,7 +112,7 @@ public class Player implements Runnable{
 
     }
 
-  public static void startgame(){
+  public static void startgame(){   //elküld egy start gamet
       try {
           toServer("PlayerStartedTheGame");
       } catch (IOException e) {
@@ -132,7 +132,7 @@ public class Player implements Runnable{
         System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         if(fromserver().equals("Givestats")){
             //System.out.println("siker");
-
+            String serversays ="";
             try {
                 toServer("firstStats");
                 toServer(joincode);
@@ -143,7 +143,15 @@ public class Player implements Runnable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if(fromserver().equals("true")){
+            //host vagyok?
+            try {
+                toServer("AmIHost");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            serversays = fromserver();
+            if(serversays.equals("true")){
                 Lplayer.amIhost = true;
 
                 Platform.runLater(() -> {
@@ -151,16 +159,32 @@ public class Player implements Runnable{
                     ClientJoin.playerishost = true;
                     ClientJoin.createStart();
                 });
-
-
+                System.out.println("I am the host :D");
 
             }
-            else if(fromserver().equals("false")){
+            else if(serversays.equals("false")){
+
                 Lplayer.amIhost = false;
+                System.out.println("I am not the host :O");
+
             }else{
                 System.out.println("hiba az adatok szinkronizállása közben");
 
             }
+            //itt van egy start game fv hivás
+
+            //utána kapunk countdownt válaszul
+            serversays = fromserver();
+            System.out.println(serversays);
+            if(serversays.equals("StartGameCountDown")){
+                System.out.println("countdown");
+                countdown = Integer.parseInt(fromserver()); //kapok egy countdownt
+
+
+            }
+
+
+
 
 
 

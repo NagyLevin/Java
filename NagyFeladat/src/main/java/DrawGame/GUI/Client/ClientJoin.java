@@ -67,10 +67,10 @@ public class ClientJoin extends Application {
                 //System.out.println("Nev: " + nev); //az eltarolt adat
                 nev = "tesztplayer";
                 code = "ABCD";
-                joined = true;
+
 
                 new Thread(new Player(nev,playercolor,code,"127.0.0.1")).start();
-
+                joined = true;
 
 
             }
