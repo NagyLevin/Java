@@ -22,7 +22,7 @@ public class ClientJoin extends Application {
     private final int XX = 300;
     private final int YY = 400;
     private final Random random = new Random();
-    int[] playercolor = new int[3];
+    int[] playercolor = {random.nextInt(255),random.nextInt(255),random.nextInt(255)};
     public static boolean playerishost = false;
     public boolean joined = false;
     static VBox vBox = new VBox();
@@ -32,7 +32,7 @@ public class ClientJoin extends Application {
         playercolor[0] = random.nextInt(255);
         playercolor[1] = random.nextInt(255);
         playercolor[2] = random.nextInt(255);
-        String backgroundColor = String.format("-fx-background-color: rgb(%d, %d, %d);", playercolor[0], playercolor[1],playercolor[2]);
+        String backgroundColor = String.format("-fx-background-color: rgb(%d, %d, %d)", playercolor[0], playercolor[1],playercolor[2]);
 
 
         vBox.setStyle(backgroundColor);
@@ -154,9 +154,9 @@ public class ClientJoin extends Application {
 
 
 
+        String backgroundColor = String.format("-fx-background-color: rgb(%d, %d, %d)", playercolor[0], playercolor[1],playercolor[2]);
 
-
-        vBox.setStyle("-fx-background-color: rgb(200, 255, 200);"); //esetleg playercolorra?
+        vBox.setStyle(backgroundColor);
         Scene scene = new Scene(vBox, XX, YY);
 
         events(scene,userCode,userName,ClientJoinButton,BnewColor);
