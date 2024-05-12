@@ -147,9 +147,9 @@ public class Allplayers extends Thread{
               }
 
 
-
+            System.out.println("wait1");
               clientout = clientReader.readLine();
-
+            System.out.println("wait2");
               System.out.println(clientout);
 
               if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
@@ -176,6 +176,9 @@ public class Allplayers extends Thread{
 
 
     }
+
+
+
 
 
 }

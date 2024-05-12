@@ -115,8 +115,15 @@ public class Player implements Runnable{
   public static void startgame(){   //elküld egy start gamet
       if (ClientJoin.playerishost){
 
-
+          System.out.println("I started the game");
           playerstartedgame = true;
+
+          try {
+              toServer("PlayerStartedTheGame");
+              System.out.println("Sending starter message to server");
+          } catch (IOException e) {
+              throw new RuntimeException(e);
+          }
       }
 
 
@@ -181,28 +188,13 @@ public class Player implements Runnable{
             }
             //itt van egy start game fv hivás
 
-            while (!playerstartedgame){
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
 
-                try {
-                    toServer("PlayerStartedTheGame");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
 
-                while (true){
-                    serversays = fromserver();
-                    System.out.println(serversays);
-                }
 
-            /*
+            System.out.println("wait1");
             //utána kapunk countdownt válaszul
             serversays = fromserver();
+            System.out.println("wait2");
             System.out.println(serversays);
             if(serversays.equals("StartGameCountDown")){
                 //System.out.println("countdown");
@@ -210,8 +202,6 @@ public class Player implements Runnable{
 
 
             }
-
-*/
 
 
 
