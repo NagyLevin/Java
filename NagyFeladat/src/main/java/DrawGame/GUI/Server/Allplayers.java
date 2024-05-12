@@ -146,8 +146,11 @@ public class Allplayers extends Thread{
                   //System.out.println(Oplayer.playername);
               }
 
+
+
               clientout = clientReader.readLine();
-            System.out.println(clientout);
+
+              System.out.println(clientout);
 
               if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
                 //itt kezdodik a game

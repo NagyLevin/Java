@@ -74,7 +74,7 @@ public class Player implements Runnable{
     String joincode ="";
     String ip = "";
     protected static Socket clientSocket;
-    boolean playerstartedgame = false;
+    static boolean playerstartedgame = false;
     int countdown = 0;
 
 
@@ -113,11 +113,13 @@ public class Player implements Runnable{
     }
 
   public static void startgame(){   //elküld egy start gamet
-      try {
-          toServer("PlayerStartedTheGame");
-      } catch (IOException e) {
-          throw new RuntimeException(e);
+      if (ClientJoin.playerishost){
+
+
+          playerstartedgame = true;
       }
+
+
 
   }
 
@@ -165,6 +167,12 @@ public class Player implements Runnable{
             else if(serversays.equals("false")){
 
                 Lplayer.amIhost = false;
+                Platform.runLater(() -> {
+                    ClientJoin.playerishost = false;
+                    ClientJoin.createStart();
+                });
+
+
                 System.out.println("I am not the host :O");
 
             }else{
@@ -173,17 +181,37 @@ public class Player implements Runnable{
             }
             //itt van egy start game fv hivás
 
+            while (!playerstartedgame){
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+                try {
+                    toServer("PlayerStartedTheGame");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                while (true){
+                    serversays = fromserver();
+                    System.out.println(serversays);
+                }
+
+            /*
             //utána kapunk countdownt válaszul
             serversays = fromserver();
             System.out.println(serversays);
             if(serversays.equals("StartGameCountDown")){
-                System.out.println("countdown");
+                //System.out.println("countdown");
                 countdown = Integer.parseInt(fromserver()); //kapok egy countdownt
 
 
             }
 
-
+*/
 
 
 

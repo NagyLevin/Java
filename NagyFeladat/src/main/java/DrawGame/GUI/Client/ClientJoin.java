@@ -85,7 +85,8 @@ public class ClientJoin extends Application {
 
         Platform.runLater(() -> {
 
-            //System.out.println("playeris host: " +playerishost);
+            System.out.println("playeris host: " +playerishost);
+
             if(playerishost){
 
 
@@ -103,6 +104,13 @@ public class ClientJoin extends Application {
 
 
             }
+            else{
+                Player.startgame();
+
+
+            }
+
+
         });
 
 
