@@ -109,10 +109,10 @@ public class Lobby extends Application {
     }
 
 
-    public static synchronized void addPlayerName(String name){
+    public static synchronized void addPlayerName(String name, int[] colors){
 
         Platform.runLater(() -> {
-        createlabel(name);
+        createlabel(name,colors);
         playercount = playercount +1;
         });
 
@@ -128,12 +128,12 @@ public class Lobby extends Application {
     }
 
 
-    private static void createlabel(String nev) {
+    private static void createlabel(String nev, int[] color) {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(-45,45));
         szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
-        szoveg.setTextFill(Color.rgb(RandomBetween(0,254),RandomBetween(0,254),RandomBetween(0,254)));
+        szoveg.setTextFill(Color.rgb(color[0],color[1],color[2]));
         SP.getChildren().add(szoveg);
 
 
