@@ -193,7 +193,7 @@ public class Lobby extends Application {
 
 
 
-            GameMaster GM = new GameMaster(playercount);
+
 
         }
 

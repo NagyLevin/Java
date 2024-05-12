@@ -7,34 +7,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
-public class Player implements Runnable{
-    private int[] palyercolor = new int[3];
-    private boolean amIhost = false;
-    private String playername = "";
-    String givenpromt = "TesztPromt";
-    private String fakepromt = "";
+class LOCALPlayer{
+     int[] palyercolor = new int[3];
+     boolean amIhost = false;
+     String playername = "";
+    String givenpromt = "";
+    String fakepromt = "";
     int numofcolors = 2;
     int playerid ;
-    String joincode ="";
-    String ip = "";
-    protected Socket clientSocket;
+    int points =0;
 
-    Player(String _playername,int[] _playercolor, String _joincode,String _ip){
-
+    LOCALPlayer(String _playername,int[] _playercolor){
         playername = _playername;
         palyercolor = _playercolor;
-        joincode = _joincode;
-        ip = _ip;
-        try {
-            clientSocket = new Socket(ip, hosting.PORT_NUMBER);
-        } catch (IOException e) {
-            throw new RuntimeException("Nem találtam akív szervert!");
-        }
+
     }
-
-
-
 
     public void setPlayerName(String name){
 
@@ -70,16 +59,82 @@ public class Player implements Runnable{
 
     }
 
+}
 
-    @Override
-    public void run() {
-        System.out.println("client join is running");
+
+public class Player implements Runnable{
+
+
+    String playername;
+    int[] palyercolor = new int[3];
+    String joincode ="";
+    String ip = "";
+    protected Socket clientSocket;
+
+
+
+    Player(String _playername,int[] _playercolor, String _joincode,String _ip){
+
+        //System.out.println(_playername);
+        playername = _playername;
+        palyercolor = _playercolor;
+
+
+        joincode = _joincode;
+        ip = _ip;
         try {
-            BufferedReader fromszerver = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
-            PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
+            clientSocket = new Socket(ip, hosting.PORT_NUMBER);
+        } catch (IOException e) {
+            throw new RuntimeException("Nem találtam akív szervert!");
+        }
+    }
+
+    public String fromserver(){
+        try {
+            BufferedReader serversays = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
+            return serversays.readLine();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+    }
+    public void toServer(String message) throws IOException {
+        PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
+        toszerver.println(message);
+        toszerver.flush();
+
+    }
+
+
+
+
+    @Override
+    public void run() {
+
+        LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
+        System.out.println("client join is running");
+
+
+
+        if(fromserver().equals("Givestats")){
+            //System.out.println("siker");
+
+            try {
+                toServer("firstStats");
+                toServer(String.valueOf( Lplayer.getPlayerColoR()));
+                toServer(String.valueOf( Lplayer.getPlayerColoG()));
+                toServer(String.valueOf( Lplayer.getPlayerColoB()));
+                toServer(Lplayer.playername);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+        }
+
+
 
 
 

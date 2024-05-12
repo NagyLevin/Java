@@ -14,8 +14,8 @@ public class GameMaster extends Thread {
     Vector<Integer> playersColor = new Vector<>();
     Vector<Integer> playersPoints = new Vector<>();
 
-    GameMaster(int playercount){
-        currentplayers = playercount;
+    GameMaster(){
+
     }
 
 
