@@ -73,7 +73,9 @@ public class Player implements Runnable{
     int[] palyercolor = new int[3];
     String joincode ="";
     String ip = "";
-    protected Socket clientSocket;
+    protected static Socket clientSocket;
+    boolean playerstartedgame = false;
+
 
 
 
@@ -103,14 +105,21 @@ public class Player implements Runnable{
         }
 
     }
-    public void toServer(String message) throws IOException {
+    public static synchronized void toServer(String message) throws IOException {
         PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
         toszerver.println(message);
         toszerver.flush();
 
     }
 
+  public static void startgame(){
+      try {
+          toServer("PlayerStartedTheGame");
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      }
 
+  }
 
 
     @Override
@@ -152,6 +161,9 @@ public class Player implements Runnable{
                 System.out.println("hiba az adatok szinkronizállása közben");
 
             }
+
+
+
 
 
         }

@@ -132,6 +132,12 @@ public class Allplayers extends Thread{
                   //System.out.println(Oplayer.playername);
               }
 
+              String startedgame = clientReader.readLine();
+              if(startedgame.equals("PlayerStartedTheGame")){
+
+                  System.out.println("Game indul");
+              }
+
 
 
 

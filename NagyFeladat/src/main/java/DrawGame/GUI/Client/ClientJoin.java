@@ -76,9 +76,14 @@ public class ClientJoin extends Application {
                 Font buttons = Font.font("ComicSans", FontWeight.BOLD,20);
                 StartButton.setFont(buttons);
 
-
-
                 vBox.getChildren().add(StartButton);
+
+                StartButton.setOnAction(event -> {
+                    //System.out.println("mukszik");
+                    Player.startgame();
+
+                });
+
 
             }
         });
