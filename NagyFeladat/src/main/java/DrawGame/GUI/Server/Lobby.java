@@ -27,13 +27,13 @@ import java.util.Random;
 
 
 public class Lobby extends Application {
-    private final int XX = 900;     //golbális méretek
-    private final int YY = 600;
+    private static final int XX = 900;     //golbális méretek
+    private static final int YY = 600;
     boolean ishosted = false;
     String gamecode;
     Boolean gameStarted = false;
-    int playercount = 0;
-
+    static int playercount = 0;
+    static StackPane SP = new StackPane();  //itt tarolom el a canvasz
     //Hosting resz
 
 
@@ -65,7 +65,7 @@ public class Lobby extends Application {
         return true;
     }
 
-    public void events(Scene scene, StackPane sp,Button host, TextField hostcode){   //eventek egy helyre összegyüjtve
+    public void events(Scene scene,Button host, TextField hostcode){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -101,20 +101,25 @@ public class Lobby extends Application {
                 Platform.exit();
 
             }
-            if (event.getCode() == KeyCode.B) { //b megnyomasara uj jatekos nev ideglenesen
 
-                createlabel(sp,"TesztFelirat");
-                //esetleg valahogy ugy rakd, hogy egy gridben kozepen van a cim körülötte meg a nevek
-
-
-            }
 
         });
 
 
     }
 
-    public int RandomBetween(int min, int max){ //random by https://stackoverflow.com/questions/5271598/java-generate-random-number-between-two-given-values
+
+    public static synchronized void addPlayerName(String name){
+
+        Platform.runLater(() -> {
+        createlabel(name);
+        playercount = playercount +1;
+        });
+
+    }
+
+
+    public static int RandomBetween(int min, int max){ //random by https://stackoverflow.com/questions/5271598/java-generate-random-number-between-two-given-values
         Random r = new Random();
 
         int result = r.nextInt(max-min) + min;
@@ -123,13 +128,13 @@ public class Lobby extends Application {
     }
 
 
-    private void createlabel(StackPane sp, String nev) {
+    private static void createlabel(String nev) {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(-45,45));
         szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
         szoveg.setTextFill(Color.rgb(RandomBetween(0,254),RandomBetween(0,254),RandomBetween(0,254)));
-        sp.getChildren().add(szoveg);
+        SP.getChildren().add(szoveg);
 
 
         //StackPane.setMargin(szoveg, new Insets(0,RandomBetween(-1*XX+100,XX-200) ,RandomBetween(-1*YY+100,YY-100) ,0 )); //le jobbra fel balra
@@ -176,7 +181,7 @@ public class Lobby extends Application {
 
 
 
-        StackPane SP = new StackPane();  //itt tarolom el a canvasz
+
         SP.getChildren().add(canvas);//breakom legfelülre
         SP.getChildren().add(cim);
         //SP.getChildren().add(StartGomb);
@@ -204,7 +209,7 @@ public class Lobby extends Application {
 
 
 
-        events(scene,SP,startsessionbutton,gamecode); //eventek futtatasa
+        events(scene,startsessionbutton,gamecode); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);

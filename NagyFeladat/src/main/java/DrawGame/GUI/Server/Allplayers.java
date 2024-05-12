@@ -114,6 +114,7 @@ public class Allplayers extends Thread{
                   Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
                   Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
                   Oplayer.playername = clientReader.readLine(); //nev beállít
+                  Lobby.addPlayerName(Oplayer.playername);
                   Oplayer.playerid = (int) ThreadId;
                   if(players.isEmpty()){
                       Oplayer.amIhost = true;
