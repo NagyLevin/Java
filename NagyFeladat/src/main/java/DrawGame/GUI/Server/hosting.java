@@ -1,4 +1,4 @@
-package DrawGame.GUI;
+package DrawGame.GUI.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

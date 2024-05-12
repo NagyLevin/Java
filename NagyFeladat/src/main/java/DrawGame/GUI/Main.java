@@ -1,6 +1,6 @@
-package DrawGame;
+package DrawGame.GUI;
 
-import DrawGame.GUI.Lobby;
+import DrawGame.GUI.Server.Lobby;
 
 
 public class Main {

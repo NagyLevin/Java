@@ -1,4 +1,4 @@
-package DrawGame.GUI;
+package DrawGame.GUI.Client;
 
 import javafx.application.Application;
 import javafx.application.Platform;

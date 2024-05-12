@@ -1,6 +1,6 @@
-package DrawGame.GUI;
+package DrawGame.GUI.Server;
 
-import DrawGame.ReadPromts;
+import DrawGame.GUI.ReadPromts;
 
 import java.util.Vector;
 

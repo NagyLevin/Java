@@ -1,6 +1,6 @@
-package DrawGame.GUI;
+package DrawGame.GUI.Client;
 
-import DrawGame.GUI.hosting;
+import DrawGame.GUI.Server.hosting;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class Player implements Runnable{
         try {
             clientSocket = new Socket(ip, hosting.PORT_NUMBER);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Nem találtam akív szervert!");
         }
     }
 

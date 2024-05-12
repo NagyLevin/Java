@@ -8,4 +8,8 @@ module DrawGame.GUI {
 
     opens DrawGame.GUI to javafx.fxml;
     exports DrawGame.GUI;
+    exports DrawGame.GUI.Client;
+    exports DrawGame.GUI.Server;
+
+
 }
