@@ -139,12 +139,12 @@ public class Player implements Runnable{
 
         LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
         System.out.println("client join is running");
-
+        String serversays ="";
 
         System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
         if(fromserver().equals("Givestats")){
             //System.out.println("siker");
-            String serversays ="";
+
             try {
                 toServer("firstStats");
                 toServer(joincode);
@@ -196,57 +196,28 @@ public class Player implements Runnable{
 
             //System.out.println("wait1");
             //utána kapunk countdownt válaszul
-            serversays = fromserver();
-            //System.out.println("wait2");
-
-            if(serversays.equals("StartGameCountDown")){
-
-                System.out.println(serversays);
-
-                countdown = 1; // msp 10 re ird majd at
 
 
 
-                playerstartedgame = true;
+        }
+        serversays = fromserver();
+        //System.out.println("wait2");
 
-                while (countdown > 0) {
-                    Platform.runLater(() -> {
-                        ClientJoin.TimerInClient(countdown);
+        if(serversays.equals("StartGameCountDown")){
 
+            System.out.println(serversays);
 
-                    });
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    countdown--;
-                }
-
-                try {
-                    toServer("GivePromt");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                serversays = fromserver();
-                Lplayer.givenpromt =serversays;
-                System.out.println(serversays);
-
-
-            }
+            countdown = 1; // msp 10 re ird majd at
 
 
 
-            //Valahol itt nyiss meg egy DRAWINGBOARDOT mindkét kliensnek
-            Platform.runLater(() -> {
-            ClientJoin.opentheboard(Lplayer.givenpromt,Lplayer.numofcolors,Lplayer.palyercolor);
+            playerstartedgame = true;
 
-
-            });
-            countdown = 180;
             while (countdown > 0) {
                 Platform.runLater(() -> {
-                    DrawfuLboard.TimerInClient(countdown);
+                    ClientJoin.TimerInClient(countdown);
+
+
                 });
                 try {
                     Thread.sleep(1000);
@@ -256,9 +227,40 @@ public class Player implements Runnable{
                 countdown--;
             }
 
+            try {
+                toServer("GivePromt");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            serversays = fromserver();
+            Lplayer.givenpromt =serversays;
+            System.out.println(serversays);
 
 
         }
+
+
+
+        //Valahol itt nyiss meg egy DRAWINGBOARDOT mindkét kliensnek
+        Platform.runLater(() -> {
+            ClientJoin.opentheboard(Lplayer.givenpromt,Lplayer.numofcolors,Lplayer.palyercolor);
+
+
+        });
+        countdown = 180;
+        while (countdown > 0) {
+            Platform.runLater(() -> {
+                DrawfuLboard.TimerInClient(countdown);
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            countdown--;
+        }
+
+        //rajzolas vege, a nem elmentett kepeket nem mentem el
 
 
 
