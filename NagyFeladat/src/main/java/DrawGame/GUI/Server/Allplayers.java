@@ -85,7 +85,7 @@ public class Allplayers extends Thread{
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
-    public synchronized void run() {
+    public void run() {
 
         System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
@@ -173,7 +173,8 @@ public class Allplayers extends Thread{
 
             if(gamestartedbyclient){
                 sendLine("StartGameCountDown");
-                sendLine("10");
+
+
 
             }
 

@@ -1,5 +1,6 @@
 package DrawGame.GUI.Client;
 
+import DrawGame.GUI.Server.Lobby;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -26,7 +27,7 @@ public class ClientJoin extends Application {
     public static boolean playerishost = false;
     public boolean joined = false;
     static VBox vBox = new VBox();
-
+    static Label timerLabel = new Label();
 
     public void newColor() {
         playercolor[0] = random.nextInt(255);
@@ -116,6 +117,13 @@ public class ClientJoin extends Application {
 
     }
 
+    public static void TimerInClient(int countdown){
+
+        timerLabel.setText("Game starts in: " + countdown + " seconds");
+
+
+
+    }
 
     @Override
     public void start(Stage ClientStage) {
@@ -159,8 +167,8 @@ public class ClientJoin extends Application {
         System.out.println("isJavaFxThread? Client Joinban" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
 
-
-
+        timerLabel.setFont(buttonz);
+        vBox.getChildren().add(timerLabel);
 
         String backgroundColor = String.format("-fx-background-color: rgb(%d, %d, %d)", playercolor[0], playercolor[1],playercolor[2]);
 

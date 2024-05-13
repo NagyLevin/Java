@@ -95,7 +95,7 @@ public class Player implements Runnable{
         }
     }
 
-    public String fromserver(){
+    public synchronized String fromserver(){
         try {
             BufferedReader serversays = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
             return serversays.readLine();
@@ -112,11 +112,11 @@ public class Player implements Runnable{
 
     }
 
-  public static void startgame(){   //elküld egy start gamet
-      if (ClientJoin.playerishost){
+  public static synchronized void startgame(){   //elküld egy start gamet
+      if (ClientJoin.playerishost && !playerstartedgame){
 
           System.out.println("I started the game");
-          playerstartedgame = true;
+
 
           try {
               toServer("PlayerStartedTheGame");
@@ -130,6 +130,9 @@ public class Player implements Runnable{
 
   }
 
+  public synchronized int SyncParseToint(String beszam){
+    return   Integer.parseInt(beszam);
+  }
 
     @Override
     public void run() {
@@ -195,11 +198,29 @@ public class Player implements Runnable{
             //utána kapunk countdownt válaszul
             serversays = fromserver();
             System.out.println("wait2");
-            System.out.println(serversays);
-            if(serversays.equals("StartGameCountDown")){
-                //System.out.println("countdown");
-                countdown = Integer.parseInt(fromserver()); //kapok egy countdownt
 
+            if(serversays.equals("StartGameCountDown")){
+
+                System.out.println(serversays);
+                countdown = 10; // msp
+
+
+
+                playerstartedgame = true;
+
+                while (countdown > 0) {
+                    Platform.runLater(() -> {
+                        ClientJoin.TimerInClient(countdown);
+
+
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    countdown--;
+                }
 
 
 
