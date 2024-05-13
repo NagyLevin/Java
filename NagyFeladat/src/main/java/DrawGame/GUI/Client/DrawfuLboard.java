@@ -29,7 +29,7 @@ public class DrawfuLboard extends Application {
 
     private final int XX = 900;
     private final int YY = 600;
-
+    static Stage VoteStage;
 
 
     private double lastX, lastY;
@@ -64,6 +64,18 @@ public class DrawfuLboard extends Application {
         timerLabel.setText("Time left: " + countdown );
         //System.out.println("mukszik?");
 
+
+    }
+
+    public static void openVoting(int[] palyercolor) {
+
+        ImagePromt DB = new ImagePromt(palyercolor); //start a drawingboard
+        System.out.println("sikeres voteinditas nyitas");
+        try {
+            DB.start(VoteStage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -228,6 +240,7 @@ public class DrawfuLboard extends Application {
         Ancorroot.getChildren().add(ColorType2);
         Ancorroot.getChildren().add(timerLabel);
 
+        VoteStage = BoardStage;
 
         events(scene,canvas,gc,bFinish,ColorType1,ColorType2);    //eventek osszegyujtve
 

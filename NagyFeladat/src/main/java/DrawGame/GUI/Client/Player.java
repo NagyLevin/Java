@@ -247,7 +247,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 180;
+        countdown = 1; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -261,8 +261,25 @@ public class Player implements Runnable{
         }
 
         //rajzolas vege, a nem elmentett kepeket nem mentem el
+        //itt kezdodik a promt adas
+        Platform.runLater(() -> {
+            DrawfuLboard.openVoting(Lplayer.palyercolor);
 
 
+        });
+
+        countdown = 30; //30 ra állísd
+        while (countdown > 0) {
+            Platform.runLater(() -> {
+                ImagePromt.TimerInClient(countdown);
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            countdown--;
+        }
 
 
 

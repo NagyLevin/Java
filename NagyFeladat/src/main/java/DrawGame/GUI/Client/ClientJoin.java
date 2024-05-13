@@ -87,10 +87,10 @@ public class ClientJoin extends Application {
     }
 
     public static void opentheboard(String _promt, int _numofcolors,int[] _playercolor){
-        Openborad = true;
+
         givenpromt =_promt;
         numofcolors = _numofcolors;
-        System.out.println("sikeres board valtozok beallitva");
+
         DrawfuLboard DB = new DrawfuLboard(givenpromt, numofcolors, _playercolor); //start a drawingboard
         System.out.println("sikeres board nyitas");
         try {
