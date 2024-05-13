@@ -229,6 +229,7 @@ public class Player implements Runnable{
                     throw new RuntimeException(e);
                 }
                 serversays = fromserver();
+                Lplayer.givenpromt =serversays;
                 System.out.println(serversays);
 
 
@@ -237,11 +238,9 @@ public class Player implements Runnable{
 
 
             //Valahol itt nyiss meg egy DRAWINGBOARDOT mindkét kliensnek
-
-
-
-
-
+            Platform.runLater(() -> {
+            ClientJoin.opentheboard(Lplayer.givenpromt,Lplayer.numofcolors,Lplayer.palyercolor);
+            });
 
         }
 

@@ -1,5 +1,5 @@
 package DrawGame.GUI.Client;
-/*
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -32,6 +32,38 @@ import java.util.Random;
 
 
 public class DrawfuLboard extends Application {
+
+
+    private final int XX = 900;
+    private final int YY = 600;
+
+
+
+    private double lastX, lastY;
+
+
+    String playersPromt ="TestPromt";
+    int redColor = 200;//currentplayer.getPlayerColoR();
+    int greenColor = 0;//currentplayer.getPlayerColoG();
+    int blueColor = 0;//currentplayer.getPlayerColoG();
+
+    int randcolor1 = RandomBetween(1,5);;
+    int randcolor2;
+
+    Color strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1); //szin
+    int numofcolors = 2;
+    boolean canedit = true;
+
+    DrawfuLboard(String _promt, int _numofcolors, int[] _playercolors){
+
+        numofcolors = _numofcolors;
+        playersPromt = _promt;
+        redColor = _playercolors[0];
+        greenColor = _playercolors[1];
+        blueColor = _playercolors[2];
+
+
+    }
 
 
     public void events(Scene scene, Canvas canvas, GraphicsContext gc,Button bfinish,Button BColor1,Button BColor2){
@@ -90,13 +122,14 @@ public class DrawfuLboard extends Application {
 
     }
     public void savadrawing(Canvas canvas) {
-        int playerid = 1; // currentplayer.playerid;
-        String playeridS = String.valueOf(playerid);
+
+
 
         WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
         canvas.snapshot(null, writableImage); //kell csinálni róla egy snapshootot
 
-        File file = new File(playeridS + ".png"); //fájl neve
+
+        File file = new File(playersPromt + ".png"); //fájl neve
 
         try {
 
@@ -151,7 +184,7 @@ public class DrawfuLboard extends Application {
         Scene scene = new Scene(root, XX, YY);
 
 
-        Label promt= new Label(currentplayer.givenpromt);
+        Label promt= new Label(playersPromt);
         promt.setFont(Font.font("Arial", FontWeight.BOLD,30));
         promt.setTextFill(Color.rgb(200,0,0));//currentplayer.getPlayerColoR(),currentplayer.getPlayerColoG(),currentplayer.getPlayerColoB()));
 
@@ -197,32 +230,13 @@ public class DrawfuLboard extends Application {
         BoardStage.show();
 
 
+
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private final int XX = 900;
-    private final int YY = 600;
 
-
-
-    private double lastX, lastY;
-
-    Player currentplayer = new Player();
-
-    int redColor = 200;//currentplayer.getPlayerColoR();
-    int greenColor = 0;//currentplayer.getPlayerColoG();
-    int blueColor = 0;//currentplayer.getPlayerColoG();
-    int randcolor1 = RandomBetween(1,5);;
-    int randcolor2;
-
-
-
-    Color strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1); //szin
-    int numofcolors = currentplayer.numofcolors;
-    boolean canedit = true;
 
 }
-*/

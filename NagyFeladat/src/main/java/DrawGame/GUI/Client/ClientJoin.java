@@ -28,6 +28,10 @@ public class ClientJoin extends Application {
     public boolean joined = false;
     static VBox vBox = new VBox();
     static Label timerLabel = new Label();
+    static String givenpromt;
+    static int numofcolors;
+    static boolean Openborad = false;
+    public static Stage boardStage;
 
     public void newColor() {
         playercolor[0] = random.nextInt(255);
@@ -80,6 +84,20 @@ public class ClientJoin extends Application {
         });
 
 
+    }
+
+    public static void opentheboard(String _promt, int _numofcolors,int[] _playercolor){
+        Openborad = true;
+        givenpromt =_promt;
+        numofcolors = _numofcolors;
+        System.out.println("sikeres board valtozok beallitva");
+        DrawfuLboard DB = new DrawfuLboard(givenpromt, numofcolors, _playercolor); //start a drawingboard
+        System.out.println("sikeres board nyitas");
+        try {
+            DB.start(boardStage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void createStart(){
@@ -170,6 +188,12 @@ public class ClientJoin extends Application {
 
         vBox.setStyle(backgroundColor);
         Scene scene = new Scene(vBox, XX, YY);
+
+
+        boardStage = ClientStage; //azert hogy tudjak ablakot váltani
+
+
+
 
         events(scene,userCode,userName,ClientJoinButton,BnewColor);
 
