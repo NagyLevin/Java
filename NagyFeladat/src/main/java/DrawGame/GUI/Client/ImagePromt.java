@@ -33,12 +33,12 @@ public class ImagePromt extends Application {
    Vector<String> Images = new Vector<>();
 
 
-    /*
+
     ImagePromt(int[] _playercolor){
             playercolor = _playercolor;
 
     }
-    */
+
 
 
     public static void TimerInClient(int countdown) {
@@ -128,6 +128,8 @@ public class ImagePromt extends Application {
             if(Images.isEmpty()){
                 System.out.println("elkuldom a kepet a playernek classnak");
                 SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
+                Player.giveFakePromts(fakepromts);
+
 
             }else{
 

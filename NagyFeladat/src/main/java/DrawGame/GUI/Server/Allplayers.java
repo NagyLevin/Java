@@ -189,12 +189,9 @@ public class Allplayers extends Thread{
                     }
                 }
 
-
-
-
-
-
             }
+            clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
+            System.out.println(clientout);
 
 
 

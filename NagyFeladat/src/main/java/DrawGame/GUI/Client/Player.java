@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Vector;
 
 class LOCALPlayer{
      int[] palyercolor = new int[3];
@@ -76,7 +77,7 @@ public class Player implements Runnable{
     protected static Socket clientSocket;
     static boolean playerstartedgame = false;
     int countdown = 0;
-
+    static Vector<String> fakepromtsfromImmagePromt = new Vector<>();
 
 
     Player(String _playername,int[] _playercolor, String _joincode,String _ip){
@@ -93,6 +94,11 @@ public class Player implements Runnable{
         } catch (IOException e) {
             throw new RuntimeException("Nem találtam akív szervert!");
         }
+    }
+
+    public static void giveFakePromts(Vector<String> _fakepromts) {
+        fakepromtsfromImmagePromt = _fakepromts;
+
     }
 
     public synchronized String fromserver(){
@@ -130,9 +136,7 @@ public class Player implements Runnable{
 
   }
 
-  public synchronized int SyncParseToint(String beszam){
-    return   Integer.parseInt(beszam);
-  }
+
 
     @Override
     public void run() {
@@ -268,7 +272,7 @@ public class Player implements Runnable{
 
         });
 
-        countdown = 30; //30 ra állísd
+        countdown = 10; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -281,6 +285,17 @@ public class Player implements Runnable{
             countdown--;
         }
 
+        String mergedpromt = "";
+        for (int i = 0; i < fakepromtsfromImmagePromt.size(); i++) {
+            mergedpromt = mergedpromt + ";" + fakepromtsfromImmagePromt.get(i);
+
+        }
+        //elkuldom a promtokat a szervernek
+        try {
+            toServer(mergedpromt);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
