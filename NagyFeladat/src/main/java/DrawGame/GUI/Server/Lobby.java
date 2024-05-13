@@ -132,7 +132,7 @@ public class Lobby extends Application {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(-45,45));
-        szoveg.setFont(Font.font("Arial", FontWeight.BOLD,30));
+        szoveg.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,30));
         szoveg.setTextFill(Color.rgb(color[0],color[1],color[2]));
         SP.getChildren().add(szoveg);
 
@@ -165,7 +165,7 @@ public class Lobby extends Application {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         Label cim = new Label("DrawfulL");
-        cim.setFont(Font.font("ComicSans", FontWeight.BOLD,100));
+        cim.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,100));
         cim.setTextFill(Color.rgb(200,0,0));
 
         TextField gamecode = new TextField();

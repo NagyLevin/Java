@@ -201,6 +201,8 @@ public class Player implements Runnable{
                 countdown = Integer.parseInt(fromserver()); //kapok egy countdownt
 
 
+
+
             }
 
 

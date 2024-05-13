@@ -123,12 +123,12 @@ public class ClientJoin extends Application {
         vBox.setAlignment(Pos.CENTER);
 
         Label Drawfullclient = new Label("DrawfulL Client");
-        Font startgombfont = Font.font("ComicSans", FontWeight.BOLD,30);    //nezz utana hogy van e comicsans ///TO DO
+        Font startgombfont = Font.font("Comic Sans MS", FontWeight.BOLD,30);    //nezz utana hogy van e comicsans ///TO DO
         Drawfullclient.setFont(startgombfont);
         vBox.getChildren().add(Drawfullclient);
 
-        Label CodeZone = new Label("Eneter Code:");
-        Font codez = Font.font("ComicSans", FontWeight.BOLD,20);    //nezz utana hogy van e comicsans ///TO DO
+        Label CodeZone = new Label("Enter Code:");
+        Font codez = Font.font("Comic Sans MS", FontWeight.BOLD,20);    //nezz utana hogy van e comicsans ///TO DO
         CodeZone.setFont(codez);
         vBox.getChildren().add(CodeZone);
 
@@ -137,8 +137,8 @@ public class ClientJoin extends Application {
         vBox.getChildren().add(userCode);
 
 
-        Label EnterName = new Label("Eneter Your Name:");
-        Font namez = Font.font("ComicSans", FontWeight.BOLD,20);
+        Label EnterName = new Label("Enter Your Name:");
+        Font namez = Font.font("Comic Sans MS", FontWeight.BOLD,20);
         EnterName.setFont(namez);
         vBox.getChildren().add(EnterName);
 
@@ -148,7 +148,7 @@ public class ClientJoin extends Application {
 
 
         Button BnewColor = new Button("Get a new Color");
-        Font buttonz = Font.font("ComicSans", FontWeight.BOLD,20);
+        Font buttonz = Font.font("Comic Sans MS", FontWeight.BOLD,20);
         BnewColor.setFont(buttonz);
         vBox.getChildren().add(BnewColor);
 
