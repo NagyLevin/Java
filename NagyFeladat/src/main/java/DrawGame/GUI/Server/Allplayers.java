@@ -1,5 +1,6 @@
 package DrawGame.GUI.Server;
 
+import DrawGame.GUI.ReadPromts;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ class OnlinePlayer{
     boolean amIhost = false;
     String playername = "";
     String givenpromt = "";
-    String fakepromt = "";
+    Vector<String> fakepromts;
     int numofcolors = 2;
     int playerid ;
     int points =0;
@@ -71,7 +72,7 @@ public class Allplayers extends Thread{
     static Vector<OnlinePlayer> players = new Vector<>();
     static String gamecode = "";
     int minplayer = 1;  //kesobb 3 ra állísd
-    int maxplayer = 1;  //kesobb 8 a példában
+    int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
 
     public Allplayers(Socket clientSocket) throws IOException {
@@ -88,7 +89,8 @@ public class Allplayers extends Thread{
     public void run() {
 
         System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
-
+        ReadPromts readPromts = new ReadPromts();
+        readPromts.readfile("promts.txt");  //fajl beolvasása, amiben vannak a promtok
         OnlinePlayer Oplayer = new OnlinePlayer();
         GameMaster GameM = new GameMaster();
 
@@ -137,20 +139,21 @@ public class Allplayers extends Thread{
                   }
 
                   if(players.size() > maxplayer){
-                      clientSocket.close(); //max player hat
+                      clientSocket.close(); //max ha tobb a palyer akkor nem enged csatlakozni
                   }
 
                   players.add(Oplayer);
+
                   }
 
                   //System.out.println(Oplayer.playername);
               }
 
             if(Oplayer.amIhost){
-                System.out.println("wait1");
+                //System.out.println("wait1");
 
-                clientout = clientReader.readLine();  //es itt akad meg a másik kliens
-                System.out.println("wait2");
+                clientout = clientReader.readLine();
+                //System.out.println("wait2");
                 System.out.println(clientout);
 
                 if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
@@ -173,6 +176,21 @@ public class Allplayers extends Thread{
 
             if(gamestartedbyclient){
                 sendLine("StartGameCountDown");
+                clientout = clientReader.readLine();
+                if(clientout.equals("GivePromt")){
+
+                    for (OnlinePlayer player : players) {
+                        if(player.playerid == (int) ThreadId){
+                            player.givenpromt = readPromts.getOnePromt();
+                            System.out.println("My promt is: " + player.givenpromt);
+                            sendLine(player.givenpromt);
+                        }
+
+                    }
+                }
+
+
+
 
 
 

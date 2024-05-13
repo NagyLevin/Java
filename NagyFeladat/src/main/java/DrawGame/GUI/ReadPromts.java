@@ -8,7 +8,7 @@ import java.util.*;
 public class ReadPromts {
 
 
-    private  String[] promts;
+    private Vector<String> vPromts = new Vector<>();
     Random Rand = new Random();
 
     public void readfile(String nev){   //esetleg felesleges spacek eltavolitasat ird meg
@@ -24,9 +24,12 @@ public class ReadPromts {
                 adat = olvas.nextLine();
 
             }
+            String[] promts;
             promts = adat.split(",",-2); //-2 limit annyi darabra vagja szet amennyira lehet
 
             olvas.close();
+
+            vPromts.addAll(Arrays.asList(promts));
 
         } catch (FileNotFoundException e) {
             System.out.println("Nincs ilyen nevü fajl");
@@ -35,19 +38,16 @@ public class ReadPromts {
     }
     public void readpromts(){
 
-        for (int i = 0; i < promts.length; i++) {
-            System.out.println(promts[i]);
+        for (int i = 0; i < vPromts.size(); i++) {
+            System.out.println(vPromts.get(i));
 
         }
 
     }
 
-    public String getOnePromt(){
+    public synchronized String getOnePromt(){
 
-        String promt = promts[Rand.nextInt(0, promts.length-1)]; //2x ne legyen ugyan az, esetleg torold ki utána
-
-
-
+        String promt = vPromts.get(Rand.nextInt(0, vPromts.size()-1)); //2x ne legyen ugyan az, esetleg torold ki utána
 
         return promt;
     }

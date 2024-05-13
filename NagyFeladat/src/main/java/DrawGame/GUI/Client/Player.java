@@ -194,15 +194,16 @@ public class Player implements Runnable{
 
 
 
-            System.out.println("wait1");
+            //System.out.println("wait1");
             //utána kapunk countdownt válaszul
             serversays = fromserver();
-            System.out.println("wait2");
+            //System.out.println("wait2");
 
             if(serversays.equals("StartGameCountDown")){
 
                 System.out.println(serversays);
-                countdown = 10; // msp
+
+                countdown = 1; // msp 10 re ird majd at
 
 
 
@@ -222,9 +223,20 @@ public class Player implements Runnable{
                     countdown--;
                 }
 
+                try {
+                    toServer("GivePromt");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                serversays = fromserver();
+                System.out.println(serversays);
 
 
             }
+
+
+
+            //Valahol itt nyiss meg egy DRAWINGBOARDOT mindkét kliensnek
 
 
 

@@ -105,11 +105,7 @@ public class ClientJoin extends Application {
 
 
             }
-            else{
-                Player.startgame();
 
-
-            }
 
 
         });
