@@ -240,7 +240,23 @@ public class Player implements Runnable{
             //Valahol itt nyiss meg egy DRAWINGBOARDOT mindkét kliensnek
             Platform.runLater(() -> {
             ClientJoin.opentheboard(Lplayer.givenpromt,Lplayer.numofcolors,Lplayer.palyercolor);
+
+
             });
+            countdown = 180;
+            while (countdown > 0) {
+                Platform.runLater(() -> {
+                    DrawfuLboard.TimerInClient(countdown);
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                countdown--;
+            }
+
+
 
         }
 

@@ -11,23 +11,16 @@ import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 
@@ -53,6 +46,8 @@ public class DrawfuLboard extends Application {
     Color strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1); //szin
     int numofcolors = 2;
     boolean canedit = true;
+    static Label timerLabel= new Label();
+
 
     DrawfuLboard(String _promt, int _numofcolors, int[] _playercolors){
 
@@ -61,6 +56,13 @@ public class DrawfuLboard extends Application {
         redColor = _playercolors[0];
         greenColor = _playercolors[1];
         blueColor = _playercolors[2];
+
+
+    }
+    public static void TimerInClient(int countdown){
+
+        timerLabel.setText("Time left: " + countdown );
+        //System.out.println("mukszik?");
 
 
     }
@@ -179,28 +181,25 @@ public class DrawfuLboard extends Application {
 
 
 
-        AnchorPane root = new AnchorPane(canvas);
+        AnchorPane Ancorroot = new AnchorPane(canvas);
 
-        Scene scene = new Scene(root, XX, YY);
+        Scene scene = new Scene(Ancorroot, XX, YY);
 
 
         Label promt= new Label(playersPromt);
-        promt.setFont(Font.font("Arial", FontWeight.BOLD,30));
-        promt.setTextFill(Color.rgb(200,0,0));//currentplayer.getPlayerColoR(),currentplayer.getPlayerColoG(),currentplayer.getPlayerColoB()));
-
+        promt.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,30));
+        promt.setTextFill(Color.rgb(redColor,greenColor,blueColor));
         Button bFinish = new Button("Send In");
-
         AnchorPane.setTopAnchor(bFinish,  YY/20- bFinish.getWidth());
         AnchorPane.setLeftAnchor(bFinish, XX / 1.2 - bFinish.getWidth() / 2);
-
-        Font fBFinish = Font.font("ComicSans", FontWeight.BOLD,20);
+        Font fBFinish = Font.font("Comic Sans MS", FontWeight.BOLD,20);
         bFinish.setFont(fBFinish);
 
         //ColorButtons
 
 
 
-        System.out.println(randcolor1);
+        //System.out.println(randcolor1);
 
         Button ColorType1 = new Button("");
         ColorType1.setStyle("-fx-background-color: rgb(" + redColor/randcolor1 + ", " + greenColor/randcolor1 + ", " + blueColor/randcolor1 + ");");
@@ -211,16 +210,23 @@ public class DrawfuLboard extends Application {
             randcolor2 = RandomBetween(1,5);
         }
 
-        System.out.println(randcolor2);
+        //System.out.println(randcolor2);
 
         Button ColorType2 = new Button("");
         ColorType2.setStyle("-fx-background-color: rgb(" + redColor/randcolor2 + ", " + greenColor/randcolor2 + ", " + blueColor/randcolor2 + ");");
         AnchorPane.setTopAnchor(ColorType2,  YY/10- ColorType2.getWidth());
 
-        root.getChildren().add(promt);
-        root.getChildren().add(bFinish);
-        root.getChildren().add(ColorType1);
-        root.getChildren().add(ColorType2);
+        AnchorPane.setTopAnchor(timerLabel,  YY/8- bFinish.getWidth());
+        AnchorPane.setLeftAnchor(timerLabel, XX / 1.2 - bFinish.getWidth() / 2);
+        Font timerfont = Font.font("Comic Sans MS", FontWeight.BOLD,20);
+        timerLabel.setFont(timerfont);
+        timerLabel.setTextFill(Color.rgb(redColor,greenColor,blueColor));
+
+        Ancorroot.getChildren().add(promt);
+        Ancorroot.getChildren().add(bFinish);
+        Ancorroot.getChildren().add(ColorType1);
+        Ancorroot.getChildren().add(ColorType2);
+        Ancorroot.getChildren().add(timerLabel);
 
 
         events(scene,canvas,gc,bFinish,ColorType1,ColorType2);    //eventek osszegyujtve
