@@ -272,7 +272,7 @@ public class Player implements Runnable{
 
         });
 
-        countdown = 20; //30 ra állísd
+        countdown = 10; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -307,6 +307,38 @@ public class Player implements Runnable{
 
         });
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
+
+        while (!serversays.equals("StopTheVote")){
+
+
+
+        countdown = 20; //30 ra állísd
+        while (countdown > 0) {
+            Platform.runLater(() -> {
+                ImageVote.TimerInClient(countdown);
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            countdown--;
+        }
+
+
+
+            try {
+                System.out.println(ImageVote.playersChoice);
+                toServer(ImageVote.playersChoice);   //majd ide az en valasztottamat
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            serversays = fromserver();
+
+            ImageVote.nextVote(); //allits at mindent a kovetkezo votera
+
+
+        }
 
 
 

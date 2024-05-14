@@ -85,7 +85,7 @@ public class ImagePromt extends Application {
             }
 
         } catch (IOException error) {
-            System.err.println(error);
+            System.err.println("Egy player sem adott le kepet");
         }
 
 

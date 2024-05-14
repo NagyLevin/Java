@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -20,19 +21,27 @@ import java.util.Vector;
 
 public class ImageVote extends Application {
 
-    String playersChoice = "";
+    static String playersChoice = "";
     Boolean playerPressed = false;
     int[] playercolor = {200,0,0};
     String[] votepromts ={"A","B","C"} ;
-    String firstimage = "Hurdle";
-
+    String firstimage = "shoe";
+    static Label timerLabel = new Label();
 
     ImageVote(int[] _playercolor, String[] _votepromts){
         playercolor = _playercolor;
         votepromts = _votepromts;
+        //String firstimage = _votepromts[1];
 
     }
 
+    public static void TimerInClient(int countdown) {
+        timerLabel.setText("Time left: " + countdown );
+
+    }
+
+    public static void nextVote() {
+    }
 
 
     @Override
@@ -43,7 +52,7 @@ public class ImageVote extends Application {
         Image image = new Image(firstimage); // Töltse be a képet
 
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(image.getWidth() / 2);
+        imageView.setFitWidth(image.getWidth() / 2);    //lehet nem is mukszik
         imageView.setFitHeight(image.getHeight() / 2);
 
 
@@ -82,9 +91,16 @@ public class ImageVote extends Application {
 
         }
         boxofvotes.setAlignment(Pos.CENTER);
+
+        FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
         vbox.getChildren().add(boxofvotes);
+        vbox.getChildren().add(boxofvoters);
 
-
+        Font Flable = Font.font("Comic Sans MS", FontWeight.BOLD,20);
+        timerLabel.setFont(Flable);
+        timerLabel.setAlignment(Pos.CENTER);
+        timerLabel.setTextFill(Color.rgb(playercolor[0],playercolor[1],playercolor[2]));
+        vbox.getChildren().add(timerLabel);
 
 
         vbox.setAlignment(Pos.CENTER);

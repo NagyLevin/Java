@@ -280,6 +280,8 @@ public class Allplayers extends Thread{
 
                 }
 
+                sendLine("StopTheVote"); //Jatek vege
+
 
 
 

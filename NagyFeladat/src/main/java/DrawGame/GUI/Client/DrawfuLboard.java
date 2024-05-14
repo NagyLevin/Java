@@ -56,7 +56,7 @@ public class DrawfuLboard extends Application {
         redColor = _playercolors[0];
         greenColor = _playercolors[1];
         blueColor = _playercolors[2];
-
+        strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1);
 
     }
     public static void TimerInClient(int countdown){
