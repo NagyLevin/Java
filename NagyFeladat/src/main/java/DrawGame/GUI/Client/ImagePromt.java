@@ -29,8 +29,8 @@ import java.util.Vector;
 public class ImagePromt extends Application {
     int[] playercolor = {200,0,0};
     static Label timerLabel = new Label();
-   Vector<String> fakepromts = new Vector<>();
-   Vector<String> Images = new Vector<>();
+    Vector<String> fakepromts = new Vector<>();
+    Vector<String> Images = new Vector<>();
 
 
 
@@ -123,21 +123,26 @@ public class ImagePromt extends Application {
         });
         SendInPromt.setOnAction(event -> {
 
-            fakepromts.add(TXpromt.getText());
-            Images.removeFirst();
-            if(Images.isEmpty()){
-                System.out.println("elkuldom a kepet a playernek classnak");
-                SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
-                Player.giveFakePromts(fakepromts);
+            String promtstring = TXpromt.getText();
+
+            if(!promtstring.isEmpty()){
+
+                fakepromts.add(promtstring);
+                Images.removeFirst();
+                if(Images.isEmpty()){
+                    System.out.println("elkuldom a kepet a playernek classnak");
+                    SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
+                    Player.giveFakePromts(fakepromts);
 
 
-            }else{
+                }else{
 
-                Image kep = new Image(Images.getFirst());
-                displayedimage.setImage(kep);
+                    Image kep = new Image(Images.getFirst());
+                    displayedimage.setImage(kep);
 
-                TXpromt.setText("");
+                    TXpromt.setText("");
 
+                }
             }
 
 

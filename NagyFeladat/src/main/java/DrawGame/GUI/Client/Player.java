@@ -272,7 +272,7 @@ public class Player implements Runnable{
 
         });
 
-        countdown = 10; //30 ra állísd
+        countdown = 20; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -287,7 +287,7 @@ public class Player implements Runnable{
 
         String mergedpromt = "";
         for (int i = 0; i < fakepromtsfromImmagePromt.size(); i++) {
-            mergedpromt = mergedpromt + ";" + fakepromtsfromImmagePromt.get(i);
+            mergedpromt = mergedpromt + "," + fakepromtsfromImmagePromt.get(i);
 
         }
         //elkuldom a promtokat a szervernek

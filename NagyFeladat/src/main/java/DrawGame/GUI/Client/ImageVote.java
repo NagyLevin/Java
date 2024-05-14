@@ -1,5 +1,5 @@
 package DrawGame.GUI.Client;
-/*
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,15 +40,14 @@ public class ImageVote extends Application {
         GiveaPromt.setFont(promz);
         vbox.getChildren().add(GiveaPromt);
 
-        GameMaster GM = new GameMaster(1);
-        GM.testpromtREMOVELATER();
+
+       String[]  promtsthisROUNFTEST = {"A","B","C"};
 
 
+        for (int i = 0; i < promtsthisROUNFTEST.length; i++) {
 
-        for (int i = 0; i < GM.PromtsThisRound.length; i++) {
 
-
-            Button button= new Button(GM.PromtsThisRound[i]);
+            Button button= new Button(promtsthisROUNFTEST[i]);
             button.setOnAction(event -> {
 
                 if(!playerPressed ){
@@ -92,4 +91,3 @@ public class ImageVote extends Application {
     }
 
 }
-*/

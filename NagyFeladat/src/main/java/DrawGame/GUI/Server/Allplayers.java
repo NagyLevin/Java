@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 import java.util.Vector;
 
 class OnlinePlayer{
@@ -15,7 +16,7 @@ class OnlinePlayer{
     boolean amIhost = false;
     String playername = "";
     String givenpromt = "";
-    Vector<String> fakepromts;
+    Vector<String> fakepromts = new Vector<>();
     int numofcolors = 2;
     int playerid ;
     int points =0;
@@ -86,6 +87,30 @@ public class Allplayers extends Thread{
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
+    public synchronized void GiveFAkePromts(String[] promts,int id, ReadPromts RP){
+
+        for (OnlinePlayer player : players) {
+            if(player.playerid == id){
+
+
+                player.fakepromts.addAll(List.of(promts));
+                player.fakepromts.removeFirst(); //ures elso mezo torlese
+                if(player.fakepromts.size() < players.size()){
+
+                    while (player.fakepromts.size() != players.size()){
+                        player.fakepromts.add(   RP.getOnePromt());     //ha nincs elég promt akkor kipótolom
+
+                    }
+
+                }
+                //System.out.println("elso " + player.fakepromts.getFirst());
+
+
+            }
+
+        }
+    }
+
     public void run() {
 
         System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
@@ -98,6 +123,8 @@ public class Allplayers extends Thread{
         System.out.println("van egy kliens!");
         long ThreadId = Thread.currentThread().getId();
         System.out.println("Hello Kliens!" + "(" +ThreadId + ")");
+
+
 
         try {  //statok szinkronizállásának elkezdese
               sendLine("Givestats");
@@ -156,13 +183,11 @@ public class Allplayers extends Thread{
                 //System.out.println("wait2");
                 System.out.println(clientout);
 
+
                 if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
                     //itt kezdodik a game
 
                     gamestartedbyclient = true;
-
-
-
 
 
                 }
@@ -191,8 +216,12 @@ public class Allplayers extends Thread{
 
             }
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
-            System.out.println(clientout);
+            System.out.println(clientout);  //kapok vlami ilyet egyeskep, ketteskep
 
+            String[] promts;
+            promts = clientout.split(",",-2);
+
+            GiveFAkePromts(promts,(int) ThreadId,readPromts);
 
 
 
