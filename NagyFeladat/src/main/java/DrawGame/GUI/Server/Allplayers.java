@@ -136,7 +136,9 @@ public class Allplayers extends Thread{
             }
         }
 
-        String votepormtstoclient = "";
+        String votepormtstoclient = playerspromt; //az első legyen mindig az igazi promt, ketszer lesz benne, de nem baj, mert csak egyszer veszed figyelembe
+        //A VOTEPROMTOKAT ÖSSZE KELL KEVERNI! TESTMODE UTAN
+
         for (int i = 0; i < votePromts.size(); i++) {
             votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
 

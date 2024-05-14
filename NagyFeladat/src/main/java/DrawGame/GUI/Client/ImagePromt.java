@@ -32,7 +32,7 @@ public class ImagePromt extends Application {
     Vector<String> fakepromts = new Vector<>();
     Vector<String> Images = new Vector<>();
     String playerpromt = "";
-
+    static Stage VoteStage;
 
     ImagePromt(int[] _playercolor, String _playerpromt){
             playercolor = _playercolor;
@@ -46,8 +46,21 @@ public class ImagePromt extends Application {
         timerLabel.setText("Time left: " + countdown );
     }
 
+    public static void openVoting(int[] _palyercolor, String[] _promts) {
+        ImageVote IV = new ImageVote(_palyercolor,_promts); //start a drawingboard
+        System.out.println("sikeres voteinditas nyitas");
+        try {
+            IV.start(VoteStage);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
     @Override
-    public void start(Stage VoteStage) throws IOException {
+    public void start(Stage PromtStage) throws IOException {
 
 
         Path filepath = Paths.get(""); // az eny konyvtáram
@@ -105,16 +118,23 @@ public class ImagePromt extends Application {
 
         //System.out.println(image.getHeight());
 
+        VoteStage=PromtStage;
+
+
+
         Scene scene = new Scene(vbox, image.getWidth(), image.getHeight()*1.4);
 
-        VoteStage.setScene(scene);
-
-
-        VoteStage.setTitle("Vote");
 
         events(scene,SendInPromt,TxPromt,displayimage);
 
-        VoteStage.show();
+
+        PromtStage.setScene(scene);
+
+        PromtStage.setTitle("Promt");
+
+
+
+        PromtStage.show();
 
     }
 

@@ -29,10 +29,10 @@ public class DrawfuLboard extends Application {
 
     private final int XX = 900;
     private final int YY = 600;
-    static Stage VoteStage;
+    static Stage PromtStage;
 
 
-    private double lastX, lastY;
+    private double mouseX, mouseY; //hol van az eger eppen
 
 
     static String playersPromt ="TestPromt";
@@ -67,12 +67,12 @@ public class DrawfuLboard extends Application {
 
     }
 
-    public static void openVoting(int[] palyercolor) {
+    public static void openPromting(int[] palyercolor) {
 
         ImagePromt DB = new ImagePromt(palyercolor,playersPromt); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
         try {
-           DB.start(VoteStage);
+           DB.start(PromtStage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -107,8 +107,8 @@ public class DrawfuLboard extends Application {
 
         canvas.setOnMousePressed(event -> {
 
-            lastX = event.getX();
-            lastY = event.getY();
+            mouseX = event.getX();
+            mouseY = event.getY();
 
         });
 
@@ -118,9 +118,9 @@ public class DrawfuLboard extends Application {
                 double x = event.getX();
                 double y = event.getY();
                 gc.setStroke(strokeColor);  //szinbeallit
-                gc.strokeLine(lastX, lastY, x, y);
-                lastX = x;
-                lastY = y;
+                gc.strokeLine(mouseX, mouseY, x, y);
+                    mouseX = x;
+                    mouseY = y;
                 }
         });
 
@@ -240,7 +240,7 @@ public class DrawfuLboard extends Application {
         Ancorroot.getChildren().add(ColorType2);
         Ancorroot.getChildren().add(timerLabel);
 
-        VoteStage = BoardStage;
+        PromtStage = BoardStage;
 
         events(scene,canvas,gc,bFinish,ColorType1,ColorType2);    //eventek osszegyujtve
 

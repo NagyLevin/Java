@@ -267,7 +267,7 @@ public class Player implements Runnable{
         //rajzolas vege, a nem elmentett kepeket nem mentem el
         //itt kezdodik a promt adas
         Platform.runLater(() -> {
-            DrawfuLboard.openVoting(Lplayer.palyercolor);
+            DrawfuLboard.openPromting(Lplayer.palyercolor);
 
 
         });
@@ -298,7 +298,15 @@ public class Player implements Runnable{
         }
         serversays = fromserver();
         System.out.println(serversays);
+        String[] promts = serversays.split(",",-2);
 
+
+        Platform.runLater(() -> {
+            ImagePromt.openVoting(Lplayer.palyercolor,promts);
+
+
+        });
+        //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
 
 
 

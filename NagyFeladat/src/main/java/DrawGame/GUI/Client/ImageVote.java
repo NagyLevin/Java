@@ -16,17 +16,31 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.Vector;
+
 public class ImageVote extends Application {
 
     String playersChoice = "";
     Boolean playerPressed = false;
+    int[] playercolor = {200,0,0};
+    String[] votepromts ={"A","B","C"} ;
+    String firstimage = "Hurdle";
+
+
+    ImageVote(int[] _playercolor, String[] _votepromts){
+        playercolor = _playercolor;
+        votepromts = _votepromts;
+
+    }
+
 
 
     @Override
     public void start(Stage VoteStage)  {
 
 
-        Image image = new Image("file:1.png"); // Töltse be a képet
+        firstimage = "file:" + firstimage + ".png";
+        Image image = new Image(firstimage); // Töltse be a képet
 
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(image.getWidth() / 2);
@@ -43,13 +57,13 @@ public class ImageVote extends Application {
         vbox.getChildren().add(GiveaPromt);
 
 
-       String[]  promtsthisROUNFTEST = {"A","B","C"};
+
 
         FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
-        for (int i = 0; i < promtsthisROUNFTEST.length; i++) {
+        for (int i = 1; i < votepromts.length; i++) {   //egytol indulok, hogy az eslőt ne vegyem figyelembe
 
 
-            Button button= new Button(promtsthisROUNFTEST[i]);
+            Button button= new Button(votepromts[i]);
             button.setOnAction(event -> {
 
                 if(!playerPressed ){
