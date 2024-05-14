@@ -128,6 +128,7 @@ public class ImagePromt extends Application {
             if(Images.isEmpty()){
                 System.out.println("elkuldom a kepet a playernek classnak");
                 SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
+                //System.out.println(fakepromts.getFirst());
                 Player.giveFakePromts(fakepromts);
 
 

@@ -97,6 +97,8 @@ public class Player implements Runnable{
     }
 
     public static void giveFakePromts(Vector<String> _fakepromts) {
+
+
         fakepromtsfromImmagePromt = _fakepromts;
 
     }
@@ -272,7 +274,7 @@ public class Player implements Runnable{
 
         });
 
-        countdown = 10; //30 ra állísd
+        countdown = 30; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
