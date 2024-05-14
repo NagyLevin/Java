@@ -230,6 +230,25 @@ public class Allplayers extends Thread{
             //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
             //ezt annyiszor ismételve ahány player van
 
+            int kor = 0;
+            for (OnlinePlayer player : players) {
+                Vector<String> votePromts = new Vector<>();
+                votePromts.add(player.givenpromt);
+                for (OnlinePlayer playerfakepromt : players) {
+                    votePromts.add(playerfakepromt.fakepromts.get(kor));  //elso elker
+                    kor = kor + 1;
+                }
+                String votepormtstoclient = "";
+                for (int i = 0; i < votePromts.size(); i++) {
+                    votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
+
+                }
+                sendLine(votepormtstoclient);
+                clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
+
+
+            }
+
 
 
 
