@@ -1,6 +1,7 @@
 package DrawGame.GUI.Client;
 
 import javafx.application.Application;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -43,7 +45,7 @@ public class ImageVote extends Application {
 
        String[]  promtsthisROUNFTEST = {"A","B","C"};
 
-
+        FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
         for (int i = 0; i < promtsthisROUNFTEST.length; i++) {
 
 
@@ -62,10 +64,14 @@ public class ImageVote extends Application {
 
             }); //talán késöbb playercolor?
 
-
-            vbox.getChildren().add(button);
+            boxofvotes.getChildren().add(button);
 
         }
+        boxofvotes.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(boxofvotes);
+
+
+
 
         vbox.setAlignment(Pos.CENTER);
 

@@ -221,7 +221,16 @@ public class Allplayers extends Thread{
             String[] promts;
             promts = clientout.split(",",-2);
 
-            GiveFAkePromts(promts,(int) ThreadId,readPromts);
+            GiveFAkePromts(promts,(int) ThreadId,readPromts);   //fakepromtok eltarolasa
+
+            //voting fázis
+
+            //csináljuk egy stringet ahol random sorrendben lesznek a fakepromt es az igazi promt, amit elkuldunk
+            //visszakapok egy promtot, megnézem kié volt, majd pontot adaok, ha kell
+            //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
+            //ezt annyiszor ismételve ahány player van
+
+
 
 
 
