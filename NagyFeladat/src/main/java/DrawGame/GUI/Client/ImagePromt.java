@@ -31,12 +31,12 @@ public class ImagePromt extends Application {
     static Label timerLabel = new Label();
     Vector<String> fakepromts = new Vector<>();
     Vector<String> Images = new Vector<>();
+    String playerpromt = "";
 
 
-
-    ImagePromt(int[] _playercolor){
+    ImagePromt(int[] _playercolor, String _playerpromt){
             playercolor = _playercolor;
-
+            playerpromt = _playerpromt +".png";
     }
 
 
@@ -60,8 +60,13 @@ public class ImagePromt extends Application {
                 if (Files.isRegularFile(path) && path.toString().endsWith(".png")) {    //akkor ha nem mappa, es png a kiterjesztese
                     System.out.println(path.getFileName());
                     String filenev = String.valueOf(path.getFileName());
-                    filenev = "file:"+filenev;
-                    Images.add(filenev);
+
+                    if(!filenev.equals(playerpromt)){ //a saját promtjára ne tudjon promtot adni
+                        filenev = "file:"+filenev;
+
+                        Images.add(filenev);
+                    }
+
                 }
 
             }

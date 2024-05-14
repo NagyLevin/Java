@@ -251,7 +251,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 1; //180 ra állísd
+        countdown = 5; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -296,6 +296,10 @@ public class Player implements Runnable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        serversays = fromserver();
+        System.out.println(serversays);
+
+
 
 
     }

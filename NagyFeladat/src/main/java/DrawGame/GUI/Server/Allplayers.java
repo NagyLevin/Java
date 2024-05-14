@@ -76,6 +76,8 @@ public class Allplayers extends Thread{
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
 
+
+
     public Allplayers(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   //reader a kommunikációhoz
@@ -103,6 +105,7 @@ public class Allplayers extends Thread{
                     }
 
                 }
+                System.out.println(player.fakepromts.get(0));
                 //System.out.println("elso " + player.fakepromts.getFirst());
 
 
@@ -110,6 +113,38 @@ public class Allplayers extends Thread{
 
         }
     }
+
+    private synchronized String  PromtsForVote(int kor, String playerspromt) { //mukodik, de nagyon ronda, ha van időd találj ki mást
+
+        Vector<String> votePromts = new Vector<>();
+        votePromts.add(playerspromt);
+        for (OnlinePlayer player2 : players) {
+            Vector<String> playerspromts = player2.fakepromts;
+
+            while (playerspromts.isEmpty() || playerspromts.size() < kor  ){ //Threadek ujraszinkronizálása
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(playerspromts.size() > kor) {
+                // System.out.println("lefut");
+                // System.out.println(playerspromts.get(kor));
+                votePromts.add(playerspromts.get(kor));  //elso elker
+            }
+        }
+
+        String votepormtstoclient = "";
+        for (int i = 0; i < votePromts.size(); i++) {
+            votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
+
+        }
+        return votepormtstoclient;
+
+    }
+
 
     public void run() {
 
@@ -230,24 +265,18 @@ public class Allplayers extends Thread{
             //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
             //ezt annyiszor ismételve ahány player van
 
-            int kor = 0;
-            for (OnlinePlayer player : players) {
-                Vector<String> votePromts = new Vector<>();
-                votePromts.add(player.givenpromt);
-                for (OnlinePlayer playerfakepromt : players) {
-                    votePromts.add(playerfakepromt.fakepromts.get(kor));  //elso elker
-                    kor = kor + 1;
+
+
+                int kor = 0;
+                for (OnlinePlayer player : players) {
+
+                    sendLine(PromtsForVote(kor,player.givenpromt ));
+                    clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
+
+
+
+
                 }
-                String votepormtstoclient = "";
-                for (int i = 0; i < votePromts.size(); i++) {
-                    votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
-
-                }
-                sendLine(votepormtstoclient);
-                clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
-
-
-            }
 
 
 
@@ -263,7 +292,6 @@ public class Allplayers extends Thread{
 
 
     }
-
 
 
 

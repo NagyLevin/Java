@@ -35,7 +35,7 @@ public class DrawfuLboard extends Application {
     private double lastX, lastY;
 
 
-    String playersPromt ="TestPromt";
+    static String playersPromt ="TestPromt";
     int redColor = 200;//currentplayer.getPlayerColoR();
     int greenColor = 0;//currentplayer.getPlayerColoG();
     int blueColor = 0;//currentplayer.getPlayerColoG();
@@ -69,7 +69,7 @@ public class DrawfuLboard extends Application {
 
     public static void openVoting(int[] palyercolor) {
 
-        ImagePromt DB = new ImagePromt(palyercolor); //start a drawingboard
+        ImagePromt DB = new ImagePromt(palyercolor,playersPromt); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
         try {
            DB.start(VoteStage);
