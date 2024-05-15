@@ -124,6 +124,7 @@ public class Allplayers extends Thread{
             Vector<String> playerspromts = player2.fakepromts;
 
             while (playerspromts.isEmpty() || playerspromts.size() < kor  ){ //Threadek ujraszinkronizálása
+               // System.out.println("a whilban ragadtam...");
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
@@ -307,6 +308,11 @@ public class Allplayers extends Thread{
                 String allimmages = makeOneBigStringWithallImages(players, -1);
                 //System.out.println(allimmages);
                 sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
+                clientout = clientReader.readLine();
+                System.out.println(clientout);
+                if(clientout.equals("GottheImage")){
+
+
 
                 int kor = 0;
                 for (OnlinePlayer player : players) { //az a baj, hogy neki nem az az elso kepe, mint nekem
@@ -326,7 +332,7 @@ public class Allplayers extends Thread{
                 }
 
                 sendLine("StopTheVote"); //Jatek vege
-
+                }
 
 
 

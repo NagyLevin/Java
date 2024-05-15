@@ -341,7 +341,12 @@ public class Player implements Runnable{
         serversays = fromserver(); //itt kapom meg az osszes kepet
         System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
         Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
-        System.out.println("ide meg eljutok?");
+        //System.out.println("ide meg eljutok?");
+        try {
+            toServer("GottheImage");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         serversays = fromserver(); //itt kapom meg az eslo ker promtjait
         System.out.println("Osszes promt a korre: " + serversays);
@@ -383,7 +388,7 @@ public class Player implements Runnable{
             serversays = fromserver();
 
             ImageVote.nextVote(); //allits at mindent a kovetkezo votera
-
+            System.out.println("egy szavazasnak vege");
 
         }
 

@@ -71,7 +71,7 @@ public class DrawfuLboard extends Application {
     public static void openPromting(int[] palyercolor, Vector<Image> bimmages) {
 
         ImagePromt DB = new ImagePromt(palyercolor,playersPromt,bimmages); //start a drawingboard
-        System.out.println("sikeres voteinditas nyitas");
+        System.out.println("sikeres promting nyitas");
         try {
            DB.start(PromtStage);
         } catch (Exception e) {
