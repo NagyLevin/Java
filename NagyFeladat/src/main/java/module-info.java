@@ -4,6 +4,7 @@ module DrawGame.GUI {
     requires java.desktop;
     requires javafx.graphics;
     requires org.controlsfx.controls;
+    requires com.google.gson;
 
 
     opens DrawGame.GUI to javafx.fxml;

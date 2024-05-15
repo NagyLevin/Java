@@ -163,7 +163,7 @@ public class DrawfuLboard extends Application {
         image.getPixelReader().getPixels(0, 0, XX, YY, PixelFormat.getIntArgbInstance(), pixels, 0, XX);
 
         WritableRaster raster = bufferedImage.getRaster();
-        raster.setDataElements(0, 0, XX, YY, pixels);
+        raster.setDataElements(0, 0, XX, YY, pixels); //belerakja a bufferedimmagebe a 0,0 tól a pixeleket
 
         return bufferedImage;
     }
