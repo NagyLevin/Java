@@ -284,7 +284,7 @@ public class Player implements Runnable{
         }
         byte[] imageinbytes = DrawfuLboard.playersDrawing.toByteArray();
         String stringimmage = Base64.getEncoder().encodeToString(imageinbytes);
-        System.out.println("counverted to: " + stringimmage);
+        //System.out.println("counverted to: " + stringimmage);
         try {
             toServer(stringimmage);  //eleg hosszu, de a json nem mukodott
         } catch (IOException e) {
@@ -323,7 +323,7 @@ public class Player implements Runnable{
 
 
 
-        /*
+
         countdown = 10; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
@@ -393,7 +393,7 @@ public class Player implements Runnable{
 
         }
 
-*/
+
 
     }
 }

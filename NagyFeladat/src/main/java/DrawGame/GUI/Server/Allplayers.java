@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 class OnlinePlayer{
-    public String playersdarwing;
+    public String playersdarwing = "";
     int[] palyercolor = new int[3];
     boolean amIhost = false;
     String playername = "";
@@ -147,6 +147,31 @@ public class Allplayers extends Thread{
         return votepormtstoclient;
 
     }
+    private String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID) {
+        String allimmages = ""; //tudom hogy rossz
+
+
+
+
+        for (OnlinePlayer player : players) {
+            while (player.playersdarwing.isEmpty() ){ //Threadek ujraszinkronizálása
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if(player.playerid != ThreadID){
+                allimmages = allimmages +","+  player.playersdarwing;
+            }
+
+
+
+        }
+
+        return allimmages;
+    }
 
 
     public void run() {
@@ -249,7 +274,7 @@ public class Allplayers extends Thread{
                             System.out.println("My promt is: " + player.givenpromt);
                             sendLine(player.givenpromt);
                             clientout = clientReader.readLine();
-                            System.out.println(clientout);
+                            //System.out.println(clientout);
                             player.playersdarwing = clientout;  //megkapom a drawingot stringben es eltarolom
 
 
@@ -261,7 +286,7 @@ public class Allplayers extends Thread{
             }
 
 
-            sendLine(makeOneBigStringWithallImages(players));   //elkuldom az osszes kepet egy nagy stringben
+            sendLine(makeOneBigStringWithallImages(players, (int) ThreadId));   //elkuldom az osszes kepet egy nagy stringben
 
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
             System.out.println(clientout);  //kapok vlami ilyet egyeskep, ketteskep
@@ -308,16 +333,7 @@ public class Allplayers extends Thread{
 
     }
 
-    private String makeOneBigStringWithallImages(Vector<OnlinePlayer> players) {
-        String allimmages = ""; //tudom hogy rossz
 
-        for (OnlinePlayer player : players) {
-            allimmages = allimmages +","+  player.playersdarwing;
-
-        }
-
-        return allimmages;
-    }
 
 
 }
