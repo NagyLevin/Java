@@ -19,9 +19,10 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Vector;
 
 
 public class DrawfuLboard extends Application {
@@ -47,7 +48,7 @@ public class DrawfuLboard extends Application {
     int numofcolors = 2;
     boolean canedit = true;
     static Label timerLabel= new Label();
-
+    static ByteArrayOutputStream playersDrawing = new ByteArrayOutputStream();
 
     DrawfuLboard(String _promt, int _numofcolors, int[] _playercolors){
 
@@ -67,9 +68,9 @@ public class DrawfuLboard extends Application {
 
     }
 
-    public static void openPromting(int[] palyercolor) {
+    public static void openPromting(int[] palyercolor, Vector<Image> bimmages) {
 
-        ImagePromt DB = new ImagePromt(palyercolor,playersPromt); //start a drawingboard
+        ImagePromt DB = new ImagePromt(palyercolor,playersPromt,bimmages); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
         try {
            DB.start(PromtStage);
@@ -83,6 +84,7 @@ public class DrawfuLboard extends Application {
     public void events(Scene scene, Canvas canvas, GraphicsContext gc,Button bfinish,Button BColor1,Button BColor2){
         bfinish.setOnAction(e->{
 
+            bfinish.setDisable(true);
             canedit = false;
             savadrawing(canvas);
             //kep elmentese
@@ -114,7 +116,7 @@ public class DrawfuLboard extends Application {
 
 
             canvas.setOnMouseDragged(event -> {
-                if(canedit == true){
+                if(canedit){
                 double x = event.getX();
                 double y = event.getY();
                 gc.setStroke(strokeColor);  //szinbeallit
@@ -143,12 +145,17 @@ public class DrawfuLboard extends Application {
         canvas.snapshot(null, writableImage); //kell csinálni róla egy snapshootot
 
 
-        File file = new File(playersPromt + ".png"); //fájl neve
+        //File file = new File(playersPromt + ".png"); //fájl neve
 
         try {
 
             BufferedImage bufferedImage = WriteableToBufferedImmage(writableImage);
-            ImageIO.write(bufferedImage, "png", file);
+            ByteArrayOutputStream immagebytearry = new ByteArrayOutputStream();
+
+            //ImageIO.write(bufferedImage, "png", file);
+            ImageIO.write(bufferedImage, "png", immagebytearry);
+            playersDrawing = immagebytearry;
+
             System.out.println("Kep elmentve");
         } catch (IOException e) {
             System.err.println("Valami hiba lépett fel a kép mentése közben");

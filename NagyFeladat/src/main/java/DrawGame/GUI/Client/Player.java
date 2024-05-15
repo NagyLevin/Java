@@ -3,15 +3,19 @@ package DrawGame.GUI.Client;
 import DrawGame.GUI.Server.hosting;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Vector;
 
 class LOCALPlayer{
@@ -135,6 +139,21 @@ public class Player implements Runnable{
 
 
   }
+
+    private static Image convertBIToImage(BufferedImage image) { //https://stackoverflow.com/questions/30970005/bufferedimage-to-javafx-image //convertalas Bufferedimmagerol image-re
+        WritableImage wr = null;
+        if (image != null) {
+            wr = new WritableImage(image.getWidth(), image.getHeight());
+            PixelWriter pw = wr.getPixelWriter();
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    pw.setArgb(x, y, image.getRGB(x, y));
+                }
+            }
+        }
+
+        return new ImageView(wr).getImage();
+    }
 
 
 
@@ -263,15 +282,48 @@ public class Player implements Runnable{
             }
             countdown--;
         }
+        byte[] imageinbytes = DrawfuLboard.playersDrawing.toByteArray();
+        String stringimmage = Base64.getEncoder().encodeToString(imageinbytes);
+        System.out.println("counverted to: " + stringimmage);
+        try {
+            toServer(stringimmage);  //eleg hosszu, de a json nem mukodott
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         //rajzolas vege, a nem elmentett kepeket nem mentem el
         //itt kezdodik a promt adas
+
+        serversays = fromserver();
+        String[] pictures;
+        pictures = serversays.split(",",-2);
+        Vector<Image> bimmages = new Vector<>();
+        for (int i = 1; i < pictures.length; i++) { //mert a nulladik elem ures
+            byte[] byteimmage = Base64.getDecoder().decode(pictures[i]);
+            System.out.println(byteimmage);
+            ByteArrayInputStream byteoutputImageStream = new ByteArrayInputStream(byteimmage);
+            try {
+                BufferedImage bi =  ImageIO.read(byteoutputImageStream);
+
+                bimmages.add(convertBIToImage(bi)); //immaget csinalok a bufferedimmageból
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
         Platform.runLater(() -> {
-            DrawfuLboard.openPromting(Lplayer.palyercolor);
+            DrawfuLboard.openPromting(Lplayer.palyercolor,bimmages);
 
 
         });
 
+
+
+
+        /*
         countdown = 10; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
@@ -306,6 +358,7 @@ public class Player implements Runnable{
 
 
         });
+
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
 
         while (!serversays.equals("StopTheVote")){
@@ -340,7 +393,7 @@ public class Player implements Runnable{
 
         }
 
-
+*/
 
     }
 }

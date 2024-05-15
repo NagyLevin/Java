@@ -10,15 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -30,13 +28,15 @@ public class ImagePromt extends Application {
     int[] playercolor = {200,0,0};
     static Label timerLabel = new Label();
     Vector<String> fakepromts = new Vector<>();
-    Vector<String> Images = new Vector<>();
     String playerpromt = "";
     static Stage VoteStage;
+    static Vector<Image> Images = new Vector<>();
 
-    ImagePromt(int[] _playercolor, String _playerpromt){
+    ImagePromt(int[] _playercolor, String _playerpromt, Vector<Image> bimmages){
             playercolor = _playercolor;
             playerpromt = _playerpromt +".png";
+            Images =bimmages;
+
     }
 
 
@@ -59,37 +59,14 @@ public class ImagePromt extends Application {
 
     }
 
+
     @Override
     public void start(Stage PromtStage) throws IOException {
 
 
-        Path filepath = Paths.get(""); // az eny konyvtáram
-        System.out.println(filepath);
-
-        try (DirectoryStream<Path> dirrectory = Files.newDirectoryStream(filepath)) {
-
-            for (Path path : dirrectory) {
-
-                if (Files.isRegularFile(path) && path.toString().endsWith(".png")) {    //akkor ha nem mappa, es png a kiterjesztese
-                    System.out.println(path.getFileName());
-                    String filenev = String.valueOf(path.getFileName());
-
-                    if(!filenev.equals(playerpromt)){ //a saját promtjára ne tudjon promtot adni
-                        filenev = "file:"+filenev;
-
-                        Images.add(filenev);
-                    }
-
-                }
-
-            }
-
-        } catch (IOException error) {
-            System.err.println("Egy player sem adott le kepet");
-        }
 
 
-        Image image = new Image(Images.getFirst()); // Töltse be a képet
+        Image image = Images.getFirst(); // Töltse be a képet
 
         ImageView displayimage =  new ImageView(image);
 
@@ -162,7 +139,7 @@ public class ImagePromt extends Application {
 
                 }else{
 
-                    Image kep = new Image(Images.getFirst());
+                    Image kep = Images.getFirst();
                     displayedimage.setImage(kep);
 
                     TXpromt.setText("");

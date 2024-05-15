@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 class OnlinePlayer{
+    public String playersdarwing;
     int[] palyercolor = new int[3];
     boolean amIhost = false;
     String playername = "";
@@ -247,12 +248,21 @@ public class Allplayers extends Thread{
                             player.givenpromt = readPromts.getOnePromt();
                             System.out.println("My promt is: " + player.givenpromt);
                             sendLine(player.givenpromt);
+                            clientout = clientReader.readLine();
+                            System.out.println(clientout);
+                            player.playersdarwing = clientout;  //megkapom a drawingot stringben es eltarolom
+
+
                         }
 
                     }
                 }
 
             }
+
+
+            sendLine(makeOneBigStringWithallImages(players));   //elkuldom az osszes kepet egy nagy stringben
+
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
             System.out.println(clientout);  //kapok vlami ilyet egyeskep, ketteskep
 
@@ -298,7 +308,16 @@ public class Allplayers extends Thread{
 
     }
 
+    private String makeOneBigStringWithallImages(Vector<OnlinePlayer> players) {
+        String allimmages = ""; //tudom hogy rossz
 
+        for (OnlinePlayer player : players) {
+            allimmages = allimmages +","+  player.playersdarwing;
+
+        }
+
+        return allimmages;
+    }
 
 
 }
