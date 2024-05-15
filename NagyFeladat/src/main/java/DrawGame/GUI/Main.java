@@ -12,27 +12,27 @@ public class Main {
         ReadPromts RP = new ReadPromts(); //PROMTOK BEOLVASÁSA
         RP.readfile("promts.txt");
         RP.readpromts();
-
+        //Gson gson = new Gson();
         Lobby lobby = new Lobby();
 
         //lobby.start();
 
-
-
-
-        //GM gamemaster ebben legyenek a gamestagek
-        //hosszu kódot, ne a javba rakd, mert lefagy a gui
-        //a felhasználo felület maradjon rszponziv
+        // newFIXEDTHREADPOOL ezt is használhatod, hiszen tudod,hogy mennyi player van //50%
+        // lehet hogy lehetne coundown latch csinálni?// Gson file atkuldheto, van hozzá package
+       // https://mkyong.com/java/how-do-convert-java-object-to-from-json-format-gson-api/
+        //GM gamemaster ebben legyenek a gamestagek // lehet nem is fog kelleni
+        //hosszu kódot, ne a javba rakd, mert lefagy a gui //runlater megoldja
+        //a felhasználo felület maradjon rszponziv // eddig jó
         //a logic külön szálra
         //Platform.isFxApplicationThread() debug a szálakhoz
         //rakj bele minden olyan extra dolgot amint tanultal a felev soran
-        // rakj bele enumot
+        // rakj bele enumot // de hova ?
 
         //megvan egy kliens join ablak
         //megvan egy főablak
-        //kell egy rajzolós ablak itt egy listából kapja a promtot
-        //kell egy promt adós ablak
-        //kell egy szavazós ablak ahol a szavazás után a pontok is látszanak majd
+        //megvan egy rajzolós ablak itt egy listából kapja a promtot
+        //megvan egy promt adós ablak
+        //megvan egy szavazós ablak ahol a szavazás után a pontok is látszanak majd
 
 
     }

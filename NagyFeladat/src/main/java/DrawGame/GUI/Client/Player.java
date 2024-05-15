@@ -224,7 +224,7 @@ public class Player implements Runnable{
 
                 });
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000); //van SEConds.sleep is
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

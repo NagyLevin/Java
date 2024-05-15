@@ -232,6 +232,7 @@ public class Allplayers extends Thread{
             }
 
             while(!gamestartedbyclient){    //kliensek ujraszinkronizállása, hogy bevárják egymást
+
                 //System.out.println("Waiting for game to start");
                 Thread.sleep(1);
             }
