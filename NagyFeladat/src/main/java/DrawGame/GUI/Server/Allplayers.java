@@ -287,7 +287,7 @@ public class Allplayers extends Thread{
             }
 
 
-            sendLine(makeOneBigStringWithallImages(players, (int) ThreadId));   //elkuldom az osszes kepet egy nagy stringben
+            sendLine(makeOneBigStringWithallImages(players, -1));   //elkuldom az osszes kepet egy nagy stringben
 
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
             System.out.println("A kliens promtja: " +clientout);

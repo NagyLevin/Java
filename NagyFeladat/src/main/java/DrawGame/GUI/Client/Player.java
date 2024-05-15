@@ -341,6 +341,8 @@ public class Player implements Runnable{
         serversays = fromserver(); //itt kapom meg az osszes kepet
         System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
         Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
+        System.out.println("ide meg eljutok?");
+
         serversays = fromserver(); //itt kapom meg az eslo ker promtjait
         System.out.println("Osszes promt a korre: " + serversays);
         String[] promts = serversays.split(",",-2);
