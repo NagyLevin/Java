@@ -290,7 +290,7 @@ public class Allplayers extends Thread{
             sendLine(makeOneBigStringWithallImages(players, (int) ThreadId));   //elkuldom az osszes kepet egy nagy stringben
 
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
-            System.out.println(clientout);  //kapok vlami ilyet egyeskep, ketteskep
+            System.out.println("A kliens promtja: " +clientout);
 
             String[] promts;
             promts = clientout.split(",",-2);
@@ -304,14 +304,17 @@ public class Allplayers extends Thread{
             //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
             //ezt annyiszor ismételve ahány player van
 
-
-                sendLine(makeOneBigStringWithallImages(players, -1)); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
+                String allimmages = makeOneBigStringWithallImages(players, -1);
+                //System.out.println(allimmages);
+                sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
 
                 int kor = 0;
-                for (OnlinePlayer player : players) {
+                for (OnlinePlayer player : players) { //az a baj, hogy neki nem az az elso kepe, mint nekem
 
                     String votePromts = PromtsForVote(kor,player.givenpromt );
                     sendLine(votePromts);
+                    System.out.println("Promts to clients: " +votePromts);
+
                     clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
 
                     Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
@@ -353,7 +356,7 @@ public class Allplayers extends Thread{
 
 
         }
-        playerspointsandnames = playerspointsandnames.substring(2);
+        //playerspointsandnames = playerspointsandnames.substring(2);
 
         return playerspointsandnames;
     }

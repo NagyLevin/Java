@@ -322,22 +322,27 @@ public class Player implements Runnable{
         }
 
         String mergedpromt = "";
+
         for (int i = 0; i < fakepromtsfromImmagePromt.size(); i++) {
             mergedpromt = mergedpromt + "," + fakepromtsfromImmagePromt.get(i);
 
         }
         //elkuldom a promtokat a szervernek
         try {
+
+            System.out.println("Elkuldom a promtokat a szervernek: " +mergedpromt);
             toServer(mergedpromt);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //Voting innen kezdodik
+
 
         serversays = fromserver(); //itt kapom meg az osszes kepet
+        System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
         Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
-
         serversays = fromserver(); //itt kapom meg az eslo ker promtjait
-        System.out.println(serversays);
+        System.out.println("Osszes promt a korre: " + serversays);
         String[] promts = serversays.split(",",-2);
 
 
