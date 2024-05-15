@@ -6,10 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -17,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public class ImageVote extends Application {
@@ -26,12 +23,15 @@ public class ImageVote extends Application {
     Boolean playerPressed = false;
     int[] playercolor = {200,0,0};
     String[] votepromts ={"A","B","C"} ;
-    String firstimage = "shoe";
     static Label timerLabel = new Label();
+    static Vector<Image> AllImages;
+    static ImageView displayedimage = new ImageView();
+    FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
 
-    ImageVote(int[] _playercolor, String[] _votepromts){
+    ImageVote(int[] _playercolor, String[] _votepromts, Vector<Image> _allImagesVote){
         playercolor = _playercolor;
         votepromts = _votepromts;
+        AllImages = _allImagesVote;
         //String firstimage = _votepromts[1];
 
     }
@@ -40,8 +40,19 @@ public class ImageVote extends Application {
         timerLabel.setText("Time left: " + countdown );
 
     }
+    public static void whoVoted (){
+
+
+    }
 
     public static void nextVote() {
+        if(!AllImages.isEmpty()){
+            AllImages.removeFirst();
+            Image kep = AllImages.getFirst();
+            displayedimage.setImage(kep);
+
+        }
+
     }
 
 
@@ -49,12 +60,12 @@ public class ImageVote extends Application {
     public void start(Stage VoteStage)  {
 
 
-        firstimage = "file:" + firstimage + ".png";
-        Image image = new Image(firstimage); // Töltse be a képet
 
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(image.getWidth() / 2);    //lehet nem is mukszik
-        imageView.setFitHeight(image.getHeight() / 2);
+        Image image = AllImages.getFirst(); // Töltse be a képet
+
+        displayedimage.setImage(image);
+        displayedimage.setFitWidth(image.getWidth() / 2);    //lehet nem is mukszik
+        displayedimage.setFitHeight(image.getHeight() / 2);
 
 
 
@@ -78,7 +89,9 @@ public class ImageVote extends Application {
 
                 if(!playerPressed ){
                     button.setStyle("-fx-background-color: red");
-                   playersChoice =  button.getText();
+                    playersChoice =  button.getText();
+
+
 
 
                    playerPressed = true;
@@ -93,7 +106,7 @@ public class ImageVote extends Application {
         }
         boxofvotes.setAlignment(Pos.CENTER);
 
-        FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
+
         vbox.getChildren().add(boxofvotes);
         vbox.getChildren().add(boxofvoters);
 

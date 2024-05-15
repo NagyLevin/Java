@@ -13,6 +13,7 @@ import java.util.Vector;
 
 class OnlinePlayer{
     public String playersdarwing = "";
+    public String playersvote = "";
     int[] palyercolor = new int[3];
     boolean amIhost = false;
     String playername = "";
@@ -147,7 +148,7 @@ public class Allplayers extends Thread{
         return votepormtstoclient;
 
     }
-    private String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID) {
+    private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID) {
         String allimmages = ""; //tudom hogy rossz
 
 
@@ -304,14 +305,19 @@ public class Allplayers extends Thread{
             //ezt annyiszor ismételve ahány player van
 
 
+                sendLine(makeOneBigStringWithallImages(players, -1)); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
 
                 int kor = 0;
                 for (OnlinePlayer player : players) {
 
-                    sendLine(PromtsForVote(kor,player.givenpromt ));
+                    String votePromts = PromtsForVote(kor,player.givenpromt );
+                    sendLine(votePromts);
                     clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
 
-
+                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
+                    //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
+                    String PlayersandPoints = PlayersVotes(votePromts,clientout,players); //osszes valasz es a jo valasz
+                    sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
 
 
                 }
@@ -321,14 +327,56 @@ public class Allplayers extends Thread{
 
 
 
-
-
-
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
 
+
+
+    }
+
+    private String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players) {
+        String playerspointsandnames ="";
+        String[] promtsformvotePromts = votePromts.split(",",-2);
+        for (int i = 0; i < promtsformvotePromts.length; i++) {
+
+            for (OnlinePlayer player : players) {
+
+                if(player.playersvote.equals(promtsformvotePromts[i])){
+                    playerspointsandnames = playerspointsandnames + ";" + player.playername + "," +player.points;
+
+                }
+
+
+            }
+
+
+        }
+        playerspointsandnames = playerspointsandnames.substring(2);
+
+        return playerspointsandnames;
+    }
+
+    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz,int kor) {
+
+        for (OnlinePlayer player : players) {
+
+            if(player.playerid == threadId){
+                player.playersvote = playerschoice;
+
+            }
+
+            if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
+                player.points = player.points +2; //ket pont egy jo valasz
+            }
+            if(player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(playerschoice)){
+                player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
+
+            }
+
+
+        }
 
 
     }

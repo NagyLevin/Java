@@ -16,12 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Vector;
 
 public class ImagePromt extends Application {
@@ -46,8 +41,8 @@ public class ImagePromt extends Application {
         timerLabel.setText("Time left: " + countdown );
     }
 
-    public static void openVoting(int[] _palyercolor, String[] _promts) {
-        ImageVote IV = new ImageVote(_palyercolor,_promts); //start a drawingboard
+    public static void openVoting(int[] _palyercolor, String[] _promts, Vector<Image> allImagesVote) {
+        ImageVote IV = new ImageVote(_palyercolor,_promts,allImagesVote); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
         try {
             IV.start(VoteStage);

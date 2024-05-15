@@ -295,27 +295,11 @@ public class Player implements Runnable{
         //itt kezdodik a promt adas
 
         serversays = fromserver();
-        String[] pictures;
-        pictures = serversays.split(",",-2);
-        Vector<Image> bimmages = new Vector<>();
-        for (int i = 1; i < pictures.length; i++) { //mert a nulladik elem ures
-            byte[] byteimmage = Base64.getDecoder().decode(pictures[i]);
-            System.out.println(byteimmage);
-            ByteArrayInputStream byteoutputImageStream = new ByteArrayInputStream(byteimmage);
-            try {
-                BufferedImage bi =  ImageIO.read(byteoutputImageStream);
 
-                bimmages.add(convertBIToImage(bi)); //immaget csinalok a bufferedimmageból
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
+        Vector<Image> Bimmages = ConvertStringToImage(serversays); //ne lehessen modositani
 
         Platform.runLater(() -> {
-            DrawfuLboard.openPromting(Lplayer.palyercolor,bimmages);
+            DrawfuLboard.openPromting(Lplayer.palyercolor, Bimmages);
 
 
         });
@@ -348,19 +332,22 @@ public class Player implements Runnable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        serversays = fromserver();
+
+        serversays = fromserver(); //itt kapom meg az osszes kepet
+        Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
+
+        serversays = fromserver(); //itt kapom meg az eslo ker promtjait
         System.out.println(serversays);
         String[] promts = serversays.split(",",-2);
 
 
         Platform.runLater(() -> {
-            ImagePromt.openVoting(Lplayer.palyercolor,promts);
+            ImagePromt.openVoting(Lplayer.palyercolor,promts,AllImagesVote);
 
 
         });
 
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
-
         while (!serversays.equals("StopTheVote")){
 
 
@@ -395,5 +382,27 @@ public class Player implements Runnable{
 
 
 
+    }
+
+    private Vector<Image> ConvertStringToImage(String serversays) {
+
+        String[] pictures;
+        pictures = serversays.split(",",-2);
+        Vector<Image> bimmages = new Vector<>();
+        for (int i = 1; i < pictures.length; i++) { //mert a nulladik elem ures
+            byte[] byteimmage = Base64.getDecoder().decode(pictures[i]);
+            //System.out.println(byteimmage);
+            ByteArrayInputStream byteoutputImageStream = new ByteArrayInputStream(byteimmage);
+            try {
+                BufferedImage bi =  ImageIO.read(byteoutputImageStream);
+
+                bimmages.add(convertBIToImage(bi)); //immaget csinalok a bufferedimmageból
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return bimmages;
     }
 }
