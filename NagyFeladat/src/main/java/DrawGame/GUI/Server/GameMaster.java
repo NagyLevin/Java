@@ -1,15 +1,9 @@
 package DrawGame.GUI.Server;
 
-import DrawGame.GUI.ReadPromts;
-
+import java.io.IOException;
 import java.util.Vector;
-
+/*
 public class GameMaster extends Thread {
-    int maxplayers = 8;
-    static int  currentplayers = 8; //test input változtasd
-    String[] allRealpromts = new String[currentplayers];
-    static String[] PromtsThisRound = new String[currentplayers+1];
-    String GoodPromtThisRound = "";
 
 
 
@@ -18,28 +12,43 @@ public class GameMaster extends Thread {
     }
 
 
-    //itt induljanak a gamestagek
-    public void gamestage1(){
-
+    public synchronized void makeHost(OnlinePlayer Oplayer, Vector<OnlinePlayer> players) throws IOException {
+        if(players.isEmpty()){
+            Oplayer.amIhost = true;
+            Allplayers.sendLine("true");
+            // System.out.println("lefut a true");
+        }
+        else{
+            // System.out.println("lefut a fase");
+            Oplayer.amIhost = false;
+            Allplayers.sendLine("false");
+        }
 
 
     }
 
-    public void testpromtREMOVELATER(){
-        ReadPromts RP = new ReadPromts();
-        RP.readfile("promts.txt");
+    public synchronized void startGame(OnlinePlayer Oplayer, Vector<OnlinePlayer> players, int minplayer) throws IOException {
+
+        if(Oplayer.amIhost){
+            //System.out.println("wait1");
+
+            String clientout = Allplayers.clientReader.readLine();
+            //System.out.println("wait2");
+            System.out.println(clientout);
 
 
-        for (int i = 0; i < currentplayers; i++) {
-            PromtsThisRound[i] = RP.getOnePromt(); //KÉSÖBB NE FELEJSD EL KEVERNI
+            if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
+                //itt kezdodik a game
+
+                Allplayers.gamestartedbyclient = true;
+
+
+
+
+            }
 
         }
-        PromtsThisRound[currentplayers] = RP.getOnePromt();
-
-
 
     }
-
-
-
 }
+*/

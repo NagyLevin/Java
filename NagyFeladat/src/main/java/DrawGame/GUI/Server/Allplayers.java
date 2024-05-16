@@ -181,7 +181,7 @@ public class Allplayers extends Thread{
         ReadPromts readPromts = new ReadPromts();
         readPromts.readfile("promts.txt");  //fajl beolvasása, amiben vannak a promtok
         OnlinePlayer Oplayer = new OnlinePlayer();
-        GameMaster GameM = new GameMaster();
+        //GameMaster GameM = new GameMaster();
 
 
         System.out.println("van egy kliens!");
@@ -191,56 +191,56 @@ public class Allplayers extends Thread{
 
 
         try {  //statok szinkronizállásának elkezdese
-              sendLine("Givestats");
+            sendLine("Givestats");
             //System.out.println(clientReader.readLine());
 
             String clientout = clientReader.readLine();
             System.out.println(clientout);
-              if(clientout.equals("firstStats")){
+            if(clientout.equals("firstStats")){
 
-                  String clienscode = clientReader.readLine();
-                  if(!clienscode.equals(gamecode)){
-                      System.out.println(clienscode + " : " + gamecode);
+                String clienscode = clientReader.readLine();
+                if(!clienscode.equals(gamecode)){
+                    System.out.println(clienscode + " : " + gamecode);
 
-                      clientSocket.close();
+                    clientSocket.close();
 
-                  }
+                }
 
-                  Oplayer.setPlayerColoR(Integer.parseInt(clientReader.readLine()) ); //szinR
-                  Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
-                  Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
-                  clientout = clientReader.readLine(); //nev beállít
-                  clientout = clientout + ThreadId; //TESTROW DELETE LATER
-                  Oplayer.playername = clientout;
-                  Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
-                  Oplayer.playerid = (int) ThreadId;
+                Oplayer.setPlayerColoR(Integer.parseInt(clientReader.readLine()) ); //szinR
+                Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
+                Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
+                clientout = clientReader.readLine(); //nev beállít
+                clientout = clientout + ThreadId; //TESTROW DELETE LATER
+                Oplayer.playername = clientout;
+                Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
+                Oplayer.playerid = (int) ThreadId;
 
-                    clientout =clientReader.readLine();
-                  System.out.println(clientout);
-                  if(clientout.equals("AmIHost")){
+                clientout =clientReader.readLine();
+                System.out.println(clientout);
+                if(clientout.equals("AmIHost")){
 
 
-                  if(players.isEmpty()){
-                      Oplayer.amIhost = true;
-                      sendLine("true");
-                     // System.out.println("lefut a true");
-                  }
-                  else{
-                     // System.out.println("lefut a fase");
-                      Oplayer.amIhost = false;
-                      sendLine("false");
-                  }
+                    if(players.isEmpty()){
+                        Oplayer.amIhost = true;
+                        sendLine("true");
+                        // System.out.println("lefut a true");
+                    }
+                    else{
+                        // System.out.println("lefut a fase");
+                        Oplayer.amIhost = false;
+                        sendLine("false");
+                    }
 
-                  if(players.size() > maxplayer){
-                      clientSocket.close(); //max ha tobb a palyer akkor nem enged csatlakozni
-                  }
+                    if(players.size() > maxplayer){
+                        clientSocket.close(); //max ha tobb a palyer akkor nem enged csatlakozni
+                    }
 
-                  players.add(Oplayer);
+                    players.add(Oplayer);
 
-                  }
+                }
 
-                  //System.out.println(Oplayer.playername);
-              }
+                //System.out.println(Oplayer.playername);
+            }
 
             if(Oplayer.amIhost){
                 //System.out.println("wait1");
@@ -254,17 +254,19 @@ public class Allplayers extends Thread{
                     //itt kezdodik a game
 
                     gamestartedbyclient = true;
-
+                    hosting.latch.countDown();
 
                 }
 
             }
 
-            while(!gamestartedbyclient){    //kliensek ujraszinkronizállása, hogy bevárják egymást
 
-                //System.out.println("Waiting for game to start");
-                Thread.sleep(1);
-            }
+
+
+
+            //System.out.println("latchszam: " + hosting.latch.getCount());
+            hosting.latch.await();
+
 
             if(gamestartedbyclient){
                 sendLine("StartGameCountDown");
@@ -306,12 +308,12 @@ public class Allplayers extends Thread{
             //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
             //ezt annyiszor ismételve ahány player van
 
-                String allimmages = makeOneBigStringWithallImages(players, -1);
-                //System.out.println(allimmages);
-                sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
-                clientout = clientReader.readLine();
-                System.out.println(clientout);
-                if(clientout.equals("GottheImage")){
+            String allimmages = makeOneBigStringWithallImages(players, -1);
+            //System.out.println(allimmages);
+            sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
+            clientout = clientReader.readLine();
+            System.out.println(clientout);
+            if(clientout.equals("GottheImage")){
 
 
 
@@ -337,7 +339,7 @@ public class Allplayers extends Thread{
                 }
 
                 sendLine("StopTheVote"); //Jatek vege
-                }
+            }
 
 
 
@@ -378,23 +380,23 @@ public class Allplayers extends Thread{
 
 
 
-                //System.out.println("i ma stuck in the while loop");
+            //System.out.println("i ma stuck in the while loop");
 
 
 
-                for (OnlinePlayer player : players) {
+            for (OnlinePlayer player : players) {
 
 
-                    if (player.playersvote.equals(promtsformvotePromts[i])) {
-                        points.add(String.valueOf(player.points));
-                        names.add(player.playername);
-
-
-                    }
+                if (player.playersvote.equals(promtsformvotePromts[i])) {
+                    points.add(String.valueOf(player.points));
+                    names.add(player.playername);
 
 
                 }
+
+
             }
+        }
 
 
 
