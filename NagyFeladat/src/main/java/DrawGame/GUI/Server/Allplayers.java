@@ -276,9 +276,9 @@ public class Allplayers extends Thread{
                             System.out.println("My promt is: " + player.givenpromt);
                             sendLine(player.givenpromt);
                             clientout = clientReader.readLine();
-                            //System.out.println(clientout);
-                            player.playersdarwing = clientout;  //megkapom a drawingot stringben es eltarolom
 
+                            player.playersdarwing = clientout;  //megkapom a drawingot stringben es eltarolom
+                            System.out.println("megkaptam a kliens drawingjat");
 
                         }
 

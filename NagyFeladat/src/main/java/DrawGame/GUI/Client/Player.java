@@ -270,7 +270,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 5; //180 ra állísd
+        countdown = 10; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);

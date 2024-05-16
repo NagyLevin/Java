@@ -1,7 +1,6 @@
 package DrawGame.GUI;
 
 import DrawGame.GUI.Server.Lobby;
-import com.google.gson.Gson;
 
 
 public class Main {
@@ -13,7 +12,7 @@ public class Main {
         ReadPromts RP = new ReadPromts(); //PROMTOK BEOLVASÁSA
         RP.readfile("promts.txt");
         RP.readpromts();
-        Gson gson = new Gson(); //https://repo.maven.apache.org/maven2/ itt sem találom, nem létezik
+        //Gson gson = new Gson(); //https://repo.maven.apache.org/maven2/ itt sem találom, nem létezik
         //gson.toJson()         //találtam egy módszert rá
         Lobby lobby = new Lobby();
 
