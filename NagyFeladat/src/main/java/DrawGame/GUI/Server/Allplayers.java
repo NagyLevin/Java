@@ -77,7 +77,7 @@ public class Allplayers extends Thread{
     int minplayer = 1;  //kesobb 3 ra állísd
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
-
+    static int everythreadisthere = 0;
 
 
     public Allplayers(Socket clientSocket) throws IOException {
@@ -120,17 +120,25 @@ public class Allplayers extends Thread{
 
         Vector<String> votePromts = new Vector<>();
         votePromts.add(playerspromt);
+
+
+        everythreadisthere = everythreadisthere + 1;
+
+
+        while (everythreadisthere == players.size()){
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        everythreadisthere = 0;
+
         for (OnlinePlayer player2 : players) {
             Vector<String> playerspromts = player2.fakepromts;
 
-            while (playerspromts.isEmpty() || playerspromts.size() < kor  ){ //Threadek ujraszinkronizálása
-               // System.out.println("a whilban ragadtam...");
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
 
             if(playerspromts.size() > kor) {
                 // System.out.println("lefut");
@@ -210,7 +218,9 @@ public class Allplayers extends Thread{
                   Oplayer.setPlayerColoR(Integer.parseInt(clientReader.readLine()) ); //szinR
                   Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
                   Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
-                  Oplayer.playername = clientReader.readLine(); //nev beállít
+                  clientout = clientReader.readLine(); //nev beállít
+                  clientout = clientout + ThreadId; //TESTROW DELETE LATER
+                  Oplayer.playername = clientout;
                   Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
                   Oplayer.playerid = (int) ThreadId;
 
@@ -322,7 +332,7 @@ public class Allplayers extends Thread{
                     System.out.println("Promts to clients: " +votePromts);
 
                     clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
-                    System.out.println("A kliens ezt mondta: " + clientout);
+                    System.out.println("A kliens ezt valasztotta: " + clientout);
 
                     Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
@@ -347,23 +357,62 @@ public class Allplayers extends Thread{
 
     }
 
-    private String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players) {
+    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players) {
+
+
         String playerspointsandnames ="";
         String[] promtsformvotePromts = votePromts.split(",",-2);
+        Vector<String> points = new Vector<>();
+        Vector<String> names = new Vector<>();
+
+
+        everythreadisthere = everythreadisthere + 1;
+
+        while (everythreadisthere == players.size()){
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        everythreadisthere = 0;
+
         for (int i = 0; i < promtsformvotePromts.length; i++) {
 
-            for (OnlinePlayer player : players) {
 
-                if(player.playersvote.equals(promtsformvotePromts[i])){
-                    playerspointsandnames = playerspointsandnames + ";" + player.playername + "," +player.points;
+
+
+
+                //System.out.println("i ma stuck in the while loop");
+
+
+
+                for (OnlinePlayer player : players) {
+
+
+                    if (player.playersvote.equals(promtsformvotePromts[i])) {
+                        points.add(String.valueOf(player.points));
+                        names.add(player.playername);
+
+
+                    }
+
 
                 }
-
-
             }
 
 
+
+
+        for (int i = 0; i < points.size(); i++) {
+            playerspointsandnames = playerspointsandnames + ";" + names.get(i) + "," + points.get(i);
         }
+
+
+
+
         //playerspointsandnames = playerspointsandnames.substring(2);
 
         return playerspointsandnames;
@@ -375,8 +424,19 @@ public class Allplayers extends Thread{
 
             if(player.playerid == threadId){
                 player.playersvote = playerschoice;
+                everythreadisthere = everythreadisthere + 1;
+            }
+
+            while (everythreadisthere == players.size()){
+
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
+            everythreadisthere = 0;
 
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz

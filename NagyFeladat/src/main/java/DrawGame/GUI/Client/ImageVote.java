@@ -46,7 +46,7 @@ public class ImageVote extends Application {
 
         for (int i = 0; i < names.size(); i++) {
             Label txnames = (Label) boxofvoters.getChildren().get(i);
-            Label txpoints = (Label) boxofvoters.getChildren().get(i);
+            Label txpoints = (Label) boxofpoints.getChildren().get(i);
 
             System.out.println("Nev a vote oldalon: " + names.get(i));
 
