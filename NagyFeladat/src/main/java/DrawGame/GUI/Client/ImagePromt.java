@@ -41,8 +41,8 @@ public class ImagePromt extends Application {
         timerLabel.setText("Time left: " + countdown );
     }
 
-    public static void openVoting(int[] _palyercolor, String[] _promts, Vector<Image> allImagesVote) {
-        ImageVote IV = new ImageVote(_palyercolor,_promts,allImagesVote); //start a drawingboard
+    public static void openVoting(int[] _palyercolor, Vector<Image> allImagesVote) {
+        ImageVote IV = new ImageVote(_palyercolor,allImagesVote); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
         try {
             IV.start(VoteStage);

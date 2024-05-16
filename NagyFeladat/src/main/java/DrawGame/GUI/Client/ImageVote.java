@@ -20,20 +20,19 @@ import java.util.Vector;
 public class ImageVote extends Application {
 
     static String playersChoice = "";
-    Boolean playerPressed = false;
-    int[] playercolor = {200,0,0};
+    static Boolean playerPressed = false;
+    static int[] playercolor = {200,0,0};
     String[] votepromts ={"A","B","C"} ;
     static Label timerLabel = new Label();
     static Vector<Image> AllImages;
     static ImageView displayedimage = new ImageView();
     static FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
     static FlowPane boxofpoints = new FlowPane(Orientation.HORIZONTAL);
+    static FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
 
-
-    ImageVote(int[] _playercolor, String[] _votepromts, Vector<Image> _allImagesVote){
+    ImageVote(int[] _playercolor, Vector<Image> allImagesVote){
         playercolor = _playercolor;
-        votepromts = _votepromts;
-        AllImages = _allImagesVote;
+        AllImages = allImagesVote;
         //String firstimage = _votepromts[1];
 
     }
@@ -58,46 +57,21 @@ public class ImageVote extends Application {
 
     }
 
-    public static void nextVote() {
+    public static void nextVote(String[] promts, Vector<Image> allImagesVote) {
         if(!AllImages.isEmpty()){
             AllImages.removeFirst();
             Image kep = AllImages.getFirst();
             displayedimage.setImage(kep);
 
         }
-
-    }
-
-
-    @Override
-    public void start(Stage VoteStage)  {
-
+        playerPressed = false;
+        boxofpoints.getChildren().clear();
+        boxofvoters.getChildren().clear();
+        boxofvotes.getChildren().clear();
+        for (int i = 1; i < promts.length; i++) {   //egytol indulok, hogy az eslőt ne vegyem figyelembe
 
 
-        Image image = AllImages.getFirst(); // Töltse be a képet
-
-        displayedimage.setImage(image);
-        displayedimage.setFitWidth(image.getWidth() / 2);    //lehet nem is mukszik
-        displayedimage.setFitHeight(image.getHeight() / 2);
-
-
-
-        VBox vbox = new VBox(0, new ImageView(image)); //belerakja a vboxba nem kell terköz
-        vbox.setAlignment(Pos.BASELINE_CENTER);
-
-        Label GiveaPromt = new Label("What promt fits the immage?");
-        Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
-        GiveaPromt.setFont(promz);
-        vbox.getChildren().add(GiveaPromt);
-
-
-
-
-        FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
-        for (int i = 1; i < votepromts.length; i++) {   //egytol indulok, hogy az eslőt ne vegyem figyelembe
-
-
-            Button button= new Button(votepromts[i]);
+            Button button= new Button(promts[i]);
             button.setOnAction(event -> {
 
                 if(!playerPressed ){
@@ -107,7 +81,7 @@ public class ImageVote extends Application {
 
 
 
-                   playerPressed = true;
+                    playerPressed = true;
 
 
                 }
@@ -119,16 +93,16 @@ public class ImageVote extends Application {
             boxofvotes.getChildren().add(button);
 
 
+            Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
+            Label egynev = new Label("");
+            Label pont = new Label("");
 
-                Label egynev = new Label("");
-                Label pont = new Label("");
-
-                egynev.setFont(promz);
-                pont.setFont(promz);
+            egynev.setFont(promz);
+            pont.setFont(promz);
 
 
-                boxofvoters.getChildren().add(egynev);
-                boxofpoints.getChildren().add(pont);
+            boxofvoters.getChildren().add(egynev);
+            boxofpoints.getChildren().add(pont);
 
 
 
@@ -138,6 +112,35 @@ public class ImageVote extends Application {
 
 
         }
+
+
+    }
+
+
+    @Override
+    public void start(Stage VoteStage)  {
+
+
+
+
+
+        Image image = AllImages.getFirst();
+
+
+        VBox vbox = new VBox(); //belerakja a vboxba nem kell terköz
+        vbox.setAlignment(Pos.BASELINE_CENTER);
+        vbox.getChildren().add(displayedimage);
+
+        Label GiveaPromt = new Label("What promt fits the immage?");
+        Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
+        GiveaPromt.setFont(promz);
+        vbox.getChildren().add(GiveaPromt);
+
+
+
+
+
+
         boxofvotes.setAlignment(Pos.CENTER);
 
         boxofvoters.setAlignment(Pos.CENTER);

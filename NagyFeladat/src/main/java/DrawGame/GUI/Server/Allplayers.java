@@ -78,6 +78,9 @@ public class Allplayers extends Thread{
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
     static int everythreadisthere = 0;
+    static int everythreadvoted = 0;
+
+
 
 
     public Allplayers(Socket clientSocket) throws IOException {
@@ -121,23 +124,9 @@ public class Allplayers extends Thread{
         Vector<String> votePromts = new Vector<>();
         votePromts.add(playerspromt);
 
-
-        everythreadisthere = everythreadisthere + 1;
-
-
-        while (everythreadisthere == players.size()){
-
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        everythreadisthere = 0;
-
         for (OnlinePlayer player2 : players) {
             Vector<String> playerspromts = player2.fakepromts;
+
 
 
             if(playerspromts.size() > kor) {
@@ -154,6 +143,8 @@ public class Allplayers extends Thread{
             votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
 
         }
+
+
         return votepormtstoclient;
 
     }
@@ -366,9 +357,9 @@ public class Allplayers extends Thread{
         Vector<String> names = new Vector<>();
 
 
-        everythreadisthere = everythreadisthere + 1;
+        everythreadvoted = everythreadvoted + 1;
 
-        while (everythreadisthere == players.size()){
+        while (everythreadvoted != players.size()){
 
             try {
                 Thread.sleep(1);
@@ -377,7 +368,7 @@ public class Allplayers extends Thread{
             }
 
         }
-        everythreadisthere = 0;
+
 
         for (int i = 0; i < promtsformvotePromts.length; i++) {
 
@@ -420,23 +411,26 @@ public class Allplayers extends Thread{
 
     private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz,int kor) {
 
+        everythreadisthere = everythreadisthere + 1;
+        while (everythreadisthere != players.size()){
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }//ne ezt hanem szalat kezelj....
+
         for (OnlinePlayer player : players) {
 
             if(player.playerid == threadId){
                 player.playersvote = playerschoice;
-                everythreadisthere = everythreadisthere + 1;
-            }
-
-            while (everythreadisthere == players.size()){
-
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
 
             }
-            everythreadisthere = 0;
+
+
+
 
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz

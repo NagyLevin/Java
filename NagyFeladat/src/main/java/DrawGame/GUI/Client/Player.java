@@ -354,7 +354,7 @@ public class Player implements Runnable{
 
 
         Platform.runLater(() -> {
-            ImagePromt.openVoting(Lplayer.palyercolor,promts,AllImagesVote);
+            ImagePromt.openVoting(Lplayer.palyercolor,AllImagesVote);
 
 
         });
@@ -363,6 +363,9 @@ public class Player implements Runnable{
         while (!serversays.equals("StopTheVote")){
 
 
+            Platform.runLater(() -> {
+            ImageVote.nextVote(promts,AllImagesVote); //allits at mindent a kovetkezo votera
+            });
 
         countdown = 20; //30 ra állísd
         while (countdown > 0) {
@@ -408,7 +411,7 @@ public class Player implements Runnable{
             ImageVote.whoVoted(namesv,pontok);
             });
 
-            countdown = 10; //10 ra állísd
+            countdown = 15; //10 ra állísd
             while (countdown > 0) {
                 Platform.runLater(() -> {
                     ImageVote.TimerInClient(countdown);
@@ -421,7 +424,7 @@ public class Player implements Runnable{
                 countdown--;
             }
 
-            ImageVote.nextVote(); //allits at mindent a kovetkezo votera
+
             System.out.println("egy szavazasnak vege");
 
         }
