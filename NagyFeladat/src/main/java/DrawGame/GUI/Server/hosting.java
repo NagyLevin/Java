@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class hosting implements Runnable {
 
@@ -15,6 +17,9 @@ public class hosting implements Runnable {
     static int maxplayers = 8;
     static int currentplayers = 0;
 
+
+
+
     public hosting(String _gamecode) {
         try {
             serverSocket= new ServerSocket(PORT_NUMBER);           //a szerver socketje
@@ -25,6 +30,10 @@ public class hosting implements Runnable {
         }
     }
 
+    public static void resetlatch() {
+        latch = new CountDownLatch(currentplayers);
+
+    }
 
 
     @Override

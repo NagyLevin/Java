@@ -148,20 +148,22 @@ public class Allplayers extends Thread{
         return votepormtstoclient;
 
     }
-    private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID) {
+    private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID, OnlinePlayer oplayer) {
         String allimmages = ""; //tudom hogy rossz
 
 
+            hosting.latch.countDown();
+
+
+        try {
+            hosting.latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
         for (OnlinePlayer player : players) {
-            while (player.playersdarwing.isEmpty() ){ //Threadek ujraszinkronizálása
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+
 
             if(player.playerid != ThreadID){
                 allimmages = allimmages +","+  player.playersdarwing;
@@ -171,6 +173,7 @@ public class Allplayers extends Thread{
 
         }
 
+        hosting.resetlatch();
         return allimmages;
     }
 
@@ -266,6 +269,11 @@ public class Allplayers extends Thread{
 
             //System.out.println("latchszam: " + hosting.latch.getCount());
             hosting.latch.await();
+            if(Oplayer.amIhost){
+                hosting.resetlatch();
+
+            }
+
 
 
             if(gamestartedbyclient){
@@ -291,7 +299,7 @@ public class Allplayers extends Thread{
             }
 
 
-            sendLine(makeOneBigStringWithallImages(players, -1));   //elkuldom az osszes kepet egy nagy stringben
+            sendLine(makeOneBigStringWithallImages(players, -1, Oplayer));   //elkuldom az osszes kepet egy nagy stringben
 
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
             System.out.println("A kliens promtja: " +clientout);
@@ -308,7 +316,7 @@ public class Allplayers extends Thread{
             //utána a string sorrendjében megnézzük, hogy ki mire szavazott es a string sorrendjében visszaküldöm a neveket a kliensnek
             //ezt annyiszor ismételve ahány player van
 
-            String allimmages = makeOneBigStringWithallImages(players, -1);
+            String allimmages = makeOneBigStringWithallImages(players, -1,Oplayer);
             //System.out.println(allimmages);
             sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
             clientout = clientReader.readLine();
@@ -327,10 +335,10 @@ public class Allplayers extends Thread{
                     clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
                     System.out.println("A kliens ezt valasztotta: " + clientout);
 
-                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
+                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
                     System.out.println("pontozas megvan");
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
-                    String PlayersandPoints = PlayersVotes(votePromts,clientout,players); //osszes valasz es a jo valasz
+                    String PlayersandPoints = PlayersVotes(votePromts,clientout,players,Oplayer); //osszes valasz es a jo valasz
                     System.out.println("Ezek voltak a valaszok, es a pontok: " + PlayersandPoints);
                     sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
 
@@ -352,7 +360,7 @@ public class Allplayers extends Thread{
 
     }
 
-    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players) {
+    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players, OnlinePlayer oplayer) {
 
 
         String playerspointsandnames ="";
@@ -361,30 +369,21 @@ public class Allplayers extends Thread{
         Vector<String> names = new Vector<>();
 
 
-        everythreadvoted = everythreadvoted + 1;
+        hosting.latch.countDown();
 
-        while (everythreadvoted != players.size()){
 
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
+        try {
+            hosting.latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
 
         for (int i = 0; i < promtsformvotePromts.length; i++) {
 
-
-
-
-
             //System.out.println("i ma stuck in the while loop");
-
-
-
             for (OnlinePlayer player : players) {
+
 
 
                 if (player.playersvote.equals(promtsformvotePromts[i])) {
@@ -410,28 +409,20 @@ public class Allplayers extends Thread{
 
         //playerspointsandnames = playerspointsandnames.substring(2);
 
+        hosting.resetlatch(); //kell a amihost?
         return playerspointsandnames;
     }
 
-    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz,int kor) {
-
-        everythreadisthere = everythreadisthere + 1;
-        while (everythreadisthere != players.size()){
-
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-        }//ne ezt hanem szalat kezelj....
+    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor, OnlinePlayer oplayer) {
+        hosting.latch.countDown();
+        try {
+            hosting.latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        hosting.resetlatch();
 
         for (OnlinePlayer player : players) {
-
-            if(player.playerid == threadId){
-                player.playersvote = playerschoice;
-
-            }
 
 
 
@@ -439,6 +430,7 @@ public class Allplayers extends Thread{
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz
             }
+
             if(player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(playerschoice)){
                 player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
 
@@ -446,6 +438,14 @@ public class Allplayers extends Thread{
 
 
         }
+
+        hosting.latch.countDown();
+        try {
+            hosting.latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        hosting.resetlatch();
 
 
     }
