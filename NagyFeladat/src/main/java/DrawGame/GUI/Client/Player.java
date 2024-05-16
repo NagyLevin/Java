@@ -339,7 +339,7 @@ public class Player implements Runnable{
 
 
         serversays = fromserver(); //itt kapom meg az osszes kepet
-        System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
+        //System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
         Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
         //System.out.println("ide meg eljutok?");
         try {
@@ -385,7 +385,39 @@ public class Player implements Runnable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            serversays = fromserver();
+            serversays = fromserver(); //itt kapom vissza, hogy ki mire sazvazott
+            System.out.println(serversays); //kimire
+
+            String[] names = serversays.split(";",-2);
+            Vector<String> namesv = new Vector<>();
+            namesv.addAll(Arrays.asList(names));
+            namesv.removeFirst();
+            Vector<String> pontok = new Vector<>();
+            for (int i = 0; i < namesv.size(); i++) {
+
+                String[] point = namesv.get(i).split(",",-2);
+                //System.out.println("Points: " + point[0]);
+
+                pontok.add(point[1]);
+
+            }
+
+            Platform.runLater(() -> {
+            ImageVote.whoVoted(names,pontok);
+            });
+
+            countdown = 10; //10 ra állísd
+            while (countdown > 0) {
+                Platform.runLater(() -> {
+                    ImageVote.TimerInClient(countdown);
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                countdown--;
+            }
 
             ImageVote.nextVote(); //allits at mindent a kovetkezo votera
             System.out.println("egy szavazasnak vege");

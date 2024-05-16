@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -26,7 +27,9 @@ public class ImageVote extends Application {
     static Label timerLabel = new Label();
     static Vector<Image> AllImages;
     static ImageView displayedimage = new ImageView();
-    FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
+    static FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
+    static FlowPane boxofpoints = new FlowPane(Orientation.HORIZONTAL);
+
 
     ImageVote(int[] _playercolor, String[] _votepromts, Vector<Image> _allImagesVote){
         playercolor = _playercolor;
@@ -40,7 +43,17 @@ public class ImageVote extends Application {
         timerLabel.setText("Time left: " + countdown );
 
     }
-    public static void whoVoted (){
+    public static void whoVoted (String[] names, Vector<String> pontok){
+
+        for (int i = 0; i < names.length; i++) {
+            Label txnames = (Label) boxofvoters.getChildren().get(i);
+            Label txpoints = (Label) boxofvoters.getChildren().get(i);
+
+
+            txnames.setText(names[i]);
+            txpoints.setText(pontok.get(i));
+
+        }
 
 
     }
@@ -88,13 +101,15 @@ public class ImageVote extends Application {
             button.setOnAction(event -> {
 
                 if(!playerPressed ){
-                    button.setStyle("-fx-background-color: red");
+                    button.setStyle("-fx-background-color: rgb(" + playercolor[0] + ", " + playercolor[1] + ", " + playercolor[2] + ");");
                     playersChoice =  button.getText();
 
 
 
 
                    playerPressed = true;
+
+
                 }
 
 
@@ -103,12 +118,29 @@ public class ImageVote extends Application {
 
             boxofvotes.getChildren().add(button);
 
+
+
+                Label egynev = new Label("");
+                Label pont = new Label("");
+
+                boxofvoters.getChildren().add(egynev);
+                boxofpoints.getChildren().add(pont);
+
+
+
+
+
+
+
+
         }
         boxofvotes.setAlignment(Pos.CENTER);
 
 
         vbox.getChildren().add(boxofvotes);
         vbox.getChildren().add(boxofvoters);
+        vbox.getChildren().add(boxofpoints);
+
 
         Font Flable = Font.font("Comic Sans MS", FontWeight.BOLD,20);
         timerLabel.setFont(Flable);

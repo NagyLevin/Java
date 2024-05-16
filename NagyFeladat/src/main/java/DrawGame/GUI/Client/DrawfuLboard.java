@@ -190,6 +190,7 @@ public class DrawfuLboard extends Application {
     public void start(Stage BoardStage) throws Exception {
 
         Canvas canvas = new Canvas(XX, YY);
+        savadrawing(canvas); //ures lap elmentese, ha nem ad le semmit, akkor ezt adja le
         GraphicsContext gc;
 
 
