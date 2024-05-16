@@ -254,10 +254,10 @@ public class Allplayers extends Thread{
                     //itt kezdodik a game
 
                     gamestartedbyclient = true;
-                    hosting.latch.countDown();
+
 
                 }
-
+                hosting.latch.countDown();
             }
 
 
