@@ -397,13 +397,15 @@ public class Player implements Runnable{
 
                 String[] point = namesv.get(i).split(",",-2);
                 //System.out.println("Points: " + point[0]);
+                //System.out.println("Names: " + point[1]);
 
+                namesv.set(i,point[0]);
                 pontok.add(point[1]);
 
             }
 
             Platform.runLater(() -> {
-            ImageVote.whoVoted(names,pontok);
+            ImageVote.whoVoted(namesv,pontok);
             });
 
             countdown = 10; //10 ra állísd

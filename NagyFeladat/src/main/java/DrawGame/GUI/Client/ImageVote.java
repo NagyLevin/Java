@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -43,14 +42,15 @@ public class ImageVote extends Application {
         timerLabel.setText("Time left: " + countdown );
 
     }
-    public static void whoVoted (String[] names, Vector<String> pontok){
+    public static void whoVoted (Vector<String> names, Vector<String> pontok){
 
-        for (int i = 0; i < names.length; i++) {
+        for (int i = 0; i < names.size(); i++) {
             Label txnames = (Label) boxofvoters.getChildren().get(i);
             Label txpoints = (Label) boxofvoters.getChildren().get(i);
 
+            System.out.println("Nev a vote oldalon: " + names.get(i));
 
-            txnames.setText(names[i]);
+            txnames.setText(names.get(i));
             txpoints.setText(pontok.get(i));
 
         }
@@ -123,6 +123,10 @@ public class ImageVote extends Application {
                 Label egynev = new Label("");
                 Label pont = new Label("");
 
+                egynev.setFont(promz);
+                pont.setFont(promz);
+
+
                 boxofvoters.getChildren().add(egynev);
                 boxofpoints.getChildren().add(pont);
 
@@ -136,6 +140,10 @@ public class ImageVote extends Application {
         }
         boxofvotes.setAlignment(Pos.CENTER);
 
+        boxofvoters.setAlignment(Pos.CENTER);
+        boxofvoters.setHgap(10);
+        boxofpoints.setAlignment(Pos.CENTER);
+        boxofpoints.setHgap(10);
 
         vbox.getChildren().add(boxofvotes);
         vbox.getChildren().add(boxofvoters);
