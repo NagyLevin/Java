@@ -348,9 +348,7 @@ public class Player implements Runnable{
             throw new RuntimeException(e);
         }
 
-        serversays = fromserver(); //itt kapom meg az eslo ker promtjait
-        System.out.println("Osszes promt a korre: " + serversays);
-        String[] promts = serversays.split(",",-2);
+
 
 
         Platform.runLater(() -> {
@@ -361,7 +359,9 @@ public class Player implements Runnable{
 
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
         while (!serversays.equals("StopTheVote")){
-
+            serversays = fromserver(); //itt kapom meg a korok promtjait
+            System.out.println("Osszes promt a korre: " + serversays);
+            String[] promts = serversays.split(",",-2);
 
             Platform.runLater(() -> {
             ImageVote.nextVote(promts,AllImagesVote); //allits at mindent a kovetkezo votera

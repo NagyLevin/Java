@@ -326,12 +326,14 @@ public class Allplayers extends Thread{
                     System.out.println("A kliens ezt valasztotta: " + clientout);
 
                     Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
+                    System.out.println("pontozas megvan");
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
                     String PlayersandPoints = PlayersVotes(votePromts,clientout,players); //osszes valasz es a jo valasz
                     System.out.println("Ezek voltak a valaszok, es a pontok: " + PlayersandPoints);
                     sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
 
-
+                    System.out.println("elso kor vege");
+                    kor = kor +1;
                 }
 
                 sendLine("StopTheVote"); //Jatek vege
