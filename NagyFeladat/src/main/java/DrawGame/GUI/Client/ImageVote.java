@@ -72,6 +72,10 @@ public class ImageVote extends Application {
 
 
             Button button= new Button(promts[i]);
+            Font buttonz = Font.font("Comic Sans MS", FontWeight.BOLD,20);
+            button.setFont(buttonz);
+
+
             button.setOnAction(event -> {
 
                 if(!playerPressed ){

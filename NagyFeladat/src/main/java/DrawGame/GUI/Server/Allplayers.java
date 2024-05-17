@@ -401,6 +401,18 @@ public class Allplayers extends Thread{
 
 
 
+        hosting.latch.countDown();
+        try {
+            hosting.latch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("player:" +oplayer.playername);
+        everythreadisthere = everythreadisthere +1;
+        if(everythreadisthere == players.size()){
+            hosting.resetlatch();
+            everythreadisthere = 0;
+        }
 
 
 
@@ -429,16 +441,17 @@ public class Allplayers extends Thread{
             playerspointsandnames = playerspointsandnames + ";" + names.get(i) + "," + points.get(i);
         }
 
-        hosting.latch.countDown();
+        hosting.latch2.countDown();
         try {
-            hosting.latch.await();
+            hosting.latch2.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         System.out.println("player:" +oplayer.playername);
+        System.out.println(playerspointsandnames);
         everythreadisthere = everythreadisthere +1;
         if(everythreadisthere == players.size()){
-            hosting.resetlatch();
+            hosting.resetlatch2();
             everythreadisthere = 0;
         }
 
