@@ -34,6 +34,8 @@ public class ClientJoin extends Application {
     public static Stage boardStage;
 
     public void newColor() {
+
+
         playercolor[0] = random.nextInt(255);
         playercolor[1] = random.nextInt(255);
         playercolor[2] = random.nextInt(255);
@@ -47,8 +49,10 @@ public class ClientJoin extends Application {
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
+        if(!joined){
+            BnewColor.setOnAction(event -> newColor());
+        }
 
-        BnewColor.setOnAction(event -> newColor());
 
         scene.setOnKeyPressed(event -> {
 
@@ -67,11 +71,16 @@ public class ClientJoin extends Application {
             //UserCode.setText("");
             String nev = UserName.getText();
 
-            if(nev.isEmpty() && code.isEmpty() && !joined){
-                //System.out.println("Kod: " + code); //az eltarolt adat
-                //System.out.println("Nev: " + nev); //az eltarolt adat
-                nev = "tesztplayer";
-                code = "ABCD";
+            if(!joined){
+
+                if(nev.isEmpty() ) {
+                    nev = "Player";
+
+                }
+                if( code.isEmpty()) {
+
+                    code = "ABCD";
+                }
 
 
                 new Thread(new Player(nev,playercolor,code,"127.0.0.1")).start();
@@ -106,6 +115,8 @@ public class ClientJoin extends Application {
 
             System.out.println("playeris host: " +playerishost);
 
+
+
             if(playerishost){
 
 
@@ -127,6 +138,8 @@ public class ClientJoin extends Application {
 
 
         });
+
+
 
 
     }

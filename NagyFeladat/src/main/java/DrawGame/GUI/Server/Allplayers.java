@@ -214,7 +214,7 @@ public class Allplayers extends Thread{
                 Oplayer.setPlayerColoG(Integer.parseInt(clientReader.readLine()) );//szinG
                 Oplayer.setPlayerColoB(Integer.parseInt(clientReader.readLine()) );//szinB
                 clientout = clientReader.readLine(); //nev beállít
-                clientout = clientout + ThreadId; //TESTROW DELETE LATER
+                clientout = clientout + ":" + ThreadId; //TESTROW DELETE LATER
                 Oplayer.playername = clientout;
                 Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
                 Oplayer.playerid = (int) ThreadId;
