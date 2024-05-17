@@ -270,7 +270,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 10; //180 ra állísd
+        countdown = 1; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -308,7 +308,7 @@ public class Player implements Runnable{
 
 
 
-        countdown = 10; //30 ra állísd
+        countdown = 1; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -367,7 +367,7 @@ public class Player implements Runnable{
             ImageVote.nextVote(promts,AllImagesVote); //allits at mindent a kovetkezo votera
             });
 
-        countdown = 20; //30 ra állísd
+        countdown = 10; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImageVote.TimerInClient(countdown);
@@ -385,33 +385,30 @@ public class Player implements Runnable{
             try {
                 System.out.println(ImageVote.playersChoice);
                 toServer(ImageVote.playersChoice);   //majd ide az en valasztottamat
+                ImageVote.playersChoice = "";
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             serversays = fromserver(); //itt kapom vissza, hogy ki mire sazvazott
             System.out.println(serversays); //kimire
 
-            String[] names = serversays.split(";",-2);
+            String[] names = serversays.split("|",-2);
             Vector<String> namesv = new Vector<>();
             namesv.addAll(Arrays.asList(names));
             namesv.removeFirst();
             Vector<String> pontok = new Vector<>();
+
             for (int i = 0; i < namesv.size(); i++) {
-
-                String[] point = namesv.get(i).split(",",-2);
-                //System.out.println("Points: " + point[0]);
-                //System.out.println("Names: " + point[1]);
-
-                namesv.set(i,point[0]);
-                pontok.add(point[1]);
+                System.out.println(namesv.get(i));
 
             }
+
 
             Platform.runLater(() -> {
             ImageVote.whoVoted(namesv,pontok);
             });
 
-            countdown = 15; //10 ra állísd
+            countdown = 5; //10 ra állísd
             while (countdown > 0) {
                 Platform.runLater(() -> {
                     ImageVote.TimerInClient(countdown);
