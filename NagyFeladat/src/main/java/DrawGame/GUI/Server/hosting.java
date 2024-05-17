@@ -14,6 +14,10 @@ public class hosting implements Runnable {
     public static String gamecode = "";
 
     public static CountDownLatch latch = new CountDownLatch(1);
+    public static CountDownLatch latch2 = new CountDownLatch(1);
+
+    //esetleg megegy es felvaltva?
+
     static int maxplayers = 8;
     static int currentplayers = 0;
 
@@ -32,6 +36,10 @@ public class hosting implements Runnable {
 
     public static void resetlatch() {
         latch = new CountDownLatch(currentplayers);
+
+    }
+    public static void resetlatch2() {
+        latch2 = new CountDownLatch(currentplayers);
 
     }
 

@@ -78,7 +78,6 @@ public class Allplayers extends Thread{
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
     static int everythreadisthere = 0;
-    static int everythreadvoted = 0;
 
 
 
@@ -173,7 +172,13 @@ public class Allplayers extends Thread{
 
         }
 
-        hosting.resetlatch();
+        everythreadisthere = everythreadisthere +1;
+        if(everythreadisthere == players.size()){
+            hosting.resetlatch();
+            everythreadisthere = 0;
+
+        }
+
         return allimmages;
     }
 
@@ -271,6 +276,7 @@ public class Allplayers extends Thread{
             hosting.latch.await();
             if(Oplayer.amIhost){
                 hosting.resetlatch();
+                hosting.resetlatch2();
 
             }
 
@@ -335,10 +341,35 @@ public class Allplayers extends Thread{
                     clientout = clientReader.readLine(); //var arra hogy a kliens melyiket választotta
                     System.out.println("A kliens ezt valasztotta: " + clientout);
 
+                    hosting.latch.countDown();
+                    try {
+                        hosting.latch.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    everythreadisthere = everythreadisthere +1;
+                    if(everythreadisthere == players.size()){
+                        hosting.resetlatch();
+                        everythreadisthere = 0;
+                    }
+
+
+
                     Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
+
+
+
+
+
                     System.out.println("pontozas megvan");
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
                     String PlayersandPoints = PlayersVotes(votePromts,clientout,players,Oplayer); //osszes valasz es a jo valasz
+
+
+
+
+
                     System.out.println("Ezek voltak a valaszok, es a pontok: " + PlayersandPoints);
                     sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
 
@@ -369,14 +400,8 @@ public class Allplayers extends Thread{
         Vector<String> names = new Vector<>();
 
 
-        hosting.latch.countDown();
 
 
-        try {
-            hosting.latch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
 
         for (int i = 0; i < promtsformvotePromts.length; i++) {
@@ -404,28 +429,31 @@ public class Allplayers extends Thread{
             playerspointsandnames = playerspointsandnames + ";" + names.get(i) + "," + points.get(i);
         }
 
-
-
-
-        //playerspointsandnames = playerspointsandnames.substring(2);
-
-        hosting.resetlatch(); //kell a amihost?
-        return playerspointsandnames;
-    }
-
-    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor, OnlinePlayer oplayer) {
         hosting.latch.countDown();
         try {
             hosting.latch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        hosting.resetlatch();
+        System.out.println("player:" +oplayer.playername);
+        everythreadisthere = everythreadisthere +1;
+        if(everythreadisthere == players.size()){
+            hosting.resetlatch();
+            everythreadisthere = 0;
+        }
+
+
+
+        //playerspointsandnames = playerspointsandnames.substring(2);
+
+
+        return playerspointsandnames;
+    }
+
+    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor, OnlinePlayer oplayer) {
+
 
         for (OnlinePlayer player : players) {
-
-
-
 
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz
@@ -438,14 +466,18 @@ public class Allplayers extends Thread{
 
 
         }
-
-        hosting.latch.countDown();
+        hosting.latch2.countDown();
         try {
-            hosting.latch.await();
+            hosting.latch2.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        hosting.resetlatch();
+        everythreadisthere = everythreadisthere + 1;
+        if(everythreadisthere == players.size()){
+            hosting.resetlatch2();
+            everythreadisthere = 0;
+        }
+
 
 
     }

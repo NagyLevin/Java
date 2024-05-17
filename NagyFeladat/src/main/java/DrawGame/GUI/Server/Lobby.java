@@ -79,6 +79,7 @@ public class Lobby extends Application {
 
                     gamecode = "ABCD";//code;
                     hostcode.setEditable(false);
+                    host.setDisable(true);
                     new Thread(new hosting(gamecode)).start();
                     System.out.printf("Hosting started");
                     //startSession ugy ertem hogy startold majd a hostolást
