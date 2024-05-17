@@ -443,11 +443,11 @@ public class Allplayers extends Thread{
 
 
 
-                System.out.println("A player valasztott promtja: " +player.playersvote);
+               // System.out.println("A player valasztott promtja: " +player.playersvote);
                 if (player.playersvote.equals(promtsformvotePromts[i])) {
 
-                    System.out.println("A player neve: " +player.playername);
-                    System.out.println("A player neve: " +player.points);
+                    //System.out.println("A player neve: " +player.playername);
+                   // System.out.println("A player neve: " +player.points);
 
 
                     playerspointsandnames = playerspointsandnames   + player.playername + ":" + player.points +  "  " ;

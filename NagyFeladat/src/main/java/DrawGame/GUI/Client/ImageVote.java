@@ -29,6 +29,7 @@ public class ImageVote extends Application {
     static FlowPane boxofvoters = new FlowPane(Orientation.VERTICAL);
     static FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
 
+
     ImageVote(int[] _playercolor, Vector<Image> allImagesVote){
         playercolor = _playercolor;
         AllImages = allImagesVote;
@@ -65,13 +66,22 @@ public class ImageVote extends Application {
     }
 
     public static void nextVote(String[] promts) {
-        if(!AllImages.isEmpty()){
-            AllImages.removeFirst();
-            if(!AllImages.isEmpty()) {
-                Image kep = AllImages.getFirst();
-                displayedimage.setImage(kep);
+
+        System.out.println("Ennyi kep van: " +AllImages.size());
+
+
+            if(!AllImages.isEmpty()){
+
+                    AllImages.removeFirst();
+
+
+                if(!AllImages.isEmpty()) {
+                    Image kep = AllImages.getFirst();
+                    displayedimage.setImage(kep);
+                }
             }
-        }
+
+
         playerPressed = false;
 
         boxofvoters.getChildren().clear();

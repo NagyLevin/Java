@@ -358,6 +358,7 @@ public class Player implements Runnable{
         });
 
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
+
         while (!serversays.equals("StopTheVote")){
             serversays = fromserver(); //itt kapom meg a korok promtjait
 
