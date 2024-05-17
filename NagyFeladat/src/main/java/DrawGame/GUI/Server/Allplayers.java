@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.BrokenBarrierException;
 
 class OnlinePlayer{
     public String playersdarwing = "";
@@ -78,8 +79,8 @@ public class Allplayers extends Thread{
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
     static int everythreadisthere = 0;
-
-
+    static String Stringallimmages ="";
+    static String PlayersandPoints = "";
 
 
     public Allplayers(Socket clientSocket) throws IOException {
@@ -155,17 +156,9 @@ public class Allplayers extends Thread{
 
     }
     private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID, OnlinePlayer oplayer) {
-        String allimmages = ""; //tudom hogy rossz
+        String allimmages = "";
 
 
-            hosting.latch.countDown();
-
-
-        try {
-            hosting.latch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
 
         for (OnlinePlayer player : players) {
@@ -181,7 +174,7 @@ public class Allplayers extends Thread{
 
         everythreadisthere = everythreadisthere +1;
         if(everythreadisthere == players.size()){
-            hosting.resetlatch();
+
             everythreadisthere = 0;
 
         }
@@ -280,14 +273,10 @@ public class Allplayers extends Thread{
 
 
             //System.out.println("latchszam: " + hosting.latch.getCount());
+
+
+
             hosting.latch.await();
-            if(Oplayer.amIhost){
-                hosting.resetlatch();
-                hosting.resetlatch2();
-
-            }
-
-
 
             if(gamestartedbyclient){
                 sendLine("StartGameCountDown");
@@ -311,33 +300,25 @@ public class Allplayers extends Thread{
 
             }
 
-            hosting.latch2.countDown();
-            try {
-                hosting.latch2.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+
+            if(Oplayer.amIhost){
+                Stringallimmages = makeOneBigStringWithallImages(players, -1, Oplayer);
+
+
             }
 
-            everythreadisthere = everythreadisthere +1;
-            if(everythreadisthere == players.size()){
-                hosting.resetlatch2();
-                everythreadisthere = 0;
-            }
 
-            sendLine(makeOneBigStringWithallImages(players, -1, Oplayer));   //elkuldom az osszes kepet egy nagy stringben
 
-            hosting.latch.countDown();
-            try {
-                hosting.latch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-            everythreadisthere = everythreadisthere +1;
-            if(everythreadisthere == players.size()){
-                hosting.resetlatch();
-                everythreadisthere = 0;
-            }
+            hosting.barrier.await();
+
+            System.out.println(Stringallimmages);
+
+
+            sendLine(Stringallimmages);   //elkuldom az osszes kepet egy nagy stringben
+
+
+
 
             clientout = clientReader.readLine();    //itt egy stringbe tomoritve megkapja a szerver az osszes promtot
             System.out.println("A kliens promtja: " +clientout);
@@ -345,19 +326,8 @@ public class Allplayers extends Thread{
             String[] promts;
             promts = clientout.split(",",-2);
 
-            hosting.latch2.countDown();
-            try {
-                hosting.latch2.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-            everythreadisthere = everythreadisthere +1;
-            if(everythreadisthere == players.size()){
-                hosting.resetlatch2();
-                everythreadisthere = 0;
-            }
-
+            hosting.barrier.await();
             GiveFAkePromts(promts,(int) ThreadId,readPromts);   //fakepromtok eltarolasa
             System.out.println("i got the clients promts");
 
@@ -369,25 +339,9 @@ public class Allplayers extends Thread{
             //ezt annyiszor ismételve ahány player van
 
 
-
-
-            String allimmages = makeOneBigStringWithallImages(players, -1,Oplayer);
-
-            hosting.latch.countDown();
-            try {
-                hosting.latch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            everythreadisthere = everythreadisthere +1;
-            if(everythreadisthere == players.size()){
-                hosting.resetlatch();
-                everythreadisthere = 0;
-            }
-
             //System.out.println(allimmages);
-            sendLine(allimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
+            hosting.barrier.await();
+            sendLine(Stringallimmages); //egy kis hackelés, felteszem, hogy -1 es idjő thread nincs
             clientout = clientReader.readLine();
             System.out.println(clientout);
 
@@ -408,76 +362,38 @@ public class Allplayers extends Thread{
                     System.out.println("A kliens ezt valasztotta: " + clientout);
 
 
+
+                    hosting.barrier.await();
                     PromtToPlayer(players,clientout, (int) ThreadId);
 
-                    hosting.latch2.countDown();
-                    try {
-                        hosting.latch2.await();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
 
-                    everythreadisthere = everythreadisthere +1;
-                    if(everythreadisthere == players.size()){
-                        hosting.resetlatch2();
-                        everythreadisthere = 0;
-                    }
+                    if(Oplayer.amIhost){
+                        Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
 
-                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
-
-                    hosting.latch.countDown();
-                    try {
-                        hosting.latch.await();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    everythreadisthere = everythreadisthere +1;
-                    if(everythreadisthere == players.size()){
-                        hosting.resetlatch();
-                        everythreadisthere = 0;
                     }
 
 
 
+
+                    hosting.barrier.await();
 
                     System.out.println("pontozas megvan");
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
-                    String PlayersandPoints = PlayersVotes(votePromts,clientout,players,Oplayer); //osszes valasz es a jo valasz
 
-                    hosting.latch2.countDown();
-                    try {
-                        hosting.latch2.await();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    if(Oplayer.amIhost) {
+                        PlayersandPoints = PlayersVotes(votePromts, clientout, players, Oplayer); //osszes valasz es a jo valasz
 
-                    everythreadisthere = everythreadisthere +1;
-                    if(everythreadisthere == players.size()){
-                        hosting.resetlatch2();
-                        everythreadisthere = 0;
                     }
 
 
-
+                    hosting.barrier.await();
                     System.out.println("Ezek voltak a valaszok, es a pontok: " + PlayersandPoints);
                     sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
 
                     System.out.println("elso kor vege");
                     kor = kor +1;
+                    hosting.barrier.await();
 
-                    hosting.latch.countDown();
-                    try {
-                        hosting.latch.await();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    everythreadisthere = everythreadisthere +1;
-                    if(everythreadisthere == players.size()){
-                        hosting.resetlatch();
-                        everythreadisthere = 0;
-                    }
 
                 }
 
@@ -488,9 +404,9 @@ public class Allplayers extends Thread{
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (BrokenBarrierException e) {
+            throw new RuntimeException(e);
         }
-
-
 
 
     }
@@ -563,13 +479,15 @@ public class Allplayers extends Thread{
 
         for (OnlinePlayer player : players) {
 
-            if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
+            if(!player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz
             }
 
-            if(player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(playerschoice)){
+            for (OnlinePlayer player2 : players) {
+            if(player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(player2.playersvote)){
                 player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
 
+            }
             }
 
 

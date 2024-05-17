@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -13,8 +14,8 @@ public class hosting implements Runnable {
     protected ServerSocket serverSocket;
     public static String gamecode = "";
 
+    public static CyclicBarrier barrier = new CyclicBarrier(1);
     public static CountDownLatch latch = new CountDownLatch(1);
-    public static CountDownLatch latch2 = new CountDownLatch(1);
 
     //esetleg megegy es felvaltva?
 
@@ -34,14 +35,7 @@ public class hosting implements Runnable {
         }
     }
 
-    public static void resetlatch() {
-        latch = new CountDownLatch(currentplayers);
 
-    }
-    public static void resetlatch2() {
-        latch2 = new CountDownLatch(currentplayers);
-
-    }
 
 
     @Override
@@ -52,7 +46,7 @@ public class hosting implements Runnable {
                 try {
                     new Allplayers(clientSocket).start();
                     currentplayers = currentplayers +1;
-                    //latch = new CountDownLatch(currentplayers);
+                    barrier = new CyclicBarrier(currentplayers);
                     System.out.println("Egy uj player csatlakozott:" +currentplayers);
 
                 } catch (IOException e) {
