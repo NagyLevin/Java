@@ -437,7 +437,7 @@ public class Allplayers extends Thread{
 
             for (int i = 0; i < promtsformvotePromts.length; i++) {
 
-                playerspointsandnames = playerspointsandnames + "|" + promtsformvotePromts[i]+ "|";
+                playerspointsandnames = playerspointsandnames + promtsformvotePromts[i] +  "=>";
                 //System.out.println("i ma stuck in the while loop");
             for (OnlinePlayer player : players) {
 
@@ -450,7 +450,7 @@ public class Allplayers extends Thread{
                     System.out.println("A player neve: " +player.points);
 
 
-                    playerspointsandnames = playerspointsandnames + player.playername + ":" + player.points + ",";
+                    playerspointsandnames = playerspointsandnames   + player.playername + ":" + player.points +  "  " ;
 
 
 
@@ -458,7 +458,7 @@ public class Allplayers extends Thread{
 
 
             }
-
+                playerspointsandnames = playerspointsandnames + ";";
 
 
 
@@ -466,7 +466,7 @@ public class Allplayers extends Thread{
 
 
 
-        //playerspointsandnames = playerspointsandnames.substring(2);
+
 
 
         return playerspointsandnames;

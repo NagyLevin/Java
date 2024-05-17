@@ -270,7 +270,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 1; //180 ra állísd
+        countdown = 20; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -360,69 +360,73 @@ public class Player implements Runnable{
         //utana amig nem mondja a szerver hogy stopvoting, megy a voting egy whileban
         while (!serversays.equals("StopTheVote")){
             serversays = fromserver(); //itt kapom meg a korok promtjait
-            System.out.println("Osszes promt a korre: " + serversays);
-            String[] promts = serversays.split(",",-2);
 
-            Platform.runLater(() -> {
-            ImageVote.nextVote(promts,AllImagesVote); //allits at mindent a kovetkezo votera
-            });
+            if(!serversays.equals("StopTheVote")){
+                System.out.println("Osszes promt a korre: " + serversays);
+                String[] promts = serversays.split(",",-2);
 
-        countdown = 10; //30 ra állísd
-        while (countdown > 0) {
-            Platform.runLater(() -> {
-                ImageVote.TimerInClient(countdown);
-            });
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            countdown--;
-        }
+                    Platform.runLater(() -> {
+                    ImageVote.nextVote(promts); //allits at mindent a kovetkezo votera
+                    });
 
-
-
-            try {
-                System.out.println(ImageVote.playersChoice);
-                toServer(ImageVote.playersChoice);   //majd ide az en valasztottamat
-                ImageVote.playersChoice = "";
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            serversays = fromserver(); //itt kapom vissza, hogy ki mire sazvazott
-            System.out.println(serversays); //kimire
-
-            String[] names = serversays.split("|",-2);
-            Vector<String> namesv = new Vector<>();
-            namesv.addAll(Arrays.asList(names));
-            namesv.removeFirst();
-            Vector<String> pontok = new Vector<>();
-
-            for (int i = 0; i < namesv.size(); i++) {
-                System.out.println(namesv.get(i));
-
-            }
+                    countdown = 10; //30 ra állísd
+                    while (countdown > 0) {
+                        Platform.runLater(() -> {
+                            ImageVote.TimerInClient(countdown);
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        countdown--;
+                    }
 
 
-            Platform.runLater(() -> {
-            ImageVote.whoVoted(namesv,pontok);
-            });
 
-            countdown = 5; //10 ra állísd
-            while (countdown > 0) {
-                Platform.runLater(() -> {
-                    ImageVote.TimerInClient(countdown);
-                });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        System.out.println(ImageVote.playersChoice);
+                        toServer(ImageVote.playersChoice);   //majd ide az en valasztottamat
+                        ImageVote.playersChoice = "";
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    serversays = fromserver(); //itt kapom vissza, hogy ki mire sazvazott
+                    System.out.println(serversays); //kimire
+
+                    String[] names = serversays.split(";",-2);
+                    Vector<String> namesv = new Vector<>();
+                    namesv.addAll(Arrays.asList(names));
+                    namesv.removeFirst();
+
+                    /*
+                    for (int i = 0; i < namesv.size(); i++) {
+
+                        System.out.println(namesv.get(i));
+
+                    }
+                    */
+
+                    Platform.runLater(() -> {
+                    ImageVote.whoVoted(namesv);
+                    });
+
+                    countdown = 5; //10 ra állísd
+                    while (countdown > 0) {
+                        Platform.runLater(() -> {
+                            ImageVote.TimerInClient(countdown);
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        countdown--;
+                    }
+
+
+                System.out.println("egy szavazasnak vege");
                 }
-                countdown--;
-            }
-
-
-            System.out.println("egy szavazasnak vege");
 
         }
 

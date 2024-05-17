@@ -26,8 +26,7 @@ public class ImageVote extends Application {
     static Label timerLabel = new Label();
     static Vector<Image> AllImages;
     static ImageView displayedimage = new ImageView();
-    static FlowPane boxofvoters = new FlowPane(Orientation.HORIZONTAL);
-    static FlowPane boxofpoints = new FlowPane(Orientation.HORIZONTAL);
+    static FlowPane boxofvoters = new FlowPane(Orientation.VERTICAL);
     static FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
 
     ImageVote(int[] _playercolor, Vector<Image> allImagesVote){
@@ -41,31 +40,40 @@ public class ImageVote extends Application {
         timerLabel.setText("Time left: " + countdown );
 
     }
-    public static void whoVoted (Vector<String> names, Vector<String> pontok){
+    public static void whoVoted (Vector<String> names){
+
+        boxofvoters.getChildren().clear();
+
+
+
+
+
+
+
+
 
         for (int i = 0; i < names.size(); i++) {
-            Label txnames = (Label) boxofvoters.getChildren().get(i);
-            Label txpoints = (Label) boxofpoints.getChildren().get(i);
+            Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
+            Label egynev = new Label(names.get(i));
 
-            System.out.println("Nev a vote oldalon: " + names.get(i));
 
-            txnames.setText(names.get(i));
-            txpoints.setText(pontok.get(i));
-
+            egynev.setFont(promz);
+            boxofvoters.getChildren().add(egynev);
         }
 
 
     }
 
-    public static void nextVote(String[] promts, Vector<Image> allImagesVote) {
+    public static void nextVote(String[] promts) {
         if(!AllImages.isEmpty()){
             AllImages.removeFirst();
-            Image kep = AllImages.getFirst();
-            displayedimage.setImage(kep);
-
+            if(!AllImages.isEmpty()) {
+                Image kep = AllImages.getFirst();
+                displayedimage.setImage(kep);
+            }
         }
         playerPressed = false;
-        boxofpoints.getChildren().clear();
+
         boxofvoters.getChildren().clear();
         boxofvotes.getChildren().clear();
         for (int i = 1; i < promts.length; i++) {   //egytol indulok, hogy az eslőt ne vegyem figyelembe
@@ -97,16 +105,7 @@ public class ImageVote extends Application {
             boxofvotes.getChildren().add(button);
 
 
-            Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
-            Label egynev = new Label("");
-            Label pont = new Label("");
 
-            egynev.setFont(promz);
-            pont.setFont(promz);
-
-
-            boxofvoters.getChildren().add(egynev);
-            boxofpoints.getChildren().add(pont);
 
 
 
@@ -149,12 +148,11 @@ public class ImageVote extends Application {
 
         boxofvoters.setAlignment(Pos.CENTER);
         boxofvoters.setHgap(10);
-        boxofpoints.setAlignment(Pos.CENTER);
-        boxofpoints.setHgap(10);
+
 
         vbox.getChildren().add(boxofvotes);
         vbox.getChildren().add(boxofvoters);
-        vbox.getChildren().add(boxofpoints);
+
 
 
         Font Flable = Font.font("Comic Sans MS", FontWeight.BOLD,20);
