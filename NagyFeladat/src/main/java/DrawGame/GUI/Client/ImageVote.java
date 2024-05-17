@@ -49,10 +49,6 @@ public class ImageVote extends Application {
 
 
 
-
-
-
-
         for (int i = 0; i < names.size(); i++) {
             Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
             Label egynev = new Label(names.get(i));
@@ -125,6 +121,24 @@ public class ImageVote extends Application {
 
 
         }
+
+
+    }
+
+    public static void EndGame(String winner) {
+        boxofvoters.getChildren().clear();
+        boxofvotes.getChildren().clear();
+
+        Label Winneris = new Label("The Winner is:");
+
+        Label Winner = new Label(winner);
+        Font wfont = Font.font("ComicSans", FontWeight.BOLD,20);
+        Winner.setFont(wfont);
+        Winneris.setFont(wfont);
+        boxofvoters.getChildren().add(Winneris);
+        boxofvoters.getChildren().add(Winner);
+
+
 
 
     }

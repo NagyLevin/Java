@@ -101,6 +101,8 @@ public class Allplayers extends Thread{
 
 
                 player.fakepromts.addAll(List.of(promts));
+                player.fakepromts.removeFirst();
+
                 //player.fakepromts.removeFirst(); //ures elso mezo torlese
                 for (int i = 0; i < player.fakepromts.size(); i++) {
                     if(player.fakepromts.get(i).equals("")){
@@ -164,20 +166,14 @@ public class Allplayers extends Thread{
         for (OnlinePlayer player : players) {
 
 
-            if(player.playerid != ThreadID){
-                allimmages = allimmages +","+  player.playersdarwing;
-            }
+            allimmages = allimmages +","+  player.playersdarwing;
 
 
 
-        }
-
-        everythreadisthere = everythreadisthere +1;
-        if(everythreadisthere == players.size()){
-
-            everythreadisthere = 0;
 
         }
+
+
 
         return allimmages;
     }
@@ -300,7 +296,7 @@ public class Allplayers extends Thread{
 
             }
 
-
+            hosting.barrier.await();
             if(Oplayer.amIhost){
                 Stringallimmages = makeOneBigStringWithallImages(players, -1, Oplayer);
 
@@ -312,7 +308,7 @@ public class Allplayers extends Thread{
 
             hosting.barrier.await();
 
-            System.out.println(Stringallimmages);
+            System.out.println("Az osszes kep: "+ Stringallimmages);
 
 
             sendLine(Stringallimmages);   //elkuldom az osszes kepet egy nagy stringben
@@ -354,7 +350,9 @@ public class Allplayers extends Thread{
                 int kor = 0;
                 for (OnlinePlayer player : players) { //az a baj, hogy neki nem az az elso kepe, mint nekem
 
+                    hosting.barrier.await();
                     String votePromts = PromtsForVote(kor,player.givenpromt );
+                    hosting.barrier.await();
                     sendLine(votePromts);
                     System.out.println("Promts to clients: " +votePromts);
 
@@ -367,10 +365,10 @@ public class Allplayers extends Thread{
                     PromtToPlayer(players,clientout, (int) ThreadId);
 
 
-                    if(Oplayer.amIhost){
-                        Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
+                    hosting.barrier.await();
+                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
 
-                    }
+
 
 
 
@@ -389,7 +387,7 @@ public class Allplayers extends Thread{
                     hosting.barrier.await();
                     System.out.println("Ezek voltak a valaszok, es a pontok: " + PlayersandPoints);
                     sendLine(PlayersandPoints); //elkuldom a pontokat es a playereket , es ; vel elvalasztva
-
+                    hosting.barrier.await();
                     System.out.println("elso kor vege");
                     kor = kor +1;
                     hosting.barrier.await();
@@ -398,6 +396,13 @@ public class Allplayers extends Thread{
                 }
 
                 sendLine("StopTheVote"); //Jatek vege
+                clientout = clientReader.readLine();
+                if(clientout.equals("voteStopped")){
+                    String winner = SelectWinner(players);
+
+                    sendLine(winner);
+                }
+
             }
 
 
@@ -409,6 +414,35 @@ public class Allplayers extends Thread{
         }
 
 
+    }
+
+    private String SelectWinner(Vector<OnlinePlayer> players) {
+        String winner = "";
+        String currentbest = "";
+        int maxpoints = 0;
+
+        for (OnlinePlayer player : players) {
+
+            if(player.points > maxpoints){
+                maxpoints = player.points;
+                currentbest = player.playername;
+                winner = "";
+                winner = winner + currentbest + " : " +maxpoints;
+
+
+            }
+            if(!currentbest.equals(player.playername)  && player.points >= maxpoints){
+                    maxpoints = player.points;
+                    winner = winner + player.playername + " : " +maxpoints + " ";
+
+
+            }
+
+
+
+        }
+
+        return winner;
     }
 
     private void PromtToPlayer(Vector<OnlinePlayer> players, String playerschoice, int threadId) {
@@ -479,6 +513,7 @@ public class Allplayers extends Thread{
 
         for (OnlinePlayer player : players) {
 
+            /*
             if(!player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
                 player.points = player.points +2; //ket pont egy jo valasz
             }
@@ -489,6 +524,15 @@ public class Allplayers extends Thread{
 
             }
             }
+            */
+            if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
+                player.points = player.points +2; //ket pont egy jo valasz
+            }
+            if(player.playerid != threadId && player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(playerschoice)){
+                player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
+
+            }
+
 
 
         }

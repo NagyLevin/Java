@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Queue;
 import java.util.Vector;
 
 class LOCALPlayer{
@@ -308,7 +309,7 @@ public class Player implements Runnable{
 
 
 
-        countdown = 1; //30 ra állísd
+        countdown = 30; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -341,6 +342,7 @@ public class Player implements Runnable{
         serversays = fromserver(); //itt kapom meg az osszes kepet
         //System.out.println("Ezt kapom a szervertol kepeknek: " +serversays);
         Vector<Image> AllImagesVote = ConvertStringToImage(serversays);
+        AllImagesVote.addFirst(AllImagesVote.firstElement()); //azert hogy a nextvote majd ne akozzon problemat
         //System.out.println("ide meg eljutok?");
         try {
             toServer("GottheImage");
@@ -361,6 +363,8 @@ public class Player implements Runnable{
 
         while (!serversays.equals("StopTheVote")){
             serversays = fromserver(); //itt kapom meg a korok promtjait
+
+
 
             if(!serversays.equals("StopTheVote")){
                 System.out.println("Osszes promt a korre: " + serversays);
@@ -429,13 +433,42 @@ public class Player implements Runnable{
                 System.out.println("egy szavazasnak vege");
                 }
 
+            if(serversays.equals("StopTheVote")){
+                try {
+                    toServer("voteStopped");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                serversays = fromserver();
+                String finalServersays = serversays;
+                Platform.runLater(() -> {
+                    ImageVote.EndGame(finalServersays); //jatek vge gyoztest mutasd
+                });
+
+                countdown = 30; //30 ra állísd
+                while (countdown > 0) {
+                    Platform.runLater(() -> {
+                        ImageVote.TimerInClient(countdown);
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    countdown--;
+                }
+
+
+            }
+
+
         }
 
 
 
     }
 
-    private Vector<Image> ConvertStringToImage(String serversays) {
+    private synchronized Vector<Image> ConvertStringToImage(String serversays) {
 
         String[] pictures;
         pictures = serversays.split(",",-2);
