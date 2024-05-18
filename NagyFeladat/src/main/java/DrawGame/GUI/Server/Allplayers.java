@@ -1,5 +1,6 @@
 package DrawGame.GUI.Server;
 
+import DrawGame.GUI.Client.ClientJoin;
 import DrawGame.GUI.ReadPromts;
 import javafx.application.Platform;
 
@@ -77,7 +78,7 @@ public class Allplayers extends Thread{
     protected PrintWriter clientWriter;
     static Vector<OnlinePlayer> players = new Vector<>();
     static String gamecode = "";
-    int minplayer = 1;  //kesobb 3 ra állísd
+    int minplayer = 3;  //kesobb 3 ra állísd
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
     static String Stringallimmages ="";
@@ -312,16 +313,25 @@ public class Allplayers extends Thread{
                 //System.out.println(Oplayer.playername);
             }
 
+            //System.out.println(hosting.barrier.getNumberWaiting());
+            hosting.barrier.await();
+
             if(Oplayer.amIhost){
                 //System.out.println("wait1");
+
+
+
+
 
                 clientout = clientReader.readLine();
                 //System.out.println("wait2");
                 System.out.println(clientout);
 
 
-                if(clientout.equals("PlayerStartedTheGame") && players.size() > minplayer){
+                if(clientout.equals("PlayerStartedTheGame")){
                     //itt kezdodik a game
+
+
 
                     gamestartedbyclient = true;
 
@@ -345,6 +355,7 @@ public class Allplayers extends Thread{
                 clientout = clientReader.readLine();
                 if(clientout.equals("GivePromt")){
 
+                    hosting.barrier.await();
                     for (OnlinePlayer player : players) {
                         if(player.playerid == (int) ThreadId){
                             player.givenpromt = readPromts.getOnePromt();
@@ -363,7 +374,7 @@ public class Allplayers extends Thread{
             }
 
 
-            System.out.println(hosting.barrier.getNumberWaiting());
+            //System.out.println(hosting.barrier.getNumberWaiting());
             System.out.println(hosting.currentplayers);
 
             hosting.barrier.await();
@@ -489,9 +500,15 @@ public class Allplayers extends Thread{
 
 
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e ) {
+
+            hosting.playerleft();
             throw new RuntimeException(e);
         } catch (BrokenBarrierException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+
+
             throw new RuntimeException(e);
         }
 

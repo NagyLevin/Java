@@ -52,6 +52,20 @@ public class Lobby extends Application {
         });
 
     }
+
+    public static void playerleft() {
+        Platform.runLater(() -> {
+            for (int i = 0; i < playercount; i++) {
+                SP.getChildren().remove(SP.getChildren().size() - 1);
+            }
+            for (OnlinePlayer player : Allplayers.players) {
+                addPlayerName(player.playername,player.palyercolor);
+
+            }
+
+        });
+
+    }
     //Hosting resz
 
 

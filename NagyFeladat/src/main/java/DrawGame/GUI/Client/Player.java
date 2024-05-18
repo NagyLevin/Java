@@ -238,7 +238,7 @@ public class Player implements Runnable{
 
             System.out.println(serversays);
 
-            countdown = 1; // msp 10 re ird majd at
+            countdown = 10; // msp 10 re ird majd at
 
 
 

@@ -13,8 +13,8 @@ public class hosting implements Runnable {
     public static final int PORT_NUMBER = 13131;    //port szama 10k felett
     protected ServerSocket serverSocket;
     public static String gamecode = "";
-
-    public static CyclicBarrier barrier = new CyclicBarrier(1);
+    static int minplayers = 3;
+    public static CyclicBarrier barrier = new CyclicBarrier(minplayers);
     public static CountDownLatch latch = new CountDownLatch(1);
 
     //esetleg megegy es felvaltva?
@@ -50,10 +50,12 @@ public class hosting implements Runnable {
             currentplayers = 0;
         }
         else if(currentplayers == 0){
-            barrier = new CyclicBarrier(1);
+            barrier = new CyclicBarrier(minplayers);
         }else {
             barrier = new CyclicBarrier(currentplayers);
         }
+
+        Lobby.playerleft();
 
     }
 
@@ -65,8 +67,14 @@ public class hosting implements Runnable {
                 Socket clientSocket = serverSocket.accept();        // a kliensek socketjei
                 try {
                     new Allplayers(clientSocket).start();
-                    currentplayers = currentplayers +1;
-                    barrier = new CyclicBarrier(currentplayers);
+
+                    if(currentplayers > minplayers){
+                        currentplayers = currentplayers +1;
+                        barrier = new CyclicBarrier(currentplayers);
+                    }
+
+
+
                     System.out.println("Egy uj player csatlakozott:" +currentplayers);
 
                 } catch (IOException e) {
