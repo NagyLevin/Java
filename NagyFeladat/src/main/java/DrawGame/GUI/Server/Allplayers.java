@@ -4,6 +4,7 @@ import DrawGame.GUI.Client.ClientJoin;
 import DrawGame.GUI.ReadPromts;
 import javafx.application.Platform;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -501,6 +502,25 @@ public class Allplayers extends Thread{
 
 
         } catch (IOException e ) {
+            if(hosting.currentplayers < minplayer || Oplayer.amIhost){ //akkor ha kevesebben vagyunk mint 3 nem folytatodhat a game
+                players.clear();
+                gamestartedbyclient = false;
+                Stringallimmages ="";
+                PlayersandPoints = "";
+                gamecode = "";
+                Lobby.reset();
+                hosting.resetlatch();
+                hosting.resetbarrier();
+                try {
+                    clientSocket.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }else
+
+
+
 
             hosting.playerleft();
             throw new RuntimeException(e);
