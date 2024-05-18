@@ -31,7 +31,6 @@ public class Lobby extends Application {
     private static final int YY = 600;
     static boolean ishosted = false;
     static String gamecode;
-    Boolean gameStarted = false;
     static int playercount = 0;
     static StackPane SP = new StackPane();  //itt tarolom el a canvasz
     static Button host = new Button();
@@ -152,7 +151,7 @@ public class Lobby extends Application {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
         szoveg.setRotate(RandomBetween(-45,45));
-        szoveg.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,30));
+        szoveg.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,40));
         szoveg.setTextFill(Color.rgb(color[0],color[1],color[2]));
         SP.getChildren().add(szoveg);
 

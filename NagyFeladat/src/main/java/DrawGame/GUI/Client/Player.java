@@ -163,15 +163,17 @@ public class Player implements Runnable{
 
         while (true){
 
+            playerstartedgame = false;
+            LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
+            System.out.println("client join is running");
+            String serversays ="";
 
-        LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
-        System.out.println("client join is running");
-        String serversays ="";
-
-        System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
+            System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
 
-            if(fromserver().equals("Givestats")){
+            serversays = fromserver();
+
+            if(serversays.equals("Givestats")){
             //System.out.println("siker");
 
             try {

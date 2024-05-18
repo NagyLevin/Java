@@ -41,7 +41,8 @@ public class ClientJoin extends Application {
             }
             joined = false;
             playerishost = false;
-            timerLabel = new Label("");
+            timerLabel.setText("");
+
         });
     }
 

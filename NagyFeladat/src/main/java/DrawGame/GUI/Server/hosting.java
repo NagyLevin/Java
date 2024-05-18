@@ -35,7 +35,14 @@ public class hosting implements Runnable {
         }
     }
 
+    public static void resetlatch() {
+        latch = new CountDownLatch(1);
+    }
 
+    public static void resetbarrier() {
+        currentplayers = 0;
+        barrier = new CyclicBarrier(1);
+    }
 
 
     @Override

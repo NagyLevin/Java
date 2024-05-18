@@ -355,8 +355,10 @@ public class Allplayers extends Thread{
                 }
 
             }
+            System.out.println(hosting.barrier.getNumberWaiting());
 
             hosting.barrier.await();
+            //System.out.println(Oplayer.amIhost);
             if(Oplayer.amIhost){
                 Stringallimmages = makeOneBigStringWithallImages(players, -1, Oplayer);
 
@@ -465,13 +467,15 @@ public class Allplayers extends Thread{
 
 
             }
-
+            hosting.barrier.await();
             players.clear();
             gamestartedbyclient = false;
             Stringallimmages ="";
             PlayersandPoints = "";
             gamecode = "";
             Lobby.reset();
+            hosting.resetlatch();
+            hosting.resetbarrier();
             clientSocket.close();
 
 
