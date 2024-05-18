@@ -29,11 +29,30 @@ import java.util.Random;
 public class Lobby extends Application {
     private static final int XX = 900;     //golbális méretek
     private static final int YY = 600;
-    boolean ishosted = false;
-    String gamecode;
+    static boolean ishosted = false;
+    static String gamecode;
     Boolean gameStarted = false;
     static int playercount = 0;
     static StackPane SP = new StackPane();  //itt tarolom el a canvasz
+    static Button host = new Button();
+    static TextField hostcode = new TextField();
+
+
+    public static void reset() {
+
+        Platform.runLater(() -> {
+            gamecode = "";
+            ishosted = false;
+            for (int i = 0; i < playercount; i++) {
+                SP.getChildren().remove(SP.getChildren().size() - 1);
+            }
+            playercount =0;
+            hostcode.setEditable(true);
+            host.setDisable(false);
+
+        });
+
+    }
     //Hosting resz
 
 
@@ -65,7 +84,7 @@ public class Lobby extends Application {
         return true;
     }
 
-    public void events(Scene scene,Button host, TextField hostcode){   //eventek egy helyre összegyüjtve
+    public void events(Scene scene){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -169,10 +188,10 @@ public class Lobby extends Application {
         cim.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,100));
         cim.setTextFill(Color.rgb(200,0,0));
 
-        TextField gamecode = new TextField();
-        gamecode.setMaxWidth(XX/5);
+        hostcode = new TextField();
+        hostcode.setMaxWidth(XX/5);
 
-        Button startsessionbutton = new Button("HOST");
+        host = new Button("HOST");
 
 
 
@@ -186,22 +205,15 @@ public class Lobby extends Application {
         SP.getChildren().add(canvas);//breakom legfelülre
         SP.getChildren().add(cim);
         //SP.getChildren().add(StartGomb);
-        SP.getChildren().add(gamecode);
-        SP.getChildren().add(startsessionbutton);
+        SP.getChildren().add(hostcode);
+        SP.getChildren().add(host);
 
         StackPane.setMargin(cim, new Insets(0,0 ,-1*YY*0.3 ,0 )); //közepre be a cimet
         //StackPane.setMargin(StartGomb, new Insets(0,0 ,-1*YY*0.7 ,0 )); //cim ala a gombot
-        StackPane.setAlignment(gamecode,Pos.TOP_LEFT);
-        StackPane.setAlignment(startsessionbutton,Pos.TOP_LEFT);
-        StackPane.setMargin(startsessionbutton, new Insets(30,0 ,0,0 ));
+        StackPane.setAlignment(hostcode,Pos.TOP_LEFT);
+        StackPane.setAlignment(host,Pos.TOP_LEFT);
+        StackPane.setMargin(host, new Insets(30,0 ,0,0 ));
 
-        if(gameStarted = true){
-
-
-
-
-
-        }
 
 
 
@@ -210,7 +222,7 @@ public class Lobby extends Application {
 
 
 
-        events(scene,startsessionbutton,gamecode); //eventek futtatasa
+        events(scene); //eventek futtatasa
         // ablak kirajzolasa ez keruljon a vegere
 
         Lobby.setScene(scene);

@@ -63,6 +63,7 @@ public class hosting implements Runnable {
             if(serverSocket != null){
                 serverSocket.close();
                 currentplayers = currentplayers-1;
+                barrier = new CyclicBarrier(currentplayers);
             }
 
         } catch (IOException e) {

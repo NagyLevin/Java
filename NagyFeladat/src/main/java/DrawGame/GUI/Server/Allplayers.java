@@ -78,7 +78,6 @@ public class Allplayers extends Thread{
     int minplayer = 1;  //kesobb 3 ra állísd
     int maxplayer = 8;  //kesobb 8 a példában
     static boolean gamestartedbyclient = false;
-    static int everythreadisthere = 0;
     static String Stringallimmages ="";
     static String PlayersandPoints = "";
 
@@ -178,6 +177,67 @@ public class Allplayers extends Thread{
         return allimmages;
     }
 
+
+    private void PromtToPlayer(Vector<OnlinePlayer> players, String playerschoice, int threadId) {
+
+
+        for (OnlinePlayer player : players) {
+
+            if(player.playerid == threadId){
+                player.playersvote = playerschoice;
+
+            }
+
+        }
+
+
+    }
+
+    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players, OnlinePlayer oplayer) {
+
+
+        String playerspointsandnames ="";
+        String[] promtsformvotePromts = votePromts.split(",",-2);
+
+
+
+
+        for (int i = 0; i < promtsformvotePromts.length; i++) {
+
+            playerspointsandnames = playerspointsandnames + promtsformvotePromts[i] +  "=>";
+            //System.out.println("i ma stuck in the while loop");
+            for (OnlinePlayer player : players) {
+
+
+
+                // System.out.println("A player valasztott promtja: " +player.playersvote);
+                if (player.playersvote.equals(promtsformvotePromts[i])) {
+
+                    //System.out.println("A player neve: " +player.playername);
+                    // System.out.println("A player neve: " +player.points);
+
+
+                    playerspointsandnames = playerspointsandnames   + player.playername + ":" + player.points +  "  " ;
+
+
+
+                }
+
+
+            }
+            playerspointsandnames = playerspointsandnames + ";";
+
+
+
+        }
+
+
+
+
+
+
+        return playerspointsandnames;
+    }
 
     public void run() {
 
@@ -403,7 +463,16 @@ public class Allplayers extends Thread{
                     sendLine(winner);
                 }
 
+
             }
+
+            players.clear();
+            gamestartedbyclient = false;
+            Stringallimmages ="";
+            PlayersandPoints = "";
+            gamecode = "";
+            Lobby.reset();
+            clientSocket.close();
 
 
 
@@ -445,66 +514,7 @@ public class Allplayers extends Thread{
         return winner;
     }
 
-    private void PromtToPlayer(Vector<OnlinePlayer> players, String playerschoice, int threadId) {
 
-
-        for (OnlinePlayer player : players) {
-
-            if(player.playerid == threadId){
-                player.playersvote = playerschoice;
-
-            }
-
-        }
-
-
-    }
-
-    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players, OnlinePlayer oplayer) {
-
-
-        String playerspointsandnames ="";
-        String[] promtsformvotePromts = votePromts.split(",",-2);
-
-
-
-
-            for (int i = 0; i < promtsformvotePromts.length; i++) {
-
-                playerspointsandnames = playerspointsandnames + promtsformvotePromts[i] +  "=>";
-                //System.out.println("i ma stuck in the while loop");
-            for (OnlinePlayer player : players) {
-
-
-
-               // System.out.println("A player valasztott promtja: " +player.playersvote);
-                if (player.playersvote.equals(promtsformvotePromts[i])) {
-
-                    //System.out.println("A player neve: " +player.playername);
-                   // System.out.println("A player neve: " +player.points);
-
-
-                    playerspointsandnames = playerspointsandnames   + player.playername + ":" + player.points +  "  " ;
-
-
-
-                }
-
-
-            }
-                playerspointsandnames = playerspointsandnames + ";";
-
-
-
-        }
-
-
-
-
-
-
-        return playerspointsandnames;
-    }
 
     private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor, OnlinePlayer oplayer) {
 
@@ -526,9 +536,12 @@ public class Allplayers extends Thread{
             }
             */
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
+
                 player.points = player.points +2; //ket pont egy jo valasz
+
             }
             if(player.playerid != threadId && player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(playerschoice)){
+
                 player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
 
             }

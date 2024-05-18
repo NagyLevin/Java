@@ -52,6 +52,7 @@ public class DrawfuLboard extends Application {
 
     DrawfuLboard(String _promt, int _numofcolors, int[] _playercolors){
 
+
         numofcolors = _numofcolors;
         playersPromt = _promt;
         redColor = _playercolors[0];

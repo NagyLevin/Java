@@ -161,12 +161,17 @@ public class Player implements Runnable{
     @Override
     public void run() {
 
+        while (true){
+
+
         LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
         System.out.println("client join is running");
         String serversays ="";
 
         System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
-        if(fromserver().equals("Givestats")){
+
+
+            if(fromserver().equals("Givestats")){
             //System.out.println("siker");
 
             try {
@@ -271,7 +276,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 20; //180 ra állísd
+        countdown = 1; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -309,7 +314,7 @@ public class Player implements Runnable{
 
 
 
-        countdown = 30; //30 ra állísd
+        countdown = 1; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -374,7 +379,7 @@ public class Player implements Runnable{
                     ImageVote.nextVote(promts); //allits at mindent a kovetkezo votera
                     });
 
-                    countdown = 10; //30 ra állísd
+                    countdown = 1; //30 ra állísd
                     while (countdown > 0) {
                         Platform.runLater(() -> {
                             ImageVote.TimerInClient(countdown);
@@ -416,7 +421,7 @@ public class Player implements Runnable{
                     ImageVote.whoVoted(namesv);
                     });
 
-                    countdown = 5; //10 ra állísd
+                    countdown = 1; //10 ra állísd
                     while (countdown > 0) {
                         Platform.runLater(() -> {
                             ImageVote.TimerInClient(countdown);
@@ -445,7 +450,7 @@ public class Player implements Runnable{
                     ImageVote.EndGame(finalServersays); //jatek vge gyoztest mutasd
                 });
 
-                countdown = 30; //30 ra állísd
+                countdown = 1; //30 ra állísd
                 while (countdown > 0) {
                     Platform.runLater(() -> {
                         ImageVote.TimerInClient(countdown);
@@ -458,13 +463,20 @@ public class Player implements Runnable{
                     countdown--;
                 }
 
+                serversays = "StopTheVote";
 
             }
 
 
         }
 
+        Platform.runLater(() -> {
 
+            ClientJoin.restart();
+
+        });
+
+        }
 
     }
 

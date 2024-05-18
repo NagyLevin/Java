@@ -22,18 +22,26 @@ public class ImageVote extends Application {
     static String playersChoice = "";
     static Boolean playerPressed = false;
     static int[] playercolor = {200,0,0};
-    String[] votepromts ={"A","B","C"} ;
+
     static Label timerLabel = new Label();
     static Vector<Image> AllImages;
     static ImageView displayedimage = new ImageView();
     static FlowPane boxofvoters = new FlowPane(Orientation.VERTICAL);
     static FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
-
+    static Stage BackToClient;
 
     ImageVote(int[] _playercolor, Vector<Image> allImagesVote){
         playercolor = _playercolor;
         AllImages = allImagesVote;
         //String firstimage = _votepromts[1];
+        if(!boxofvoters.getChildren().isEmpty()){
+            boxofvoters.getChildren().clear();
+        }
+        if(!boxofvotes.getChildren().isEmpty()){
+            boxofvotes.getChildren().clear();
+        }
+
+
 
     }
 
@@ -143,6 +151,17 @@ public class ImageVote extends Application {
 
     }
 
+    public static void BackToLobby() {
+        ClientJoin CJ = new ClientJoin(); //start a drawingboard
+        System.out.println("sikeres vissza a lobbyba");
+        try {
+            CJ.start(BackToClient);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
     @Override
     public void start(Stage VoteStage)  {
@@ -194,7 +213,7 @@ public class ImageVote extends Application {
         Scene scene = new Scene(vbox, image.getWidth(), image.getHeight()*1.5);
 
         VoteStage.setScene(scene);
-
+        BackToClient = VoteStage;
 
         VoteStage.setTitle("Vote");
 

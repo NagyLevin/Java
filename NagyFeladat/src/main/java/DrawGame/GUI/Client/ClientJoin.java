@@ -1,6 +1,5 @@
 package DrawGame.GUI.Client;
 
-import DrawGame.GUI.Server.Lobby;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -10,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -25,13 +23,28 @@ public class ClientJoin extends Application {
     private final Random random = new Random();
     int[] playercolor = {random.nextInt(255),random.nextInt(255),random.nextInt(255)};
     public static boolean playerishost = false;
-    public boolean joined = false;
+    public static boolean joined = false;
     static VBox vBox = new VBox();
     static Label timerLabel = new Label();
     static String givenpromt;
     static int numofcolors;
-    static boolean Openborad = false;
+
     public static Stage boardStage;
+
+
+    public static void restart() {
+        Platform.runLater(() -> {
+            try {
+                new ClientJoin().start(boardStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            joined = false;
+            playerishost = false;
+            timerLabel = new Label("");
+        });
+    }
+
 
     public void newColor() {
 
@@ -154,6 +167,11 @@ public class ClientJoin extends Application {
 
     @Override
     public void start(Stage ClientStage) {
+
+        if(!vBox.getChildren().isEmpty()){
+            vBox = new VBox();
+            //vBox.getChildren().clear();
+        }
 
         vBox.setAlignment(Pos.CENTER);
 

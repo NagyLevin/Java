@@ -38,6 +38,7 @@ public class ImagePromt extends Application {
 
     public static void TimerInClient(int countdown) {
 
+
         timerLabel.setText("Time left: " + countdown );
     }
 
@@ -122,7 +123,7 @@ public class ImagePromt extends Application {
 
             String promtstring = TXpromt.getText();
 
-            if(!promtstring.isEmpty()){
+            if(!promtstring.isEmpty() && !Images.isEmpty()){
 
                 fakepromts.add(promtstring);
                 Images.removeFirst();
