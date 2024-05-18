@@ -278,7 +278,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 1; //180 ra állísd
+        countdown = 10; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -316,7 +316,7 @@ public class Player implements Runnable{
 
 
 
-        countdown = 1; //30 ra állísd
+        countdown = 30; //30 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 ImagePromt.TimerInClient(countdown);
@@ -381,7 +381,7 @@ public class Player implements Runnable{
                     ImageVote.nextVote(promts); //allits at mindent a kovetkezo votera
                     });
 
-                    countdown = 1; //30 ra állísd
+                    countdown = 30; //30 ra állísd
                     while (countdown > 0) {
                         Platform.runLater(() -> {
                             ImageVote.TimerInClient(countdown);
@@ -423,7 +423,7 @@ public class Player implements Runnable{
                     ImageVote.whoVoted(namesv);
                     });
 
-                    countdown = 1; //10 ra állísd
+                    countdown = 10; //10 ra állísd
                     while (countdown > 0) {
                         Platform.runLater(() -> {
                             ImageVote.TimerInClient(countdown);
@@ -452,7 +452,7 @@ public class Player implements Runnable{
                     ImageVote.EndGame(finalServersays); //jatek vge gyoztest mutasd
                 });
 
-                countdown = 1; //30 ra állísd
+                countdown = 30; //30 ra állísd
                 while (countdown > 0) {
                     Platform.runLater(() -> {
                         ImageVote.TimerInClient(countdown);

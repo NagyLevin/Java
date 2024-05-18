@@ -88,21 +88,24 @@ public class Lobby extends Application {
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
         host.setOnAction(event -> {
+
             if(!ishosted){
-                ishosted = true;
+
 
                 String code = hostcode.getText();
-                if(!validatecode(code)){    //ÁTCSERÉLTEM NEM RE A TESZTHEZ
+                if(validatecode(code)){
 
 
-                    gamecode = "ABCD";//code;
+                    //gamecode = "ABCD";//code;
+                    System.out.println(code);
                     hostcode.setEditable(false);
                     host.setDisable(true);
-                    new Thread(new hosting(gamecode)).start();
+                    new Thread(new hosting(code)).start();
                     System.out.printf("Hosting started");
                     //startSession ugy ertem hogy startold majd a hostolást
-
+                    ishosted = true;
                 }
+
 
 
             }

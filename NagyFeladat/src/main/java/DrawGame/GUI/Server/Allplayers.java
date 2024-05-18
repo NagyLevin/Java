@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.BrokenBarrierException;
@@ -145,8 +147,8 @@ public class Allplayers extends Thread{
         }
 
         String votepormtstoclient = playerspromt; //az első legyen mindig az igazi promt, ketszer lesz benne, de nem baj, mert csak egyszer veszed figyelembe
-        //A VOTEPROMTOKAT ÖSSZE KELL KEVERNI! TESTMODE UTAN
 
+        Collections.shuffle(votePromts); //összekeveres
         for (int i = 0; i < votePromts.size(); i++) {
             votepormtstoclient = votepormtstoclient + "," + votePromts.get(i);
 
@@ -266,6 +268,7 @@ public class Allplayers extends Thread{
                 if(!clienscode.equals(gamecode)){
                     System.out.println(clienscode + " : " + gamecode);
 
+                    hosting.playerleft();
                     clientSocket.close();
 
                 }
@@ -276,7 +279,7 @@ public class Allplayers extends Thread{
                 clientout = clientReader.readLine(); //nev beállít
                 clientout = clientout + ":" + ThreadId; //TESTROW DELETE LATER
                 Oplayer.playername = clientout;
-                Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
+
                 Oplayer.playerid = (int) ThreadId;
 
                 clientout =clientReader.readLine();
@@ -296,11 +299,14 @@ public class Allplayers extends Thread{
                     }
 
                     if(players.size() > maxplayer){
+
+                        hosting.playerleft();
                         clientSocket.close(); //max ha tobb a palyer akkor nem enged csatlakozni
+
                     }
 
                     players.add(Oplayer);
-
+                    Lobby.addPlayerName(Oplayer.playername,Oplayer.palyercolor);
                 }
 
                 //System.out.println(Oplayer.playername);
@@ -355,7 +361,10 @@ public class Allplayers extends Thread{
                 }
 
             }
+
+
             System.out.println(hosting.barrier.getNumberWaiting());
+            System.out.println(hosting.currentplayers);
 
             hosting.barrier.await();
             //System.out.println(Oplayer.amIhost);

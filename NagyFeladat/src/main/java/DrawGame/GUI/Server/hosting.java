@@ -35,13 +35,26 @@ public class hosting implements Runnable {
         }
     }
 
-    public static void resetlatch() {
+    public synchronized static void resetlatch() {
         latch = new CountDownLatch(1);
     }
 
-    public static void resetbarrier() {
+    public synchronized static void resetbarrier() {
         currentplayers = 0;
         barrier = new CyclicBarrier(1);
+    }
+
+    public synchronized static void playerleft() {
+        currentplayers = currentplayers -1;
+        if(currentplayers < 0){
+            currentplayers = 0;
+        }
+        else if(currentplayers == 0){
+            barrier = new CyclicBarrier(1);
+        }else {
+            barrier = new CyclicBarrier(currentplayers);
+        }
+
     }
 
 

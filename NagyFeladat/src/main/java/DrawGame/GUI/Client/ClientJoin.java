@@ -49,6 +49,8 @@ public class ClientJoin extends Application {
 
     public void newColor() {
 
+        if(!joined){
+
 
         playercolor[0] = random.nextInt(255);
         playercolor[1] = random.nextInt(255);
@@ -57,6 +59,8 @@ public class ClientJoin extends Application {
 
 
         vBox.setStyle(backgroundColor);
+        }
+
     }
 
     public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton ,Button BnewColor){   //eventek egy helyre összegyüjtve
@@ -98,7 +102,7 @@ public class ClientJoin extends Application {
 
 
                 new Thread(new Player(nev,playercolor,code,"127.0.0.1")).start();
-                joined = true;
+
 
 
             }
@@ -152,7 +156,7 @@ public class ClientJoin extends Application {
 
 
         });
-
+        joined = true;
 
 
 

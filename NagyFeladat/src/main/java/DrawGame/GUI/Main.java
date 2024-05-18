@@ -16,8 +16,12 @@ public class Main {
         //gson.toJson()         //találtam egy módszert rá
         Lobby lobby = new Lobby();
 
-        //lobby.start();
 
+
+        //EZ CSAK EGY TESZT ABLAK!
+        //A jatekjot a kliensek és a lobby inditasaval lehet elindítani
+
+        //lobby.start();
         // newFIXEDTHREADPOOL ezt is használhatod, hiszen tudod,hogy mennyi player van //50%
         // lehet hogy lehetne coundown latch csinálni?// Gson file atkuldheto, van hozzá package
        // https://mkyong.com/java/how-do-convert-java-object-to-from-json-format-gson-api/
