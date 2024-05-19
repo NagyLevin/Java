@@ -30,6 +30,12 @@ public class ImageVote extends Application {
     static FlowPane boxofvotes = new FlowPane(Orientation.HORIZONTAL);
     static Stage BackToClient;
 
+
+    /**
+     * Itt van az immagevoter konstruktora
+     * @param _playercolor itt adom át a player színét, és
+     * @param allImagesVote a képeket, amelyekre lehet szavazni
+     */
     ImageVote(int[] _playercolor, Vector<Image> allImagesVote){
         playercolor = _playercolor;
         AllImages = allImagesVote;
@@ -45,17 +51,23 @@ public class ImageVote extends Application {
 
     }
 
+    /**
+     * Itt updatelem a timert
+     * @param countdown a timeren fennmaradó idő
+     *  Igen tudom hogy ez sok helyen előjön, de nem akartam külön fv-be rakni, mert mi van, ha mas feliratot akarok rakni
+     */
     public static void TimerInClient(int countdown) {
         timerLabel.setText("Time left: " + countdown );
 
     }
+
+    /**
+     * Itt kapja meg a class, a szervertől, hogy melyik player mire szavazott
+     * @param names egy string a playerek nevei és pontjaival, szebb lenne ha külön egyenként írná ki a neveket és a pointokat
+     */
     public static void whoVoted (Vector<String> names){
 
         boxofvoters.getChildren().clear();
-
-
-
-
 
         for (int i = 0; i < names.size(); i++) {
             Font promz = Font.font("ComicSans", FontWeight.BOLD,20);
@@ -69,6 +81,12 @@ public class ImageVote extends Application {
 
     }
 
+
+    /**
+     *
+     * Egy uj kor kezdetén itt updatelem a gombokat az új promtokra
+     * @param promts ezek az uj promtok
+     */
     public static void nextVote(String[] promts) {
 
         System.out.println("Ennyi kep van: " +AllImages.size());
@@ -114,17 +132,9 @@ public class ImageVote extends Application {
 
 
 
-            }); //talán késöbb playercolor?
+            });
 
             boxofvotes.getChildren().add(button);
-
-
-
-
-
-
-
-
 
 
 
@@ -132,6 +142,11 @@ public class ImageVote extends Application {
 
 
     }
+
+    /**
+     * A játék végén itt írja ki a nyertesek neveit
+     * @param winner a nyertes/ek nevei
+     */
 
     public static void EndGame(String winner) {
         boxofvoters.getChildren().clear();
@@ -151,18 +166,11 @@ public class ImageVote extends Application {
 
     }
 
-    public static void BackToLobby() {
-        ClientJoin CJ = new ClientJoin(); //start a drawingboard
-        System.out.println("sikeres vissza a lobbyba");
-        try {
-            CJ.start(BackToClient);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
-    }
-
-
+    /**
+     * Itt setupolom a staget
+     * @param VoteStage
+     */
     @Override
     public void start(Stage VoteStage)  {
 

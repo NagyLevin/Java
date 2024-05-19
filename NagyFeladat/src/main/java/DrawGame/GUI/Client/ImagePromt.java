@@ -20,13 +20,19 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class ImagePromt extends Application {
-    int[] playercolor = {200,0,0};
+    int[] playercolor;
     static Label timerLabel = new Label();
     Vector<String> fakepromts = new Vector<>();
-    String playerpromt = "";
+    String playerpromt;
     static Stage VoteStage;
     static Vector<Image> Images = new Vector<>();
 
+    /**
+     * Az immagepromt konstruktora, itt adom meg neki a
+     * @param _playercolor player altal valasztott színt
+     * @param _playerpromt a playernek adott promtot
+     * @param bimmages és a player képeit
+     */
     ImagePromt(int[] _playercolor, String _playerpromt, Vector<Image> bimmages){
             playercolor = _playercolor;
             playerpromt = _playerpromt +".png";
@@ -35,13 +41,22 @@ public class ImagePromt extends Application {
     }
 
 
-
+    /**
+     * Itt updatelem a timert
+     * @param countdown a timeren fennmaradó idő
+     *  Igen tudom hogy ez sok helyen előjön, de nem akartam külön fv-be rakni, mert mi van, ha mas feliratot akarok rakni
+     */
     public static void TimerInClient(int countdown) {
 
 
         timerLabel.setText("Time left: " + countdown );
     }
 
+    /**
+     * Itt nyitom meg a következő ablakot, ami a szavazóablak
+     * @param _palyercolor átadom neki a player színét,
+     * @param allImagesVote és megkapja az összes képet is, természetesen a szervertől, azért van mégegyszer lekérve az összes kép, mert mi van, ha módosítani akarok valamit rajtuk a szerver oldalon
+     */
     public static void openVoting(int[] _palyercolor, Vector<Image> allImagesVote) {
         ImageVote IV = new ImageVote(_palyercolor,allImagesVote); //start a drawingboard
         System.out.println("sikeres voteinditas nyitas");
@@ -54,6 +69,61 @@ public class ImagePromt extends Application {
 
 
     }
+
+    /**
+     * Itt kezelem az eventeket
+     * @param scene
+     * @param SendInPromt Ezzel a gombbal küldöm be a promtomat, és utána kapok egy képet, ha elfogytak a képek, akkor elküldöm őket a szervernek
+     * @param TXpromt Ide írom bele a promtomat
+     * @param displayedimage azért van, hogy tudjam módosítani az éppen mutatott képet
+     */
+    private void events(Scene scene,Button SendInPromt, TextField TXpromt,ImageView displayedimage) {
+
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {    //egyszerübb kilépés, lásd flugigraphics
+                Platform.exit();
+
+            }
+        });
+        SendInPromt.setOnAction(event -> {
+
+            String promtstring = TXpromt.getText();
+
+            if(!promtstring.isEmpty() && !Images.isEmpty()){
+
+                fakepromts.add(promtstring);
+                Images.removeFirst();
+                if(Images.isEmpty()){
+                    System.out.println("elkuldom a kepet a playernek classnak");
+                    SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
+                    Player.giveFakePromts(fakepromts);
+
+
+                }else{
+
+                    Image kep = Images.getFirst();
+                    displayedimage.setImage(kep);
+
+                    TXpromt.setText("");
+
+                }
+            }
+
+
+
+        });
+
+
+    }
+
+
+    /**
+     * Itt Setupolom a staget, a többi classhoz hasonlóan
+     * @param PromtStage
+     * @throws IOException
+     * itt is egy vboxot használok, amibe belekerülnek a gombok és a feliratok, illetve a kép
+     *
+     */
 
 
     @Override
@@ -111,44 +181,7 @@ public class ImagePromt extends Application {
 
     }
 
-    private void events(Scene scene,Button SendInPromt, TextField TXpromt,ImageView displayedimage) {
 
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {    //egyszerübb kilépés, lásd flugigraphics
-                Platform.exit();
-
-            }
-        });
-        SendInPromt.setOnAction(event -> {
-
-            String promtstring = TXpromt.getText();
-
-            if(!promtstring.isEmpty() && !Images.isEmpty()){
-
-                fakepromts.add(promtstring);
-                Images.removeFirst();
-                if(Images.isEmpty()){
-                    System.out.println("elkuldom a kepet a playernek classnak");
-                    SendInPromt.setDisable(true);   //esetleg ird at ilyenre a tobbi gombot
-                    Player.giveFakePromts(fakepromts);
-
-
-                }else{
-
-                    Image kep = Images.getFirst();
-                    displayedimage.setImage(kep);
-
-                    TXpromt.setText("");
-
-                }
-            }
-
-
-
-        });
-
-
-    }
 
 
     public static void main(String[] args) {

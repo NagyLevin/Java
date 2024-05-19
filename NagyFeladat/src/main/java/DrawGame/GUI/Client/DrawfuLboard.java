@@ -30,26 +30,32 @@ public class DrawfuLboard extends Application {
 
     private final int XX = 900;
     private final int YY = 600;
-    static Stage PromtStage;
+    static Stage PromtStage;    //itt masolom le a staget, hogy todjak majd indítan egy promtstaget
 
 
     private double mouseX, mouseY; //hol van az eger eppen
 
 
     static String playersPromt ="TestPromt";
-    int redColor = 200;//currentplayer.getPlayerColoR();
-    int greenColor = 0;//currentplayer.getPlayerColoG();
-    int blueColor = 0;//currentplayer.getPlayerColoG();
+    int redColor;
+    int greenColor;
+    int blueColor;
 
-    int randcolor1 = RandomBetween(1,5);;
+    int randcolor1 = RandomBetween(1,5);
     int randcolor2;
 
-    Color strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1); //szin
-    int numofcolors = 2;
+    Color strokeColor;
+    int numofcolors;
     boolean canedit = true;
     static Label timerLabel= new Label();
     static ByteArrayOutputStream playersDrawing = new ByteArrayOutputStream();
 
+    /**
+     * Drawfulboard konstruktora, itt kapja meg a paramétereket, amivel elindul
+     * @param _promt
+     * @param _numofcolors
+     * @param _playercolors
+     */
     DrawfuLboard(String _promt, int _numofcolors, int[] _playercolors){
 
 
@@ -61,6 +67,11 @@ public class DrawfuLboard extends Application {
         strokeColor = Color.rgb(redColor/randcolor1,greenColor/randcolor1,blueColor/randcolor1);
 
     }
+
+    /**
+     * Itt updatelem a timert
+     * @param countdown a timeren fennmaradó idő
+     */
     public static void TimerInClient(int countdown){
 
         timerLabel.setText("Time left: " + countdown );
@@ -69,6 +80,11 @@ public class DrawfuLboard extends Application {
 
     }
 
+    /**
+     * Itt nyitom meg az uj promt ablakot, ahol a kepekhez adhat a player egy promtot
+     * @param palyercolor atadom a playercolor
+     * @param bimmages es a képeket, amiket a kliensek rajzoltak(persze csak miután a szerver visszaküldte az összeset)
+     */
     public static void openPromting(int[] palyercolor, Vector<Image> bimmages) {
 
         ImagePromt DB = new ImagePromt(palyercolor,playersPromt,bimmages); //start a drawingboard
@@ -81,7 +97,15 @@ public class DrawfuLboard extends Application {
 
     }
 
-
+    /**
+     * Itt vannak a eventek összegyüjtve
+     * @param scene a scene
+     * @param canvas a canvas, amire rajzolok
+     * @param gc a rajzoláshoz
+     * @param bfinish ezzel a gombbal tudja leadni a kliens a kepet, ha nem nyomja le nem fogja beküldeni a szervernek a képét
+     * @param BColor1 Az első szín árnyalat
+     * @param BColor2 A második szín árnyalat
+     */
     public void events(Scene scene, Canvas canvas, GraphicsContext gc,Button bfinish,Button BColor1,Button BColor2){
         bfinish.setOnAction(e->{
 
@@ -138,6 +162,11 @@ public class DrawfuLboard extends Application {
 
 
     }
+
+    /**
+     * Itt mentem el a képet
+     * @param canvas
+     */
     public void savadrawing(Canvas canvas) {
 
 
@@ -163,6 +192,11 @@ public class DrawfuLboard extends Application {
         }
     }
 
+    /**
+     * Itt akaítom át a writable immaget egy bufferedimmage-re
+     * @param image
+     * @return és visszaküldöm a savean immagenek
+     */
     private BufferedImage WriteableToBufferedImmage(Image image) {
 
         BufferedImage bufferedImage = new BufferedImage(XX, YY, BufferedImage.TYPE_INT_ARGB);
@@ -176,7 +210,12 @@ public class DrawfuLboard extends Application {
         return bufferedImage;
     }
 
-
+    /**
+     * Itt ket szam között tudok számolni egy random számot
+     * @param min
+     * @param max
+     * @return
+     */
     public int RandomBetween(int min, int max){
         Random r = new Random();
 
@@ -186,7 +225,11 @@ public class DrawfuLboard extends Application {
     }
 
 
-
+    /**
+     * Itt tortenik a stage setupolása, itt rakom bele a stacpane-be a gombokat, és a feliratokat
+     * @param BoardStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage BoardStage) throws Exception {
 

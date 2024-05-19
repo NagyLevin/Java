@@ -2,72 +2,64 @@ package DrawGame.GUI.Client;
 
 import DrawGame.GUI.Server.hosting;
 import javafx.application.Platform;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Queue;
 import java.util.Vector;
 
 class LOCALPlayer{
-     int[] palyercolor = new int[3];
+     int[] palyercolor;
      boolean amIhost = false;
-     String playername = "";
+     String playername;
     String givenpromt = "";
-    String fakepromt = "";
     int numofcolors = 2;
-    int playerid ;
-    int points =0;
 
+    /**
+     * Local player konstruktora ezt aztért írtam, hogy itt is minden el legyen mentve, és ne kelljen mindent mindíg a szervertől elkérni
+     * @param _playername player neve
+     * @param _playercolor player színe
+     */
     LOCALPlayer(String _playername,int[] _playercolor){
         playername = _playername;
         palyercolor = _playercolor;
 
     }
 
-    public void setPlayerName(String name){
-
-        playername = name;
-    }
+    /**
+     * visszadja a player színének piros részét
+     * @return
+     */
     public int getPlayerColoR(){
 
         return palyercolor[0];
 
     }
+    /**
+     * visszadja a player színének kék részét
+     * @return
+     */
     public int getPlayerColoB(){
 
         return palyercolor[2];
 
     }
+    /**
+     * visszadja a player színének zöld részét
+     * @return
+     */
     public int getPlayerColoG(){
 
         return palyercolor[1];
 
     }
-    public void setPlayerColoR(int coloR){
 
-        palyercolor[0] = coloR;
-
-    }
-    public void setPlayerColoB(int coloB){
-
-        palyercolor[2] = coloB;
-
-    } public void setPlayerColoG(int coloG){
-
-        palyercolor[1] = coloG;
-
-    }
 
 }
 
@@ -76,9 +68,9 @@ public class Player implements Runnable{
 
 
     String playername;
-    int[] palyercolor = new int[3];
-    String joincode ="";
-    String ip = "";
+    int[] palyercolor;
+    String joincode;
+    String ip;
     protected static Socket clientSocket;
     static boolean playerstartedgame = false;
     int countdown = 0;
@@ -87,7 +79,7 @@ public class Player implements Runnable{
 
     Player(String _playername,int[] _playercolor, String _joincode,String _ip){
 
-        //System.out.println(_playername);
+
         playername = _playername;
         palyercolor = _playercolor;
 
@@ -101,11 +93,19 @@ public class Player implements Runnable{
         }
     }
 
+    /**
+     * Itt kapom meg a promtokat tartalmazó vektort
+     * @param _fakepromts
+     */
     public static void giveFakePromts(Vector<String> _fakepromts) {
         fakepromtsfromImmagePromt = _fakepromts;
 
     }
 
+    /**
+     * Itt csináltam egy függvényt amivel le tudunk kérni egy sort a szervertől
+     * @return
+     */
     public synchronized String fromserver(){
         try {
             BufferedReader serversays = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  //ezt kuldi a szerver
@@ -116,6 +116,12 @@ public class Player implements Runnable{
         }
 
     }
+
+    /**
+     * Itt tudok
+     * @param message egy üzenetet küldeni a szervernek
+     * @throws IOException
+     */
     public static synchronized void toServer(String message) throws IOException {
         PrintWriter toszerver = new PrintWriter(clientSocket.getOutputStream());//ezt küldjük a szervernek
         toszerver.println(message);
@@ -123,6 +129,10 @@ public class Player implements Runnable{
 
     }
 
+    /**
+     * Itt indítom el a játékot, akkor ha lenyomja a host kliens a start gombot, az összes többi gamestaget is át akartam szervezni ilyen függvényekbe, de már nincs rá idő
+     *
+     */
   public static synchronized void startgame(){   //elküld egy start gamet
       if (ClientJoin.playerishost && !playerstartedgame){
 
@@ -141,7 +151,12 @@ public class Player implements Runnable{
 
   }
 
-    private static Image convertBIToImage(BufferedImage image) { //https://stackoverflow.com/questions/30970005/bufferedimage-to-javafx-image //convertalas Bufferedimmagerol image-re
+    /**
+     *
+     * @param image Itt alakítom vissza a bufferedimmaget
+     * @return egy sima writableimmage-re, amit tudok majd kirajzolni a promtos és a votolós osztályban
+     */
+    private static Image convertBIToImage(BufferedImage image) { //convertalas Bufferedimmagerol image-re
         WritableImage wr = null;
         if (image != null) {
             wr = new WritableImage(image.getWidth(), image.getHeight());
@@ -157,7 +172,10 @@ public class Player implements Runnable{
     }
 
 
-
+    /**
+     * Itt történik a játék minden föbb lépése, itt van megszabva a kliens és a szerver kommunikálásának a sorrendje, hogy melyik szereplő mikor mit mond a másiknak
+     * Ki akartam mindezt szervezni külön függvényekbe, vagy egy külöjn osztályba, hogy jobban át lehessen látni, de mostmár az idő szükében erre nincs lehetőségem
+     */
     @Override
     public void run() {
 
@@ -166,7 +184,7 @@ public class Player implements Runnable{
             playerstartedgame = false;
             LOCALPlayer Lplayer = new LOCALPlayer(playername,palyercolor);
             System.out.println("client join is running");
-            String serversays ="";
+            String serversays;
 
             System.out.println("isJavaFxThread? Playerben" + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
 
@@ -278,7 +296,7 @@ public class Player implements Runnable{
 
 
         });
-        countdown = 10; //180 ra állísd
+        countdown = 180; //180 ra állísd
         while (countdown > 0) {
             Platform.runLater(() -> {
                 DrawfuLboard.TimerInClient(countdown);
@@ -411,13 +429,7 @@ public class Player implements Runnable{
                     namesv.addAll(Arrays.asList(names));
                     namesv.removeFirst();
 
-                    /*
-                    for (int i = 0; i < namesv.size(); i++) {
 
-                        System.out.println(namesv.get(i));
-
-                    }
-                    */
 
                     Platform.runLater(() -> {
                     ImageVote.whoVoted(namesv);
@@ -482,6 +494,11 @@ public class Player implements Runnable{
 
     }
 
+    /**
+     *
+     * @param serversays Itt csinálok a szerver által kapott sztringből egy vektort,
+     * @return  amiben a képek találhatóak, amelyeket et majd a voting és a promting osztályok felhasználnak
+     */
     private synchronized Vector<Image> ConvertStringToImage(String serversays) {
 
         String[] pictures;
@@ -494,7 +511,7 @@ public class Player implements Runnable{
             try {
                 BufferedImage bi =  ImageIO.read(byteoutputImageStream);
 
-                bimmages.add(convertBIToImage(bi)); //immaget csinalok a bufferedimmageból
+                bimmages.add(convertBIToImage(bi)); //immaget csinalok a bufferedimmageból (függvényhívás)
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

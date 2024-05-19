@@ -18,20 +18,24 @@ import java.util.Random;
 public class ClientJoin extends Application {
 
 
-    private final int XX = 300;
-    private final int YY = 400;
+    private final int XX = 300; //ablak merete
+    private final int YY = 400; //ablak magassaga
     private final Random random = new Random();
-    int[] playercolor = {random.nextInt(255),random.nextInt(255),random.nextInt(255)};
-    public static boolean playerishost = false;
-    public static boolean joined = false;
-    static VBox vBox = new VBox();
-    static Label timerLabel = new Label();
-    static String givenpromt;
-    static int numofcolors;
+    int[] playercolor = {random.nextInt(255),random.nextInt(255),random.nextInt(255)};  //player kap egy random kezdoszint
+    public static boolean playerishost = false; //ha a player azt kapja a szervertöl, hogy hoszt, akkor true lesz
+    public static boolean joined = false;   //ha belepetta lobbyba akkor igaz
+    static VBox vBox = new VBox();  //itt tarolodnak a widgetek
+    static Label timerLabel = new Label();  //ez a visszaszamalo, ha mindenki belepett akkor elkezd lefelé szamolni
+    static String givenpromt;   //a kliens promtja
+    static int numofcolors; //abban az esetben, ha esetleg kesobb akarom böviteni a színek palettájit
 
-    public static Stage boardStage;
+    public static Stage boardStage; //ujraindításhoz, és a drawing megyitásához
 
 
+    /**
+     * itt indul ujra a clientjoin, ha vege a játéknak
+     *
+     */
     public static void restart() {
         Platform.runLater(() -> {
             try {
@@ -46,7 +50,10 @@ public class ClientJoin extends Application {
         });
     }
 
-
+    /**
+     * Itt kerhet a kliens egy uj random színt, de csak akkor, ha meg nem lepett be a lobbyba
+     *
+     */
     public void newColor() {
 
         if(!joined){
@@ -63,6 +70,14 @@ public class ClientJoin extends Application {
 
     }
 
+    /**
+     * Megadom az eventeket egy fuggvenynek, hogy ne a mainben legyen minden
+     * @param scene scene megadva
+     * @param UserCode ide irhatja a meg a polayer a joinkódot (könnyebb tesztelés érdekében bennehagytam, hogy ABCD-t ír be, ha uresen marad a box)
+     * @param UserName  itt adhatja meg a player nevét (könnyebb tesztelés érdekében bennehagytam, hogy player nevet ad defaultnak, ha nem ir be semmit a player)
+     * @param JoinButton a join gomb lenyomása után elküldi a kliens a szervernek az adatokat
+     * @param BnewColor a gomb lenyomására a kliens valaszthat egy új színt magának
+     */
     public void events( Scene scene, TextField UserCode,TextField UserName, Button JoinButton ,Button BnewColor){   //eventek egy helyre összegyüjtve
 
         //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
@@ -113,6 +128,12 @@ public class ClientJoin extends Application {
 
     }
 
+    /**
+     * Itt nyitja meg egy új ablakban a drawingdoardot
+     * @param _promt a user promtja
+     * @param _numofcolors az hogy hany szint használhat, bennehagytam, hátha egyszer megírom 2-nél több színre is
+     * @param _playercolor atadom hogy melyik színt választotta a kliens
+     */
     public static void opentheboard(String _promt, int _numofcolors,int[] _playercolor){
 
         givenpromt =_promt;
@@ -127,6 +148,10 @@ public class ClientJoin extends Application {
         }
     }
 
+    /**
+     * Ha a player host, akkor kap egy plusz gombot, amivel el tudja indítani a gamet
+     *
+     */
     public static void createStart(){
 
         Platform.runLater(() -> {
@@ -156,20 +181,27 @@ public class ClientJoin extends Application {
 
 
         });
-        joined = true;
+        joined = true;  //itt allitom true-ra a joint
 
 
 
     }
 
+    /**
+     * Itt updatelem a timert
+     * @param countdown a timeren fennmaradó idő
+     */
     public static void TimerInClient(int countdown){
 
         timerLabel.setText("Game starts in: " + countdown + " seconds");
 
-
-
     }
 
+
+    /**
+     * Itt zajlik a Stage setupolása, itt kerülnek bele a gombok a vboxba
+     * @param ClientStage
+     */
     @Override
     public void start(Stage ClientStage) {
 
