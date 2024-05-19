@@ -1,16 +1,11 @@
 package DrawGame.GUI.Server;
-
-import DrawGame.GUI.Client.ClientJoin;
 import DrawGame.GUI.ReadPromts;
 import javafx.application.Platform;
-
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -24,44 +19,33 @@ class OnlinePlayer{
     String playername = "";
     String givenpromt = "";
     Vector<String> fakepromts = new Vector<>();
-    int numofcolors = 2;
     int playerid ;
     int points =0;
 
-    OnlinePlayer(){
 
-
-    }
-
-    public synchronized void setPlayerName(String name){
-
-        playername = name;
-    }
-    public synchronized int getPlayerColoR(){
-
-        return palyercolor[0];
-
-    }
-    public synchronized int getPlayerColoB(){
-
-        return palyercolor[2];
-
-    }
-    public synchronized int getPlayerColoG(){
-
-        return palyercolor[1];
-
-    }
+    /**
+     * A player nek beállitok egy uj piros szin komponenst azért van mindez külön fv-ben, mert lehet egyszer akarom majd valamilyen paraméterrel állítani a színeket, pl a választott piros árnyalatnak csak a fele
+     * @param coloR
+     */
     public synchronized void setPlayerColoR(int coloR){
 
         palyercolor[0] = coloR;
 
     }
+    /**
+     * A player nek beállitok egy uj kék szin komponenst
+     * @param coloB
+     */
     public synchronized void setPlayerColoB(int coloB){
 
         palyercolor[2] = coloB;
 
-    } public synchronized void setPlayerColoG(int coloG){
+    }
+    /**
+     * A player nek beállitok egy uj zöld szin komponenst
+     * @param coloG
+     */
+    public synchronized void setPlayerColoG(int coloG){
 
         palyercolor[1] = coloG;
 
@@ -86,6 +70,11 @@ public class Allplayers extends Thread{
     static String PlayersandPoints = "";
 
 
+    /**
+     * Itt kapja meg a kliens a socketet,
+     * @param clientSocket  amivel a kliens csatlakozott
+     * @throws IOException dob egy kivételt, ha a kliens crash-elne, és igény szerint ujraindítja a lobbyt, ha nincs elég játékképes játékos
+     */
     public Allplayers(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
         this.clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   //reader a kommunikációhoz
@@ -93,10 +82,23 @@ public class Allplayers extends Thread{
         gamecode = hosting.gamecode;
 
     }
+
+    /**
+     *
+     * @param line Ezt a sort elküldi a kliensnek
+     * @throws IOException
+     */
     protected synchronized void sendLine(String line) throws IOException {   //elküld egy sort a kliensnek
         clientWriter.print(line + "\r\n");
         clientWriter.flush();
     }
+
+    /**
+     * Feldolgozza a kliensek által beküldött promtokat
+     * @param promts a kliens promtjai
+     * @param id melyik kliens az, ez a thread id-je(A player neve után is odarkatam debugoláshoz, illetve arra az esetre, a két játékos ugyanazzal a színnel és névvel lépne be)
+     * @param RP itt olvasunk még pe pár uj promtot, akkor, ha nem lenne elég az amit a kliens megadott
+     */
     public synchronized void GiveFAkePromts(String[] promts,int id, ReadPromts RP){
 
         for (OnlinePlayer player : players) {
@@ -122,8 +124,6 @@ public class Allplayers extends Thread{
                     }
 
                 }
-                //System.out.println(player.fakepromts.get(0));
-                //System.out.println("elso " + player.fakepromts.getFirst());
 
 
             }
@@ -131,7 +131,14 @@ public class Allplayers extends Thread{
         }
     }
 
-    private synchronized String  PromtsForVote(int kor, String playerspromt) { //mukodik, de nagyon ronda, ha van időd találj ki mást
+
+    /**
+     * A szavazás résznél használom,
+     * @param kor megadom hogy a szavazás hanyadik körében járok
+     * @param playerspromt megadom a a szál kliensének a promtját
+     * @return visszaadom a kliens erre a körre vontatkozó promtokat összekeverve, hogy mehessen a szavazás
+     */
+    private synchronized String  PromtsForVote(int kor, String playerspromt) {
 
         Vector<String> votePromts = new Vector<>();
         votePromts.add(playerspromt);
@@ -142,8 +149,7 @@ public class Allplayers extends Thread{
 
 
             if(playerspromts.size() > kor) {
-                // System.out.println("lefut");
-                // System.out.println(playerspromts.get(kor));
+
                 votePromts.add(playerspromts.get(kor));  //elso elker
             }
         }
@@ -160,7 +166,13 @@ public class Allplayers extends Thread{
         return votepormtstoclient;
 
     }
-    private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players, int ThreadID, OnlinePlayer oplayer) {
+
+    /**
+     *Ez nem egy szép megoldás, biztos van jobb, de nekem json fileal nem müködött, ezért vesszővel elválasztva visszaadom egy stringben az összes képet vesszökkel elválasztva
+     * @param players egy vektro amiben benne van az összes játékos összes adata
+     * @return visszaad egy hosszú stringet benne az összes képpel
+     */
+    private synchronized String makeOneBigStringWithallImages(Vector<OnlinePlayer> players) {
         String allimmages = "";
 
 
@@ -181,7 +193,12 @@ public class Allplayers extends Thread{
         return allimmages;
     }
 
-
+    /**
+     * Odaadkja a playernek azt a stringet, amire szavazott
+     * @param players egy vektro amiben benne van az összes játékos összes adata
+     * @param playerschoice az a promt amire a player szavazott a körben
+     * @param threadId a player id-je
+     */
     private void PromtToPlayer(Vector<OnlinePlayer> players, String playerschoice, int threadId) {
 
 
@@ -197,7 +214,13 @@ public class Allplayers extends Thread{
 
     }
 
-    private synchronized String PlayersVotes(String votePromts, String clientout, Vector<OnlinePlayer> players, OnlinePlayer oplayer) {
+    /**
+     *
+     * @param votePromts ezek az összekevert szavazásra bocsájtott promtok
+     * @param players egy vektro amiben benne van az összes játékos összes adata
+     * @return visszaad egy stringet, amiben benne van a körben lévő összes játékos neve, az hogy melyik promtra szavazott, és hogy mennyi pontnál tart a pontozás után
+     */
+    private synchronized String PlayersVotes(String votePromts, Vector<OnlinePlayer> players) {
 
 
         String playerspointsandnames ="";
@@ -217,8 +240,7 @@ public class Allplayers extends Thread{
                 // System.out.println("A player valasztott promtja: " +player.playersvote);
                 if (player.playersvote.equals(promtsformvotePromts[i])) {
 
-                    //System.out.println("A player neve: " +player.playername);
-                    // System.out.println("A player neve: " +player.points);
+
 
 
                     playerspointsandnames = playerspointsandnames   + player.playername + ":" + player.points +  "  " ;
@@ -236,13 +258,13 @@ public class Allplayers extends Thread{
         }
 
 
-
-
-
-
         return playerspointsandnames;
     }
 
+    /**
+     * Itt történik a klienssel való kommunikáció és a játéklogika, kezdettől tervben volt egy gamemaster osztály, ahova kiszervezek minden föbb lépést gamestage-ekben, de már az idő szüke miatt nincs arra időm hogy úgy megvalúsítsam, ahogy azt elképzeltem
+     *
+     */
     public void run() {
 
         System.out.println("isJavaFxThread? Allplayersben " + Platform.isFxApplicationThread()); //meg tudom vele nezni, hogy javafx thread e az adott thread
@@ -381,7 +403,7 @@ public class Allplayers extends Thread{
             hosting.barrier.await();
             //System.out.println(Oplayer.amIhost);
             if(Oplayer.amIhost){
-                Stringallimmages = makeOneBigStringWithallImages(players, -1, Oplayer);
+                Stringallimmages = makeOneBigStringWithallImages(players);
 
 
             }
@@ -449,7 +471,7 @@ public class Allplayers extends Thread{
 
 
                     hosting.barrier.await();
-                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor,Oplayer);
+                    Pontozas(clientout,players,(int) ThreadId, player.givenpromt,kor);
 
 
 
@@ -462,7 +484,7 @@ public class Allplayers extends Thread{
                     //egy olyan string, ahol , vel elvalasztva vannak a playerek es a pointjaik, és ; vesszovel a playerek a fakepromtok sorrendjeben
 
                     if(Oplayer.amIhost) {
-                        PlayersandPoints = PlayersVotes(votePromts, clientout, players, Oplayer); //osszes valasz es a jo valasz
+                        PlayersandPoints = PlayersVotes(votePromts, players); //osszes valasz es a jo valasz
 
                     }
 
@@ -519,10 +541,7 @@ public class Allplayers extends Thread{
 
             }else
 
-
-
-
-            hosting.playerleft();
+            hosting.playerleft(); //ha kilép egy player, akkor a hosting classban is levonunk egyet a playerek számából
             throw new RuntimeException(e);
         } catch (BrokenBarrierException e) {
             throw new RuntimeException(e);
@@ -535,6 +554,11 @@ public class Allplayers extends Thread{
 
     }
 
+    /**
+     * Itt választom ki az utolsó körben, hogy melyik player nyerte meg a játékot
+     * @param players egy vektro amiben benne van az összes játékos összes adata
+     * @return a nyertes/ek neve/i ha több nyertes van akkor mindenkinek kiírja a nevét
+     */
     private String SelectWinner(Vector<OnlinePlayer> players) {
         String winner = "";
         String currentbest = "";
@@ -565,26 +589,23 @@ public class Allplayers extends Thread{
     }
 
 
-
-    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor, OnlinePlayer oplayer) {
+    /**
+     * Itt pontozom a körben leadott szavazatokat, bevallom hogy a szép megoldás az lett volna, hogy egy player ne tudjon szavazni a saját promtjára, de ezt már nem volt időm úgy átírni, hogy mindenkinek csak a többi player promtja jelenjen meg
+     * ugy fixeltem, hogy egy player csak akkor kap pontot, ha nem a saját promtjára, vagy fake-promtjára szavaz
+     * @param playerschoice a player szavazata
+     * @param players egy vektro amiben benne van az összes játékos összes adata
+     * @param threadId az aktuális szál
+     * @param jovalasz a jó válasz a kérdésre
+     * @param kor megnézzük hogy hanyadik körben járunk
+     */
+    private synchronized void Pontozas(String playerschoice, Vector<OnlinePlayer> players, int threadId, String jovalasz, int kor) {
 
 
 
 
         for (OnlinePlayer player : players) {
 
-            /*
-            if(!player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
-                player.points = player.points +2; //ket pont egy jo valasz
-            }
 
-            for (OnlinePlayer player2 : players) {
-            if(player.fakepromts.size() >= kor && player.fakepromts.get(kor).equals(player2.playersvote)){
-                player.points = player.points + 1; //egy olyan valasz, ahol nem jo, de vlaki masé, akkor 1 pontot kap az illeto
-
-            }
-            }
-            */
             if(player.playerid == threadId && !player.givenpromt.equals(playerschoice) && playerschoice.equals(jovalasz)){
 
                 player.points = player.points +2; //ket pont egy jo valasz

@@ -6,6 +6,12 @@ import DrawGame.GUI.Server.Lobby;
 public class Main {
 
 
+    /**
+     * Ez csak egy teszt ablak volt, itt teszteltem az öttleteimet a projekt irása közben, lehet nem is küldöm el majd a végleges,
+     * beadásnál, de ha elfelejteném akkor kérem ezt az osztályt figyelmen kívül hagyni!!!!!!!!
+     * @param args
+     */
+
     public static void main(String[] args) {
         //System.out.println("Hello world!");
 

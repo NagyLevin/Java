@@ -12,19 +12,19 @@ public class hosting implements Runnable {
 
     public static final int PORT_NUMBER = 13131;    //port szama 10k felett
     protected ServerSocket serverSocket;
-    public static String gamecode = "";
-    static int minplayers = 3;
-    public static CyclicBarrier barrier = new CyclicBarrier(minplayers);
-    public static CountDownLatch latch = new CountDownLatch(1);
+    public static String gamecode = ""; //a játék kódja
+    static int minplayers = 3; //minimum ennyi player kell a játék elindításához
+    public static CyclicBarrier barrier = new CyclicBarrier(minplayers); //az egész lefutás alatt többször is a föbb átalakítások után ezzel szinkronizállom a szálakat
+    public static CountDownLatch latch = new CountDownLatch(1); //csak a játék indításánál fontos, hogy a szálak bevárják egymást
 
-    //esetleg megegy es felvaltva?
 
-    static int maxplayers = 8;
     static int currentplayers = 0;
 
 
-
-
+    /**
+     *
+     * @param _gamecode megadja a játékkódot
+     */
     public hosting(String _gamecode) {
         try {
             serverSocket= new ServerSocket(PORT_NUMBER);           //a szerver socketje
@@ -35,15 +35,24 @@ public class hosting implements Runnable {
         }
     }
 
+    /**
+     * visszaállítja a latchot, ha vége a játéknakl, vagy ha kilép egy player, és ujraindul a lobby
+     */
     public synchronized static void resetlatch() {
         latch = new CountDownLatch(1);
     }
 
+    /**
+     * visszaállitja a barriert, ha vége a játéknakl, vagy ha kilép egy player, és ujraindul a lobby
+     */
     public synchronized static void resetbarrier() {
         currentplayers = 0;
         barrier = new CyclicBarrier(1);
     }
 
+    /**
+     * ha kilép egy játékost, akkor csökkenti a regisztrált játékosok számát eggyel, ha lehet
+     */
     public synchronized static void playerleft() {
         currentplayers = currentplayers -1;
         if(currentplayers < 0){
@@ -59,7 +68,9 @@ public class hosting implements Runnable {
 
     }
 
-
+    /**
+     * Itt épitek ki kapcsolatot egy csatlakozni kívánó klienssel
+     */
     @Override
     public void run() {
         try {

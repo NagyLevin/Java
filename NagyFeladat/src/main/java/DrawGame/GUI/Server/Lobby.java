@@ -36,7 +36,9 @@ public class Lobby extends Application {
     static Button host = new Button();
     static TextField hostcode = new TextField();
 
-
+    /**
+     * Visszaállítja a lobbyt
+     */
     public static void reset() {
 
         Platform.runLater(() -> {
@@ -53,6 +55,9 @@ public class Lobby extends Application {
 
     }
 
+    /**
+     * Ha klilép egy player akkor törli a tábláról
+     */
     public static void playerleft() {
         Platform.runLater(() -> {
             for (int i = 0; i < playercount; i++) {
@@ -66,13 +71,13 @@ public class Lobby extends Application {
         });
 
     }
-    //Hosting resz
 
 
-
-    //Hosting resz
-
-
+    /**
+     * Ellenörzi a
+     * @param code ot, hogy mefelel e a feladat által adott szabványnak
+     * @return ha igen akkor trueval tér vissza
+     */
     public boolean validatecode(String code){
        code = code.toLowerCase();
 
@@ -97,9 +102,12 @@ public class Lobby extends Application {
         return true;
     }
 
+    /**
+     * Ide gyüjtöttem össze az event-et itt belátom hogy nincs olyan sok event, de inkább így hagyom, ha mégis kell valami akkor egyszerübb bövíteni
+     * @param scene
+     */
     public void events(Scene scene){   //eventek egy helyre összegyüjtve
 
-        //public void handle(Event event) { inkább majd igy!!!!!!!!!!!!!!!!!!!!!!!
 
         host.setOnAction(event -> {
 
@@ -116,7 +124,6 @@ public class Lobby extends Application {
                     host.setDisable(true);
                     new Thread(new hosting(code)).start();
                     System.out.printf("Hosting started");
-                    //startSession ugy ertem hogy startold majd a hostolást
                     ishosted = true;
                 }
 
@@ -134,7 +141,7 @@ public class Lobby extends Application {
 
 
             if (event.getCode() == KeyCode.ESCAPE) {    //egyszerübb kilépés, lásd flugigraphics
-                Platform.exit();
+                Platform.exit();                        //bennehagytam egyszerübb debugra, de ha éles program lenne usereknek akkor ki kellene venni, hogy ne tudjanak ígyí kilépni
 
             }
 
@@ -144,18 +151,27 @@ public class Lobby extends Application {
 
     }
 
-
+    /**
+     * Hozzáad egy
+     * @param name nevet a playereknek a
+     * @param colors megfelelő színben
+     */
     public static synchronized void addPlayerName(String name, int[] colors){
 
-        Platform.runLater(() -> {
+        Platform.runLater(() -> { //azert hogy fx szálat kapja
         createlabel(name,colors);
         playercount = playercount +1;
         });
 
     }
 
-
-    public static int RandomBetween(int min, int max){ //random by https://stackoverflow.com/questions/5271598/java-generate-random-number-between-two-given-values
+    /**
+     * Random szám
+     * @param min és
+     * @param max között
+     * @return itt kapom vissza a számot
+     */
+    public static int RandomBetween(int min, int max){
         Random r = new Random();
 
         int result = r.nextInt(max-min) + min;
@@ -163,7 +179,11 @@ public class Lobby extends Application {
         return result;
     }
 
-
+    /**
+     * Itt rakja rá a player nevét a táblára, random helyre és random dölésszöggel rakja rá, szerintem ez illika  rajzolós játék feelingjéhez
+     * @param nev a név
+     * @param color a szin
+     */
     private static void createlabel(String nev, int[] color) {
         //Button gomb = new Button(nev);
         Label szoveg = new Label(nev);
@@ -179,7 +199,10 @@ public class Lobby extends Application {
 
     }
 
-
+    /**
+     * Itt setupolom a lobbyt, a gombokat,és a szövegeket a helyükre rakom
+     * @param Lobby
+     */
     @Override
     public void start(Stage Lobby) {
 

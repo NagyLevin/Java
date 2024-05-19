@@ -5,13 +5,18 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
+
 public class ReadPromts {
 
 
     private Vector<String> vPromts = new Vector<>();
     Random Rand = new Random();
 
-    public void readfile(String nev){   //esetleg felesleges spacek eltavolitasat ird meg
+    /**
+     * Beolvas egy fájlt és elmenti a benne található promtokat, ezzel adok majd promtot a playereknek
+     * @param nev a beolvasandó fájl neve
+     */
+    public void readfile(String nev){
         try {
             File myfile = new File(nev);
 
@@ -36,6 +41,10 @@ public class ReadPromts {
         }
 
     }
+
+    /**
+     * Az összes promt kiiratása, csak tesztelésre
+     */
     public void readpromts(){
 
         for (int i = 0; i < vPromts.size(); i++) {
@@ -45,9 +54,15 @@ public class ReadPromts {
 
     }
 
+    /**
+     * Visszaad egy random promtot a a tároltak közül, és törli, hogy ne lehessen véletlenül sem kétszer ugyanazt a promtot kapni
+     * @return a random promt a promtos file-ból
+     */
     public synchronized String getOnePromt(){
 
-        String promt = vPromts.get(Rand.nextInt(0, vPromts.size()-1)); //2x ne legyen ugyan az, esetleg torold ki utána
+        int id =Rand.nextInt(0, vPromts.size()-1);
+        String promt = vPromts.get(id); //2x ne legyen ugyan az, esetleg torold ki utána
+        vPromts.remove(id);
 
         return promt;
     }
