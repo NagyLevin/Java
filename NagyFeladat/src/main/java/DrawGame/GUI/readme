@@ -1,25 +1,26 @@
 Kedves Értékelő!
 
-Felépités:
-Én a drawful játék egy saját verzióát készitettem el.
-A projekt a DrawGame névre halgató mappában található,
+Felépítés:
+Én a drawful játék egy saját verzióját készítettem el.
+A projekt a DrawGame névre hallgató mappában található,
 az almappákban külön szerver és kliens részre osztottam az osztályokat.
 Illetve van egy osztály amit nem raktam bele egyik mappába sem,
- ez a Readpromts nevü osztály felelős a promtok beolvasásáért.
+ ez a Readpromts nevű osztály felelős a promtok beolvasásáért.
 Futtatás:
 A futtatáshoz azt javaslom, hogy hozzunk létre tetszőleges számú kliens applicationt, fontos hogy itt be kell jelölni,
 hogy "allow multiple instances" illetve egy szervert. A kliens osztály neve "ClientJoin", a szerveré pedig a "Lobby",
-ha megvannak az applicationok, akkor érdemes őket összefüzni egy Compundba,
+ha megvannak az applicationok, akkor érdemes őket összefűzni egy Compundba,
 hogy rgyszerübben lehessen mindent egyszerre futtatni.
-Mükődés:
-Igyekeztem úgy irni a kódot, hogy a több számitást igénylő feladatok ne fx szálon fussanak, illetve legyen egy külön
-osztály mint a szerver mint a kliens részen, ahol egymással tdunak kommunikállni.
-Bevallom, hogy az lett volna a legszebb megoldás, hogy irok egy gamemaster osztályt, ahova kiszervezem a játéklogikát,
-de az idő szükében erre már nem volt lehetőségem. Ennek ellenére úgy érzem hogy a program megfelelő játékélményt nyújt,
+Működés:
+Igyekeztem úgy írni a kódot, hogy a több számitást igénylő feladatok ne fx szálon fussanak, illetve legyen egy külön
+osztály mint a szerver mint a kliens részen, ahol egymással tudnak kommunikálni.
+Bevallom, hogy az lett volna a legszebb megoldás, hogy írok egy gamemaster osztályt, ahova kiszervezem a játéklogikát,
+de az idő szűkében erre már nem volt lehetőségem. Ennek ellenére úgy érzem, hogy a program megfelelő játékélményt nyújt,
 tesztelve volt a játék három külön gépen futtatott klienssel is.
-Sok időt foglalkoztam a tervezéssel és a megvalósitással a félév alatt, remélem megfelel a kritériumoknak.
-Végezetül, ha bármi felmerül a projekthez, akkor minden föbb lépést dokumentáltam a github fiókomon.
+Sok időt foglalkoztam a tervezéssel és a megvalósítással a félév alatt, remélem megfelel a kritériumoknak.
+Végezetül, ha bármi felmerül a projekthez, akkor minden főbb lépést dokumentáltam a github fiókomon.
 Link: https://github.com/NagyLevin
 
 Tisztelettel:
 Szabó Levente
+
